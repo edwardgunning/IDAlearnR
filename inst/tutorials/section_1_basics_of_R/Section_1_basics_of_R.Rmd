@@ -1,0 +1,1002 @@
+---
+title: "Topics"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+    css: css/learnr_custom.css
+runtime: shiny_prerendered
+---
+
+<div style="text-align: right"><img src="images/ul-logo.jpg" width="150" /></div>
+
+<!-- <head> -->
+<!-- <link rel="stylesheet" type="text/css" href="css/minty_bootstrap.css"> -->
+<!-- </head> -->
+
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+
+# question_retry <- function(text, ...){
+#   learnr::question(text, allow_retry = FALSE, ...)
+# }
+
+
+# set for leter ex
+v1 <- c(1, 5, -11, 33)       # Combines Numeric vector, length 4
+
+v2 <- c("hello","world")    # Character vector, length 2 (a vector of strings)
+
+
+v3 <- c(TRUE, TRUE, FALSE)  # Logical vector, same as c(T, T, F)
+
+
+your_first_df <- data.frame(
+  ID = 1:4, # create a varaible (column) called ID
+  name = c("Stephen","Aoife","Pete","Sarah"), 
+  female = c(F,T,F,T), # add logical for 'female' varaible
+  age=c(22,33,44,55), # create a age varaible
+  stringsAsFactors = FALSE # other wise all 'strings' will be treated as factors
+  )
+
+
+l <- list(first_element = c(1, 5, -11, 33) , second_element =  c(5, 1.2, -11, 2)) 
+
+```
+
+## Assigning values to variables
+
+###
+
+- You can create new objects and assign values by typing `<-`.
+- All R statements where you create objects, __assignment__ statements, have the same form:
+
+```{r, assigment-example-1, eval = FALSE, echo = TRUE}
+object_name <- value
+
+object_name # print object_name to screen by run the name of the object
+
+
+```
+
+###
+
+We will start by creating an object and assigning it a numeric value. Try the following:
+
+- Create a variable `x` and store the number `3` in it, then print `x`.
+- After you have stored `3` in `x`, store `5` in `x`, and print `x` again.
+
+```{r assignment-1, exercise=TRUE}
+
+```
+
+```{r assignment-1-solution}
+x <- 3 # create a varaible x and store 3 in it
+x
+
+x <- 5 # this will overwrite the value stored in x and place a 5 in there
+x
+```
+
+###
+
+You could also use `=` to assign values to variables. Why use `<-` instead of `=`:
+
+- `=` is usually reserved for function arguments.
+- `<-` more explicitly shows that variable assignment is being carried out (particularly when = is reserved for another purpose).
+
+- [Hadley Wickham](http://hadley.nz/) (Chief Scientist at RStudio & creator of the [tidyverse packages](https://www.tidyverse.org/packages/))  recommends against using `=` instead of `<-` [here](https://r4ds.had.co.nz/workflow-basics.html#coding-basics) (and also here in the [tidyverse style guide](https://style.tidyverse.org/syntax.html#assignment-1)).
+
+- The majority of the help you find online, on StackOverflow for example, will use `<-`.
+
+- For some historical reasons: the computers that `R` was developed on actually had a `<-` button.
+
+- If you prefer to use `=` , be aware that there are some strange edges cases that you could be unlucky enough to come across (I've never had a problem).
+
+Later, when you begin to use RStudio IDE, you can use the keyboard shortcut for `<-`: 
+
+* <kbd>Alt</kbd> + <kbd>-</kbd> on Windows.
+* <kbd>option</kbd> + <kbd>-</kbd> on Mac.
+
+
+### 
+
+```{r quiz-prac-1, exercise=TRUE, exercise.lines = 5}
+# if you are unsure, or want to test your answer you can type code in here
+
+
+```
+
+```{r quiz-prac-1-solution}
+# Q1
+x <- 1
+x + 3
+
+# Q2
+x <- 'first value'
+X <- 'Does this overwrite x?'
+print(x) # well... does it? 
+
+# Q3 
+x = 5 # just mixing `=` and `<-` to make the point that they do the same thing.
+y <- 6 + 2 * x
+y
+
+# Q4
+3 -> z
+z
+
+# use of statements like 3 -> z is not very conventional even if it is possible and should never be used.
+
+# pro tip for funky looking code
+x <- 3 -> y
+# seriously though, this is nice to be able to do but someone else reading your code will get a headache from doing this kind of stuff too much...
+
+x <- y <- 3 # this is quite handy and is much more readable
+
+```
+
+```{r quiz-intro-1}
+quiz(
+  question("Q1: Given `x <- 1`, what is the result of `x + 3`?",
+    answer("4", correct = TRUE),
+    answer("1"),
+    answer("3"),
+    allow_retry = TRUE
+  ),
+  question('Q2: Is R case sentitive?',
+    answer('Yes', correct = TRUE), 
+    answer('No'),
+    allow_retry = TRUE
+  ),
+  question('Q3: Given `x = 5` and `y <- 6 + 2 * x`, what is the value of `y`?',
+    answer('5'),
+    answer('16', correct = TRUE),
+    answer('Error'),
+    allow_retry = TRUE
+    ),
+  question('Q4: What do you think `3 -> z` does?',
+    answer('Throws a Error'),
+    answer('Saves the value `3` in `z`', correct = TRUE),
+    answer('Test if `z` is greater than `3`'),
+    allow_retry = TRUE
+    )
+)
+```
+
+
+## Vectors
+
+The `c()` function (read __combine__ for `c`) can be used to assigned multiple values together. 
+
+For example `c(1, 2, 3, 4)` combines the numbers `1` to `4` in a vector of type __numeric__.
+
+Using the `c()` function create the following vectors:
+
+- `v1` containing numbers `1`, `5`, `-11`, and `33`.
+- `v2` containing strings `"Hello"`, and `"world"`.
+- `v3` containing logical `TRUE`, `TRUE`, and `FALSE`.
+
+```{r vectors-1, exercise = TRUE}
+
+```
+
+```{r vectors-1-solution}
+v1 <- c(1, 5, -11, 33)       # Combines Numeric vector, length 4
+v1
+
+v2 <- c("hello","world")    # Character vector, length 2 (a vector of strings)
+v2
+
+v3 <- c(TRUE, TRUE, FALSE)  # Logical vector, same as c(T, T, F)
+v3
+```
+
+Use the `class()` function to find the class of `v1`, `v2` and `v3`. 
+
+```{r vectors-2, exercise = TRUE}
+
+```
+
+```{r vectors-2-solution}
+class(v1)
+class(v2)
+class(v3)
+```
+
+You can use `c()` to combine vectors into another variable, but this comes with a health warning. If you are not careful, it may result in __type conversions__. Type conversion (also refered to as __typecasting__) refers to changing an entity of one datatype into another.
+
+- Use the `c()` function to combine `v4` and `v5` and save in a new variable called `v6.`
+- Check the class of `v6.`
+
+```{r vectors-3, exercise = TRUE}
+v4 <- c(1,2,3)
+v5 <- 'This is a string'
+```
+
+```{r vectors-3-solution}
+v4 <- c(1,2,3)
+v5 <- 'This is a string'
+v6 <- c(v4 , v5)
+class(v6)
+```
+
+You can select a specific element of a vector by using the brackets opperator (`[]`), for example, `v6[4]`, will return the fourth element `'This is a string'`. You can index multiple elements by passing a sequence of values that you wish to index a vector by. For example, to index the first and last value of `v6` we can use the following `v6[c(1,4)]`, which will return a vector `"1" "This is a string"`. We will deal with indexing in more detail later.
+
+You can also have __named__ vectors where each entry takes a specific name. This can be useful for indexing (extracting) specific values from a vector without having to reference the position of the desired elements in the vector.
+
+```{r assignment-4, exercise=TRUE}
+
+v2 <- c(first_word = "hello", second_word = "world")
+print(v2)
+
+v2["first_word"] # you can access values by names using square brackets
+# more on this later
+
+```
+
+## Sequences
+
+You will often have to create a sequence of numbers for various reasons. These can include generating indexes or ID numbers for a data frame. There are many ways to generate a sequence in R.We will illustrate two methods in this section. 
+
+Create a vector `v` that contains the numbers `1` to `7` via the following:
+
+- Using the `:` which will create a sequence (`x:y` will generate a series from `x` to `y` with a spacing of `1` unit between values).
+- Using the `seq()` function. R has an extensive help function (run `?seq` to look up the documentation of how to use the `seq`).
+
+```{r sequences-1, exercise = TRUE}
+
+```
+
+```{r sequences-1-solution}
+v <- 1:7         # same as c(1,2,3,4,5,6,7)  
+v
+
+v <- seq(1, 7, 1)  
+v
+```
+
+- Use `seq`, again, to generate a sequence from `-10`, to `10`, where the sequence increases in steps of `2`.
+
+```{r sequences-2, exercise = TRUE}
+
+```
+
+```{r sequences-2-solution}
+v <- seq(-10,10,2) 
+v
+```
+
+Another function that can be useful is the `rep` (short for replicate). Examine the help file  to see how the `rep` function operates and answer the following:
+
+- create a vector that contains the string `"All work and no play makes Jack a dull boy"` 10 times.
+- create a vector that contains the sequence `1:3` where the sequence is repeated 2 __times__.
+- create a vector that contains the sequence `1:3` where __each__ element is repeated 3 times.
+
+```{r sequences-3, exercise = TRUE}
+
+```
+
+```{r sequences-3-solution}
+v <- rep("All work and no play makes Jacks a dull boy", 10)  
+v
+
+v <- rep(1:3, times=2) 
+v
+
+v <- rep(1:3, each=2) 
+v
+```
+
+## Vector operations
+
+You can use the normal mathematical operations between vectors. The typical arithmetic operators are catered for:
+
+- `+` (addition),
+- `-` (subtraction),
+- `*` (multiplication),
+- `/` (division),
+- `^` (powers). 
+
+Using the vectors `v1` and `v2` compute the following and complete the quiz:
+
+- Add `1` to `v1`.
+- Add `v1` and `v2` together.
+- Multiply `v2` by `3`.
+- Divide `v2` by `v3` and note the output.
+- Add `c(1, 7)` to `v1` and note the output.
+- Multiply `c(1, 7)` to `v2` and note the output.
+
+
+```{r operation-1, exercise = TRUE, exercise.lines = 10}
+v1 <- c(1, 5, -11, 33) 
+v2 <- c(5, 1.2, -11, 2)
+v3 <- c(TRUE, FALSE, F, T) # for more information on logical look up the help function (?logical) 
+```
+
+```{r operation-1-solution}
+v1 <- c(1, 5, -11, 33) 
+v2 <- c(5, 1.2, -11, 2)
+v3 <- c(TRUE, FALSE, F, T) # for more information on logical look up the help function (?logical) 
+
+v1 + v2      # Element-wise addition
+v1 + 1       # Add 1 to each element
+
+v1 * 3       # Multiply each element by 2
+v2 / v3
+
+v1 + c(1,7)  # something strange here...
+v2 * c(1,7)  # something strange here...
+```
+
+
+```{r operation-1-quiz}
+quiz(
+  question("Q1: From the documentaiton on logical varaibles what is the difference between `TRUE` and `T`?",
+    answer("`T` is not defined in R."),
+    answer("They are the same", correct = TRUE),
+    answer('`TRUE` is not defined in R.'),
+    allow_retry = TRUE
+  ),
+  question('Q2: When you divided `v2` by `v3` you returned `Inf`, why?',
+    answer('`TRUE` values are the same as `0` and dividing by `0` is undefined.'),
+    answer('Dividing a number by a logical always return `Inf`.'),
+    answer('`FALSE` values are the same as 0 and dividing a non-zero number by 0 yields infinity.', correct = TRUE),
+    allow_retry = TRUE
+    ),
+  question('Q3: When you added `v1` to `c(1,7)` what happened?',
+    answer('An Error because I was adding a vector of length 4 to a vector of length 2.'),
+    answer('The first two elements of v1 had c(1,7) add to them element wise.'),
+    answer('The shorter vector was replicated up to the same length as `v1` and then added together element wise.', correct = TRUE),
+    allow_retry = TRUE
+    )
+)
+```
+
+Also, all of the common arithmetic functions are available:
+
+- `sqrt` ($\sqrt{}$), 
+- `min` (minimum),
+- `max`(maximum),
+- and many, many more...
+
+Now use the `min` and `max` functions to calculate a variable called `min_max` which should contain the smallest and largest values of `v1`.
+
+```{r operation-3, exercise = TRUE, exercise.lines = 5}
+v1 <- c(1, 5, -11, 33) 
+
+```
+
+
+```{r operation-3-solution}
+v1 <- c(1, 5, -11, 33) 
+
+min_max <- c(min(v1), max(v1))
+min_max
+```
+
+**Be very careful** with the order of operations! Don't be afraid to use brackets to make the order of operation explicit. For example, if we wanted to scale (divide) the vector `v1` by `range` (`max` - `min` of `v1`), one might write the following code, but upon inspection, the answer is not right. Correct it.  
+
+```{r operation-4, exercise = TRUE, exercise.lines = 7}
+v1 <- c(1, 5, -11, 33) 
+
+v1 / max(v1) - min(v1)
+
+# we should have returned: 0.02272727  0.11363636 -0.25000000  0.75000000
+```
+
+```{r operation-4-solution}
+v1 <- c(1, 5, -11, 33) 
+
+v1 / (max(v1) - min(v1)) # ahhh that much more like it...
+
+# we should have returned: 0.02272727  0.11363636 -0.25000000  0.75000000
+```
+
+
+## Variable types
+
+Below is a list of variables that you will encounter
+
+|type      |desription                                                         |
+|:---------|:--------------------------------------------------------------    |
+|numeric   |Numeric data (approximations of the decimal numbers, -12.321, 0.1,34.7 etc) |
+|integer   |Integer data (whole numbers, -1,1231, -9765)                       |
+|factor    |Categorical data (simple classifications, like sex)             |
+|ordered   |Ordinal data (ordered classifications, like educational level)     |
+|character |Character data (strings)                                           |
+|logical   | `True` and `False`                                                |
+
+
+It is useful to note that often interger vectors are automatically created as numeric vectors in R. This rarely causes a problem. If you need total control over vector type creation and how vectors are cast to different types the `vctrs` package's implementation of vectors is useful. 
+
+Answer the following questions using the code box provided to test your answers:
+
+```{r var-type-1, exercise=TRUE, exercise.lines = 5}
+# The class function might be handy here if your stuck....
+
+
+```
+
+```{r var-type-1-solution}
+# Q1
+x <- 1:6
+class(x)
+
+# Q2
+x <- c(1:6, 2.1)
+class(x)
+
+# Q3
+x <- c(1:6, 2.1, T)
+class(x)
+
+```
+
+```{r var-type-1-quiz}
+quiz(
+  question("Q1: Given `x <- 1:6`, what class is `x`?",
+    answer("logical"),
+    answer("integer", correct = TRUE),
+    answer("factor"),
+    answer('ordinal'),
+    allow_retry = TRUE
+  ),
+  question("Q2: Given `x <- c(1:6, 2.1)`, what class is `x`?",
+    answer("logical"),
+    answer("integer"),
+    answer("factor"),
+    answer('ordinal'),
+    answer('numeric', correct = TRUE),
+    allow_retry = TRUE
+  ),
+   question("Q3: Given `x <- c(1:6, 2.1, T)`, what class is `x`?",
+    answer("logical"),
+    answer("integer"),
+    answer("factor"),
+    answer('ordinal'),
+    answer('numeric', correct = TRUE),
+    allow_retry = TRUE
+  ),
+  question('Q4: What is the difference between a factor and an ordinal variable?',
+    answer('No differnce.'),
+    answer('Ordinal levels have a natural order.', correct = TRUE),
+    answer('Factors store information more efficiently.'),
+    allow_retry = TRUE
+  )
+)
+```
+
+### Type testing and converting
+
+You can easily test if a vector is of a certain type or convert a vector using the following functions: 
+
+|test         |conversion   |
+|:------------|:------------|
+|is.numeric   |as.numeric   |
+|is.logical   |as.logical   |
+|is.integer   |as.integer   |
+|is.factor    |as.factor    |
+|is.character |as.character |
+|is.ordered   |as.ordered   |
+
+Given the following vector `x`: 
+
+- Test if `x` is a numeric variable.
+- Convert `x` to numeric and save the results in variable `y`.
+- Examine `y` and answer the quiz questions.
+
+```{r var-type-2, exercise=TRUE, exercise.lines = 5}
+x <- c("7", "7*", "7.0", "7,0")
+```
+
+```{r var-type-2-solution}
+x <- c("7", "7*", "7.0", "7,0")
+
+is.numeric(x)
+
+y <- as.numeric(x); y
+
+
+is.numeric(y)
+```
+
+
+```{r var-type-3-quiz}
+quiz(
+  question("Q1: Is `x` numeric?",
+    answer('Yes'),
+    answer('No', correct = TRUE),
+    allow_retry = TRUE
+  ),
+  question("Q2: What is the class of `x`?",
+    answer("logical"),
+    answer("integer"),
+    answer("factor"),
+    answer('ordinal'),
+    answer('numeric'),
+    answer('character', correct = TRUE),
+    allow_retry = TRUE
+  ),
+  question('Q3: What is the length of `y`',
+    answer('NA'),
+    answer('2'),
+    answer('4', correct = TRUE),
+    answer('NaN'),
+    allow_retry = TRUE
+  ),
+  question('Q4: what does the warning message when converting `x` to numeric mean?',
+    answer('R does not know how to convert some values of `x`', correct = TRUE),
+    answer('Some values of `x` caused numeric overflow when converting'),
+    allow_retry = TRUE
+  ), 
+  question('Q5: What class is `y`?',
+    answer("logical"),
+    answer("integer"),
+    answer("factor"),
+    answer('ordinal'),
+    answer('numeric', correct = TRUE),
+    answer('character'),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Special values
+
+Like most programming languages, `R` has several special values that are exceptions to the normal variable types described in the previous section. These are `NA`, `NaN`, `NULL` and `±Inf`. 
+
+### `NA`
+
+- Stands for __not available__.
+- `NA` is a placeholder for a missing value. 
+- All basic operations in R handle `NA` without crashing and mostly return `NA` as an answer whenever one of the input arguments is `NA`.
+- The function `is.na()` can be used to detect `NA` variables.
+
+### `NaN`
+
+- `NaN` stands for __not a number__. 
+- This is generally the result of a calculation whose result is unknown or undefined mathematically, but it is surely not a number. In particular, operations like `0/0`, `Inf-Inf` and `Inf/Inf` returns an `NaN`.
+- Computations involving numbers and NaN always result in NaN.
+- The function `is.nan()` can be used to detect `NaN`'s.
+
+### `NULL`
+
+- `NULL` is similar to the empty set from mathematics.
+- `NULL` is special since it has no class (its class is `NULL`) and has length `0`, so it does not take up any space in a vector.
+- The function `is.null()` can be used to detect NULL variables.
+
+### `Inf`
+
+- Stands for _infinity_ and only applies to vectors of class numeric.
+- A vector of class integer can never be `Inf`.
+- `Inf` is a valid numeric that results from calculations like division of a number by zero. 
+- Since `Inf` is numeric, operations between `Inf` and a finite numeric are well-defined, and comparison operators work as expected.
+- the exception is `0/0` which results in `NaN` since it is not defined.
+
+```{r special-2, exercise=TRUE, exercise.lines = 5}
+
+```
+
+
+```{r special-2-quiz}
+quiz(
+  question("Q1: What is the result of `NA + 1`?",
+    answer('1'),
+    answer('NA', correct = TRUE),
+    answer('0'),
+    answer('A warning message'),
+    allow_retry = TRUE
+  ),
+  question('Q2: Running `sum(c(NA, 1, 2))` results in an `NA`; what argument from the function `sum` can help the computation run as expected?',
+    answer('`na.retain = FALSE`'),
+    answer('`na.rm = TRUE`', correct = TRUE),
+    allow_retry = TRUE
+  ),
+  question("Q3: Why does `NA == NA` return `NA`",
+    answer("It does not, its return `TRUE`"),
+    answer("The statement compares something __not available__ to something __not available__.", correct = TRUE),
+    allow_retry = TRUE
+  ),
+  question("Q4: What is the result of `sum(c(1, 2, NULL, 4))?`",
+    answer("`NA`"),
+    answer("`NULL`"),
+    answer("`7`", correct = TRUE)
+  ),
+  question("Q5: What is the result of `Inf == Inf`? Note: that “==” asks the question “are these quantities equal?”. More logical operations are on the way",
+    answer("`TRUE`", correct = TRUE),
+    answer("`NA`"),
+    answer("`NULL`"),
+    allow_retry = TRUE
+  ),
+  question("Q6: What is the result of `log(-10)`?",
+    answer("`TRUE`"),
+    answer("`NA`", correct = TRUE),
+    answer("`NULL`"),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Logical operations
+
+We can use the standard operators to compare different data structures (vectors, matrices, data.frames, tibbles, etc.):
+
+- `==` (equality),
+- `!=` (inequality, the `!` is read as "is not"),
+- `<` (less than), 
+- `>` (greater than),
+- `<=` (less than or equal to), 
+- `>=` (greater than or equal to). 
+
+These operations return boolean values (which we have seen before): `TRUE` or `FALSE` (often abbreviated to just `T` and `F`).
+
+The `!` operation can be used in front of any boolean value to return the opposite boolean logical. For example:
+
+- `!TRUE` returns `FALSE.`
+- `!(x == 5)` return all value of x that are __not__ equal to 5 as `TRUE`.
+- `!is.na(x)` returns all values of x that are not missing. 
+
+```{r logical-op-1, exercise=TRUE, exercise.lines = 10}
+x <- c(10,5,5,122)
+
+x == 5 # checks which values of x are equal to 5
+
+x != 5 # checks which values of x are not equal to 5
+
+# or
+!(x == 5)
+
+```
+
+
+The `|` and `&` operators work on boolean values:
+
+- `|` is the OR operator (e.g. `x | y` will return `TRUE` if either `x` OR `y` are `TRUE`).
+- `&` is the AND operator (e.g. `x & y` will return `TRUE` if both `x` AND `y` are `TRUE`).
+
+When dealing with a boolean vector, say `x` the following functions are useful:
+
+- `any(x)` will return `TRUE` if __any__ of the values of the vector are `TRUE`.
+- `all()` will return `TRUE` if __all__ of the values of the vector are `TRUE`.
+
+Additionally, the `%in%` operator identifies the values from one vector which are present in another.
+
+```{r logical-op-2, exercise=TRUE, exercise.lines = 10}
+x <- c(1,2,3,11) # if we wanted to see which values of x
+
+y <- c(-10:10) # are in y
+
+x %in% y # we get TRUE for any values of x that are in y and FALSE for if they are not present.
+
+```
+
+Given the vectors `v1` and `v2` run the following comparisons: 
+
+- Test if `v1` is greater than `2`.
+- Test `v1` and `v2` for equality (you should return values for each element).
+- Test for values of `v1` that are greater than `2` __OR__ values of `v2` that are less than `-3.`
+- Test which values of `v1` are in the vector `c(1:10)`
+
+```{r logical-op-3, exercise=TRUE, exercise.lines = 10}
+v1 <- c(1, 5, -11, 33)
+v2 <- c(1, 5.0, -11, 2)
+```
+
+
+```{r logical-op-3-solution}
+v1 <- c(1, 5, -11, 33)
+v2 <- c(1, 5.0, -11, 2)
+
+v1 > 2       # Each element is compared to 2, returns logical vector
+
+v1==v2       # Are corresponding elements equivalent, returns logical vector.
+
+v1!=v2       # Are corresponding elements *not* equivalent? Same as !(v1==v2)
+
+(v1 > 2) | (v2 < -3)   # | is the boolean OR, returns a vector.
+
+v1 %in% c(1:10)
+
+```
+
+## Indexing
+
+In R, specific values of a vector are accessed by indexing using brackets `[]`. For example, `v[1]` will select the first value from the vector `v`. Note that this means that `R` indexes values starting from `1` rather than `0` (unlike `Python` or `C`).
+
+Whatever you put inside the brackets, tells R which values of the vector object you want. There are two main ways that you can use indexing to access subsets of data in a vector: numerical and logical indexing.
+
+There are two indexing types: numerical and logical. Numerical indexing accesses elements by their position, whereas logical indexing does it using logical statements. Logical indexing is very powerful when combined with the logical operations from the last section. It is also possible to use __negative indexing__. When a negative number is used to index a vector, all values __except__ for the value in that position are returned.
+
+```{r index-0, exercise=TRUE, exercise.lines = 14}
+v <- c(1, 5, -11, 33)
+
+v[c(1,3)] # returns the first and third values of v using numerical indexing
+
+v[c(TRUE, FALSE, TRUE, FALSE)] # does the same as above but with a logical vector
+
+log_index <- v < 4 # create a logical index, where it is TRUE if it is less than 4 and FALSE otherwise
+v[log_index] # use the logical index to find the values of interest
+
+v[-c(2,4)] # All other values that are not in position 2 and 4 will be returned
+
+```
+
+
+Use __indexing__ (`[]`) to select:
+
+- The third value from `v`.
+- The second to the fourth values from `v`.
+- The first and third values from `v` using a vector of numbers and a vector of booleans.
+- All values in `v` greater than `3` using a logical statement.
+
+```{r index-1, exercise=TRUE, exercise.lines = 5}
+v <- c(1, 5, -11, 33)
+
+```
+
+
+```{r index-1-solution}
+v <- c(1, 5, -11, 33)
+
+v[3]             # third element of v1
+
+v[2:4]           # elements 2, 3, 4 of v1
+
+v[c(1,3)]        # elements 1 and 3 - note that your indexes are a vector
+
+v[c(T,F,T,F)]  # elements 1 and 2 - only the ones that are TRUE
+
+v[v>3]     
+```
+
+
+```{r index-2-quiz}
+quiz(
+  question("Q1: The third value from `v`? (Multiple correct answers)",
+    answer("`v[3]`", correct = TRUE),
+    answer("`v[-3]`"),
+    answer("`v[c(3)]`", correct = TRUE),
+    answer("`v[c(2)]`"),
+    answer("`v[2]`"),
+    allow_retry = TRUE
+  ),
+  question("Q2: The second to the fourth values from `v`? (Multiple correct answers)",
+    answer("`v[2,3,4]`"),
+    answer("`v[c(2), c(4)]`"),
+    answer("`v[c(2,3,4)]`", correct = TRUE),
+    answer("`v[2:4]`", correct = TRUE),
+    allow_retry = TRUE
+  ),
+  question("Q3: To select the values which are either negative or greater than 10? (Multiple correct answers)" ,
+    answer("`v[1:10]`"),
+    answer("`v[c(-2,-3)]`"),
+    answer("`v[v < 0 | v > 10]`", correct = TRUE),
+    answer("`v[3:4]`", correct = FALSE),
+    allow_retry = TRUE
+  ),
+  question("Q4: The first and third values from `v`? (Multiple correct answers)",
+    answer("`v[1,3]`"),
+    answer("`v[seq(from = 1, to = 3, by = 1)]`"),
+    answer("`v[c(1,3)]`", correct = TRUE),
+    answer("`v[c(T,F,T,F)]`", correct = TRUE),
+    allow_retry = TRUE
+  ),
+  question("Q5: Using a logical operation on the sequence of `v = c(1,5,-11,33)` get the second and fourth? (Multiple correct answers)",
+    answer("`v[v>=5]`", correct = TRUE),
+    answer("`v[!(v<3)]`", correct = TRUE),
+    answer("`v[v>4]`", correct = TRUE),
+    answer("`v[v == 5 | v == 33]`",correct = TRUE),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Lists, briefly
+
+Lists are a versatile structure that allows for the storage of any data structure. A single list can contain all kinds of elements --- character strings, numeric vectors, matrices, other lists, and so on. The elements of lists are often named for easier access.
+
+The `list()` function can be used to create a list in R. If no arguments are passed the list be empty. Each argument that is passed to a list become an element of the list, which can be either named or unnamed.
+
+```{r list-1, exercise=TRUE, exercise.lines = 10}
+v1 <- c(1, 5, -11, 33) 
+v2 <- c(5, 1.2, -11, 2)
+
+l <- list() # create an emtpy list
+
+# create a list with the following elements
+l <- list(first_element = v1, second_element = v2) 
+
+l
+```
+
+Similarly to indexing vectors, you can use brakets (`[]`) to access elements of a list, which will always return a list. You can use double brackets (`[[]]`) to return a component of a list, but it will always return the original vector type that was stored in that position. Accessing list elements:
+
+```{r list-2, exercise=TRUE, exercise.lines = 10}
+l["first_element"]   # Access first_element with single brackets: this returns a list.
+
+l[["first_element"]] # Access first_element with double brackets: this returns the vector stored. In this case a numeric vector.
+
+l # print the full list to screen
+
+l[[1]]     # Returns the first component of the list, equivalent to above.
+```
+
+You can add elements to a list similply by referencing the position that you want the vector to be saved at in the list. Adding more elements to a list:
+
+```{r list-3, exercise=TRUE, exercise.lines = 10}
+l[[1]] <- NULL # add an element to the empty list l
+
+l # note that the vector in position 1 is removed and replaced by the entry 'second_element'
+
+l[[3]] <- c(22, 23) # adds a vector as element 3 in the empty list l.
+# given that there is nothing in the second position the second position will be `NULL`
+
+l$Something <- "A thing"  # Appends an list element - "A thing", named "Something" - to the end of the list
+```
+
+
+The function `names()` can be used to find the names of list elements.
+
+## Data frames
+
+The data frame is a special kind of list used for storing dataset tables. Think of rows as cases, columns as variables. Each column is a vector, where the vectors may contain different variable types (e.g., numeric, logical, factor).
+
+Creating a dataframe:
+
+```{r, eval = TRUE, echo = TRUE}
+# create a data frame
+your_first_df <- data.frame(
+  ID = 1:4, # create a varaible (column) called ID
+  name = c("Stephen","Aoife","Pete","Sarah"), 
+  female = c(F,T,F,T), # add logical for 'female' varaible
+  age=c(22,33,44,55), # create a age varaible
+  stringsAsFactors = FALSE # other wise all 'strings' will be treated as factors
+  )
+```
+
+### Indexing data frames
+
+Indexing data frames is similar to vectors or lists. As data frames are two dimensional, you have to specify the __rows__ and __columns__ of interest, again, using square brackets. For example `your_first_df[rows_of_interest, cols_of_interest]`. As columns are names vectors, you can also specify via the variable name as well. Some examples are given below:
+
+- To obtain the first row, all columns
+
+```{r df-1, exercise=TRUE, exercise.lines = 3}
+your_first_df[1,] # return the first row  
+
+your_first_df[3,] # return the third row
+```
+
+- To obtain the first column, all rows
+
+```{r df-2, exercise=TRUE, exercise.lines = 3}
+your_first_df[, 1] 
+
+```
+
+- To obtain the age column, all rows
+
+```{r df-3, exercise=TRUE, exercise.lines = 6}
+your_first_df[,'age']
+# OR....
+your_first_df$age 
+# OR...
+your_frist_df[, 4] # as the 4th column corresponds to age
+```
+
+- To obtain the rows 1 and 2, columns 3 and 4 - the female and age
+
+```{r df-4, exercise=TRUE, exercise.lines = 3}
+your_first_df[1:2,3:4]
+your_first_df[1:2,c('female', 'age')]
+```
+
+- To obtain the rows 1 and 3, all columns
+
+```{r df-5, exercise=TRUE, exercise.lines = 3}
+your_first_df[c(1,3),]
+```
+
+How would you obtain all rows with age greater than 30?
+
+```{r df-6, exercise=TRUE, exercise.lines = 3}
+
+```
+
+```{r df-6-solution}
+your_first_df[your_first_df$age>30, ]
+
+```
+
+<!-- ## Functions -->
+
+<!-- ```{r eval = FALSE, echo= TRUE} -->
+<!-- length(v1) -->
+
+<!-- length(v2) -->
+<!-- ``` -->
+
+<!-- ```{r, echo = FALSE} -->
+<!-- set.seed(1916) -->
+<!-- x <- sample(1:100, size = 200, replace = TRUE) -->
+<!-- ind <- sample(1:100, size = 14, replace = TRUE) -->
+<!-- x[ind] <- NA -->
+<!-- ``` -->
+
+<!-- ```{r, echo = TRUE} -->
+<!-- head(x, 20) -->
+<!-- ``` -->
+
+<!-- Use the `is.na()` and `sum()` function to find the number of na values in `x`. -->
+
+<!-- Note that `TRUE` values are treated as `1` and `FALSE` values are treated as 0.  -->
+
+<!-- ```{r functions-1, exercise=TRUE, exercise.lines = 5} -->
+
+
+<!-- ``` -->
+
+<!-- ```{r functions-1-solution} -->
+<!-- sum(is.na(x)) -->
+<!-- ``` -->
+
+<!-- Use `length()` to find the fraction of `NA` in `x`. -->
+
+<!-- ```{r functions-1.1, exercise=TRUE, exercise.lines = 5} -->
+
+
+<!-- ``` -->
+
+<!-- ```{r functions-1.1-solution} -->
+<!-- sum(is.na(x))/length(x) -->
+<!-- ``` -->
+
+<!-- Use the help function (`?(the function of interest)`) to find investigate the use of the function `which()` -->
+
+<!-- ```{r functions-2, exercise=TRUE, exercise.lines = 5} -->
+
+
+<!-- ``` -->
+
+<!-- ```{r functions-2-solution} -->
+<!-- ?which -->
+<!-- ``` -->
+
+
+<!-- Use the `which()` and `is.na()` to find the positions of the `na` values in `x`. -->
+
+<!-- ```{r functions-3, exercise=TRUE, exercise.lines = 5} -->
+
+
+<!-- ``` -->
+
+<!-- ```{r functions-3-solution} -->
+<!-- which(is.na(x)) -->
+<!-- ``` -->
+
+
+<!-- ```{r quiz-functions} -->
+<!-- quiz( -->
+<!--   question("What is the result of mean(x)?", -->
+<!--     answer("NA", correct = TRUE), -->
+<!--     answer("0"), -->
+<!--     answer("NaN")) -->
+<!--   ) -->
+<!-- ``` -->
+
+<!-- Investigate the parameters of `mean()` to force it to remove `NA` values automatically. -->
+
+<!-- ```{r functions-4, exercise=TRUE, exercise.lines = 5} -->
+
+
+<!-- ``` -->
+
+<!-- ```{r functions-4-solution} -->
+<!-- mean(x, na.rm = TRUE) -->
+<!-- ``` -->
+
+
+
+
