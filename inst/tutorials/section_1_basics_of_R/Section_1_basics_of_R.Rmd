@@ -1,5 +1,5 @@
 ---
-title: "Topics"
+title: "The basics of R"
 output: 
   learnr::tutorial:
     css: css/learnr_custom.css
