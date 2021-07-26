@@ -2,18 +2,17 @@
 title: "The basics of R"
 output: 
   learnr::tutorial:
-    css: css/learnr_custom.css
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
 ---
 
+<!-- insert UL logo in top right corner -->
 <div style="text-align: right"><img src="images/ul-logo.jpg" width="150" /></div>
 
-<!-- <head> -->
-<!-- <link rel="stylesheet" type="text/css" href="css/minty_bootstrap.css"> -->
-<!-- </head> -->
 
+<!-- include CSS within markdown document -->
+<!-- not sure why linking to the CSS doesn't work-->
 ```{css, echo = F}
 @import url(https://fonts.googleapis.com/css?family=Montserrat:300,300i&display=swap);
 @import url(https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap);
@@ -60,11 +59,6 @@ runtime: shiny_prerendered
 
 
 
-.button1 {background-color: #4CAF50;} /* Green */
-.button2 {background-color: #008CBA;} /* Blue */
-.button3 {background-color: #f44336;} /* Red */
-.button4 {background-color: #e7e7e7; color: black;} /* Gray */
-.button5 {background-color: #555555;} /* Black */
 
 h1, #TOC>ul>li {
   color: #005337;
@@ -84,20 +78,15 @@ h3 {
   font-family:  'Josefin Sans';
   font-weight: bold;
 }
+
+h4 {
+  color: #005337;
+  font-family:  'Josefin Sans';
+  font-weight: bold;
+}
+
 a {
   color: #0ead5b;
-}
-body {background-color: #FFFFFF;}
-
-.button {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
 }
 
 
@@ -112,9 +101,10 @@ a, a > code {
   color: #272822;
   text-decoration: underline;
 }
-
 ```
 
+
+<!-- preliminaries -->
 
 ```{r setup, include=FALSE}
 library(learnr)
@@ -127,10 +117,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # set for leter ex
 v1 <- c(1, 5, -11, 33)       # Combines Numeric vector, length 4
-
 v2 <- c("hello","world")    # Character vector, length 2 (a vector of strings)
-
-
 v3 <- c(TRUE, TRUE, FALSE)  # Logical vector, same as c(T, T, F)
 
 
@@ -144,7 +131,6 @@ your_first_df <- data.frame(
 
 
 l <- list(first_element = c(1, 5, -11, 33) , second_element =  c(5, 1.2, -11, 2)) 
-
 ```
 
 ## Assigning values to variables
@@ -152,7 +138,7 @@ l <- list(first_element = c(1, 5, -11, 33) , second_element =  c(5, 1.2, -11, 2)
 ###
 
 - You can create new objects and assign values by typing `<-`.
-- All R statements where you create objects, __assignment__ statements, have the same form:
+- All R statements where you create objects, called __assignment__ statements, have the same form:
 
 ```{r, assigment-example-1, eval = FALSE, echo = TRUE}
 object_name <- value
@@ -173,6 +159,15 @@ We will start by creating an object and assigning it a numeric value. Try the fo
 
 ```
 
+
+```{r assignment-1-hint}
+# partial solution
+x <- 3 # create a variable x and store 3 in it
+x
+
+# now, try the second part of the exercise
+```
+
 ```{r assignment-1-solution}
 x <- 3 # create a varaible x and store 3 in it
 x
@@ -186,31 +181,39 @@ x
 You could also use `=` to assign values to variables. Why use `<-` instead of `=`:
 
 - `=` is usually reserved for function arguments.
-- `<-` more explicitly shows that variable assignment is being carried out (particularly when = is reserved for another purpose).
+- `<-` more explicitly shows that variable assignment is being carried out (particularly when `=` is reserved for another purpose).
 
-- [Hadley Wickham](http://hadley.nz/) (Chief Scientist at RStudio & creator of the [tidyverse packages](https://www.tidyverse.org/packages/))  recommends against using `=` instead of `<-` [here](https://r4ds.had.co.nz/workflow-basics.html#coding-basics) (and also here in the [tidyverse style guide](https://style.tidyverse.org/syntax.html#assignment-1)).
+- [Hadley Wickham](http://hadley.nz/) (Chief Scientist at RStudio & creator of the [tidyverse packages](https://www.tidyverse.org/packages/)) recommends against using `=` instead of `<-` in the [R for Data Science book](https://r4ds.had.co.nz/workflow-basics.html#coding-basics) with [Garrett Grolemund](https://www.rstudio.com/speakers/garrett-grolemund/), and also in the [tidyverse style guide](https://style.tidyverse.org/syntax.html#assignment-1).
 
 - The majority of the help you find online, on StackOverflow for example, will use `<-`.
 
-- For some historical reasons: the computers that `R` was developed on actually had a `<-` button.
+<!--- - For historical reasons: the computers that `R` was developed on actually had a `<-` button. --->
 
-- If you prefer to use `=` , be aware that there are some strange edges cases that you could be unlucky enough to come across (I've never had a problem).
+- If you prefer to use `=` , be aware that there are some strange edge cases that you could be unlucky enough to come across (although I've rarely, if ever, encountered a problem).
 
 Later, when you begin to use RStudio IDE, you can use the keyboard shortcut for `<-`: 
 
 * <kbd>Alt</kbd> + <kbd>-</kbd> on Windows.
-* <kbd>option</kbd> + <kbd>-</kbd> on Mac.
+* <kbd>Option</kbd> + <kbd>-</kbd> on Mac.
 
 
 ### 
 
+Use the following quiz to to test your knowledge and learn more about assignment statements.
+
 ```{r quiz-prac-1, exercise=TRUE, exercise.lines = 5}
-# if you are unsure, or want to test your answer you can type code in here
+# if you are unsure, or want to test your answer, you can type code in here
+
+
 
 
 ```
 
+
 ```{r quiz-prac-1-solution}
+# copy-paste and run the code for each question separately.
+# modify the code if you need to know more.
+
 # Q1
 x <- 1
 x + 3
@@ -229,7 +232,8 @@ y
 3 -> z
 z
 
-# use of statements like 3 -> z is not very conventional even if it is possible and should never be used.
+# use of statements like 3 -> z is not very conventional,
+# even though it is possible, we will not use it in this course.
 
 # pro tip for funky looking code
 x <- 3 -> y
@@ -240,39 +244,50 @@ x <- y <- 3 # this is quite handy and is much more readable
 ```
 
 ```{r quiz-intro-1}
-quiz(
+quiz(caption = "",
   question("Q1: Given `x <- 1`, what is the result of `x + 3`?",
     answer("4", correct = TRUE),
     answer("1"),
     answer("3"),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    correct = "Correct. We can use R as a calculator to perform mathematical operations. `x + 3` adds 3 to the value we have assigned to x. "
   ),
   question('Q2: Is R case sentitive?',
     answer('Yes', correct = TRUE), 
     answer('No'),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    correct = "Correct! R __is__ case sensitive. Assigning a value to `A` would __not__ overwrite a value assigned to `a`."
   ),
   question('Q3: Given `x = 5` and `y <- 6 + 2 * x`, what is the value of `y`?',
-    answer('5'),
+    answer('40'),
     answer('16', correct = TRUE),
     answer('Error'),
-    allow_retry = TRUE
-    ),
+    allow_retry = TRUE,
+    correct = "Correct! <br> R will follow the __BODMAS__ (__B__rackets, __O__rders (powers/roots), __D__ivision, __M__ultiplication, __A__ddition, __S__ubtraction) rule for the order in which it will carry out calculations.<br> In this case, multiplication (`2 * x`) took precedence over addition. <br> If in doubt, we reccomend using brackets to be explicit about the order of operations. E.g., use brackets to differentiate `6 + (2 * x)` from `(6 + 2) * x`."
+    ), # reference link http://www.jeremy-oakley.staff.shef.ac.uk/mas113/rtutorial/using-r-as-a-calculator.html
   question('Q4: What do you think `3 -> z` does?',
-    answer('Throws a Error'),
+    answer('Throws an Error'),
     answer('Saves the value `3` in `z`', correct = TRUE),
     answer('Test if `z` is greater than `3`'),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    correct = "Correct, this is called __right-hand assignment__. Although it is unconventional and we will not use it in this course, it is useful to know that it exists."
     )
 )
 ```
 
 
 ## Vectors
+###
+__Atomic vectors__ are one-dimensional arrays which are fundamental for programming in R. For now, we will refer to them simply as __vectors__, noting that we will encounter a more flexible type of vector, called __lists__, later in the course.
 
-The `c()` function (read __combine__ for `c`) can be used to assigned multiple values together. 
 
-For example `c(1, 2, 3, 4)` combines the numbers `1` to `4` in a vector of type __numeric__.
+### Creating vectors
+
+The `c()` function (read __combine__ for `c`) is used to combine multiple values to make a __vector__.
+
+For example, the command `c(1, 2, 3, 4)` combines the numbers `1` to `4` in a vector of type __numeric__.
+
+### 
 
 Using the `c()` function create the following vectors:
 
@@ -282,6 +297,12 @@ Using the `c()` function create the following vectors:
 
 ```{r vectors-1, exercise = TRUE}
 
+```
+
+```{r vectors-1-hint}
+v1 <- c(1, 5)       # Combines the numbers 1 and 5 in a Numeric vector
+v1
+# modify it to include  -11 and 33 also.
 ```
 
 ```{r vectors-1-solution}
@@ -295,7 +316,42 @@ v3 <- c(TRUE, TRUE, FALSE)  # Logical vector, same as c(T, T, F)
 v3
 ```
 
-Use the `class()` function to find the class of `v1`, `v2` and `v3`. 
+### Vector length
+The __length__ of a vector is the number of values (called __elements__) it contains. The `length()` function returns the length of a vector. For example, we can create a vector with __3__ elements, 8, 9 and 10, and check its length.
+```{r, echo = TRUE}
+my_vec <- c(8, 9, 10) 
+length(my_vec)
+```
+
+### Vector types
+R defines different vector __types__ based on the values they contain. The most important types of vector are _logical_, _integer_, _double_, and _character_. 
+
+Watch [this short video](https://vimeo.com/220490316) by RStudio Education to familiarise yourself with these four types.
+
+###
+
+In summary:
+
+- If the values are numbers, R recognises a vector as __numeric__. E.g., `c(1.1, -2, 3)`.
+
+- If the values are strings, surrounded by quotation marks, R recognises a vector as a __character__. E.g., `c("hello", "goodbye")`.
+
+- __integer__ vectors contain integer values, followed by a capital L. E.g., `c(1L, 2L, 4L)`.
+
+- __logical__ vectors contain `TRUE` and `FALSE` (and `NA`) values. E.g., `c(TRUE, FALSE)`.
+
+We will explore these variable types, and their extensions, in more depth soon. 
+
+We can use the `typeof()` and `class()` functions to find the type of a vector.
+
+```{r, echo = T}
+logical_vec <- c(TRUE, FALSE)
+typeof(logical_vec)
+```
+
+####
+
+Find out the type of `v1`, `v2` and `v3`. 
 
 ```{r vectors-2, exercise = TRUE}
 
@@ -303,11 +359,21 @@ Use the `class()` function to find the class of `v1`, `v2` and `v3`.
 
 ```{r vectors-2-solution}
 class(v1)
+#or
+typeof(v1)
+
 class(v2)
+#or
+typeof(v2)
+
 class(v3)
+# or
+typeof(v3)
 ```
 
-You can use `c()` to combine vectors into another variable, but this comes with a health warning. If you are not careful, it may result in __type conversions__. Type conversion (also refered to as __typecasting__) refers to changing an entity of one datatype into another.
+### Combining vectors
+
+You can use `c()` to combine multiple vectors into a single vector, but this comes with a health warning. If you are not careful, it may result in __type conversions__. Type conversion (also refered to as __typecasting__) refers to changing an entity of one datatype into another.
 
 - Use the `c()` function to combine `v4` and `v5` and save in a new variable called `v6.`
 - Check the class of `v6.`
@@ -324,7 +390,19 @@ v6 <- c(v4 , v5)
 class(v6)
 ```
 
-You can select a specific element of a vector by using the brackets opperator (`[]`), for example, `v6[4]`, will return the fourth element `'This is a string'`. You can index multiple elements by passing a sequence of values that you wish to index a vector by. For example, to index the first and last value of `v6` we can use the following `v6[c(1,4)]`, which will return a vector `"1" "This is a string"`. We will deal with indexing in more detail later.
+### Subsetting vectors
+
+#### Index subsetting
+
+Often, we are only interested in specific values in a vector.
+
+- You can access a specific element of a vector by its index using the brackets operator (`[]`). For example, `v6[4]`, will return the fourth element of `v6`: `'This is a string'` (you can try this in the exercise box above).
+
+- You can index multiple elements by supplying a vector of values that you wish to index a vector by. To index the first and last (fourth) value of `v6` we can use the following `v6[c(1, 4)]`, which will return a (sub-)vector: `"1" "This is a string"`. 
+
+We will deal with indexing in more detail later.
+
+#### Subsetting named vectors
 
 You can also have __named__ vectors where each entry takes a specific name. This can be useful for indexing (extracting) specific values from a vector without having to reference the position of the desired elements in the vector.
 
@@ -335,42 +413,91 @@ print(v2)
 
 v2["first_word"] # you can access values by names using square brackets
 # more on this later
-
 ```
 
+
 ## Sequences
+###
+You will often have to create a vector containing a sequence of numbers. For example, you might need to generate ID numbers for a data set. There are many ways to generate a sequence in R. We will illustrate two methods in this section. 
 
-You will often have to create a sequence of numbers for various reasons. These can include generating indexes or ID numbers for a data frame. There are many ways to generate a sequence in R.We will illustrate two methods in this section. 
-
+### 
 Create a vector `v` that contains the numbers `1` to `7` via the following:
 
-- Using the `:` which will create a sequence (`x:y` will generate a series from `x` to `y` with a spacing of `1` unit between values).
-- Using the `seq()` function. R has an extensive help function (run `?seq` to look up the documentation of how to use the `seq`).
+- Using the `:` which will create a sequence (`x:y` will generate a sequence from `x` to `y` with a spacing of `1` unit between values).
+
+- Using the `seq()` function. R has an extensive help function, run `?seq` to look up the documentation of how to use the `seq`. In particular, look to the arguments section to see what values you should pass to the `seq()` function.
 
 ```{r sequences-1, exercise = TRUE}
 
 ```
 
-```{r sequences-1-solution}
+```{r sequences-1-hint-1}
+# partial solution
 v <- 1:7         # same as c(1,2,3,4,5,6,7)  
 v
 
-v <- seq(1, 7, 1)  
+# examine help file for seq function
+?seq
+```
+
+```{r sequences-1-solution}
+# full solution
+v <- 1:7         # same as c(1,2,3,4,5,6,7)  
+v
+
+v <- seq(from = 1, to = 7, by = 1)  
 v
 ```
 
-- Use `seq`, again, to generate a sequence from `-10`, to `10`, where the sequence increases in steps of `2`.
+###
+We used the `from = 1` argument to define the first term in the sequence, `to = 7` to define the final term and `by = 1` to define the increment (or step).
+
+Instead of specifying the increment using the `by` argument, we could instead specify the __number of terms__ in the sequence using the `length.out` argument. 
+
+### 
+
+- Use `seq()`, again specifying the `by` argument, to generate a sequence from `-10`, to `10`, where the sequence increases in steps of `2`. Call it `v_by`.
+
+- Calculate and store the length of the vector `v_by`.
+
+- Now that you know the length of `v_by`, create the same sequence using `seq()`, but specify `length.out` instead of `by`. Call it `v_out` and compare it to `v_by`.
 
 ```{r sequences-2, exercise = TRUE}
 
 ```
 
-```{r sequences-2-solution}
-v <- seq(-10,10,2) 
-v
+
+```{r sequences-2-hint}
+# partial solution
+v_by <- seq(from = -10, to = 10, by = 2) # create sequence using by to specify step size
+v_by 
+
+length_v_by <- length(v_by) # store the length of the vector
+length_v_by
+
+# ... now, need to to create the same sequence but using the length.out argument instead of by
+# hint: `from` and `to` arguments stay the same
 ```
 
-Another function that can be useful is the `rep` (short for replicate). Examine the help file  to see how the `rep` function operates and answer the following:
+```{r sequences-2-solution}
+# full solution
+v_by <- seq(from = -10, to = 10, by = 2) # create sequence using by to specify step size
+v_by
+
+length_v_by <- length(v_by) # store the length of the vector
+length_v_by
+
+v_out <- seq(from = -10, to = 10, length.out = length_v_by) # creating a new sequence, specifying the length
+
+# compare output:
+v_by
+v_out
+```
+
+
+### Extra: Replication
+
+Another function that can be useful is the `rep` (short for replicate). Examine the help file to see how the `rep` function operates and answer the following:
 
 - create a vector that contains the string `"All work and no play makes Jack a dull boy"` 10 times.
 - create a vector that contains the sequence `1:3` where the sequence is repeated 2 __times__.
@@ -379,6 +506,10 @@ Another function that can be useful is the `rep` (short for replicate). Examine 
 ```{r sequences-3, exercise = TRUE}
 
 ```
+
+<div id="sequences-3-hint">
+**Hint:** For the second and third parts of the exercise, you will need to specify either the `times` or `each` arguments. Can you guess which argument each task requires?
+</div>
 
 ```{r sequences-3-solution}
 v <- rep("All work and no play makes Jacks a dull boy", 10)  
@@ -393,6 +524,7 @@ v
 
 ## Vector operations
 
+###
 You can use the normal mathematical operations between vectors. The typical arithmetic operators are catered for:
 
 - `+` (addition),
@@ -401,97 +533,111 @@ You can use the normal mathematical operations between vectors. The typical arit
 - `/` (division),
 - `^` (powers). 
 
-Using the vectors `v1` and `v2` compute the following and complete the quiz:
+### Operations on vectors of the same length
 
-- Add `1` to `v1`.
-- Add `v1` and `v2` together.
-- Multiply `v2` by `3`.
-- Divide `v2` by `v3` and note the output.
-- Add `c(1, 7)` to `v1` and note the output.
-- Multiply `c(1, 7)` to `v2` and note the output.
+Operations between vectors are performed element-wise. When vectors are of the same length, this is straightforward to understand. Investigate this in the following exercise.
 
+1. Add `op_v1` and `op_v2` together. Make sure you are happy that each element in `op_v1` was added to the corresponding element in `op_v2`.
+
+2. Divide `op_v1` by `op_v2` and note the output.
 
 ```{r operation-1, exercise = TRUE, exercise.lines = 10}
-v1 <- c(1, 5, -11, 33) 
-v2 <- c(5, 1.2, -11, 2)
-v3 <- c(TRUE, FALSE, F, T) # for more information on logical look up the help function (?logical) 
+op_v1 <- c(1, 5, -11, 33) 
+op_v2 <- c(5, 1.2, -11, 0)
 ```
 
 ```{r operation-1-solution}
-v1 <- c(1, 5, -11, 33) 
-v2 <- c(5, 1.2, -11, 2)
-v3 <- c(TRUE, FALSE, F, T) # for more information on logical look up the help function (?logical) 
+op_v1 <- c(1, 5, -11, 33) 
+op_v2 <- c(5, 1.2, -11, 0)
 
-v1 + v2      # Element-wise addition
-v1 + 1       # Add 1 to each element
+# 1
+op_v1 + op_v2
 
-v1 * 3       # Multiply each element by 2
-v2 / v3
+# 2
+op_v1/ op_v2
+```
 
-v1 + c(1,7)  # something strange here...
-v2 * c(1,7)  # something strange here...
+###
+__Note__: The fourth element of `op_v1/ op_v2` returns `Inf`, because we are dividing the last element of `op_v1` by 0.
+
+### Operations on vectors of different lengths
+
+Now, what happens if we add vectors of different lengths? 
+
+The simplest case would be to perform an operation on a single numeric value (which is really just a vector of length 1) and a longer vector. 
+
+Complete the following exercises and, based on the results, answer the quiz questions:
+
+1. Subtract the value `1` from `op_v1`.
+
+2. Add the vector `c(1, 2)` to `op_v2`.
+
+```{r operation-2, exercise = TRUE, exercise.lines = 10}
+op_v1 <- c(1, 5, -11, 33) 
+op_v2 <- c(5, 1.2, -11, 0)
+```
+
+```{r operation-2-solution}
+op_v1 <- c(1, 5, -11, 33) 
+op_v2 <- c(5, 1.2, -11, 0)
+
+# 1
+op_v1 - 1 # subtract 1 from op_v1
+
+# 2
+c(1, 2) + op_v2 # add c(1, 2) to op_v2
 ```
 
 
-```{r operation-1-quiz}
-quiz(
-  question("Q1: From the documentaiton on logical varaibles what is the difference between `TRUE` and `T`?",
-    answer("`T` is not defined in R."),
-    answer("They are the same", correct = TRUE),
-    answer('`TRUE` is not defined in R.'),
-    allow_retry = TRUE
-  ),
-  question('Q2: When you divided `v2` by `v3` you returned `Inf`, why?',
-    answer('`TRUE` values are the same as `0` and dividing by `0` is undefined.'),
-    answer('Dividing a number by a logical always return `Inf`.'),
-    answer('`FALSE` values are the same as 0 and dividing a non-zero number by 0 yields infinity.', correct = TRUE),
-    allow_retry = TRUE
+```{r operation-2-quiz}
+quiz(caption = "",
+    question('Q1: What happened when you subtracted 1 from `op_v1`?',
+    answer('The value 1 was subtracted from the __first__ element of `op_v1`'),
+    answer('The value 1 was subtracted from the __last__ element of `op_v1`.'),
+    answer('The value 1 was subtracted from __each__ element of `op_v1`.', correct = TRUE),
+    allow_retry = TRUE,
+    correct = "Correct! The numeric value is subtracted from __each__ element. <br> We can think of this as R creating a vector of length 4 with each element being the value 1, and subtracting this vector from `op_v1` elementwise."
     ),
-  question('Q3: When you added `v1` to `c(1,7)` what happened?',
-    answer('An Error because I was adding a vector of length 4 to a vector of length 2.'),
-    answer('The first two elements of v1 had c(1,7) add to them element wise.'),
-    answer('The shorter vector was replicated up to the same length as `v1` and then added together element wise.', correct = TRUE),
-    allow_retry = TRUE
+  question('Q2: When you added `c(1, 2)` to `op_v2` what happened?',
+    answer('An Error because I was adding a vector of length 2 to a vector of length 4.'),
+    answer('The first two elements of `op_v1` had `c(1, 7)` added to them element wise.'),
+    answer('The shorter vector was replicated up to the same length as `op_v1` and then added together element wise.', correct = TRUE),
+    allow_retry = TRUE,
+    correct = "Correct! This is something we need to be _very_ careful of. <br> Even though the vectors are of different length, R will not give us a warning or error message. It will recycle the shorter vector, replicating it up to the same length as the longer vector and then perform element-wise operations. <br> If you are skeptical, check that the following give the same result: <br> `c(1, 2) + op_v2` <br> `c(1, 2, 1, 2) + op_v2` <br> `rep(c(1, 2), times = 2) + op_v2` "
     )
 )
 ```
 
+###
+
 Also, all of the common arithmetic functions are available:
 
-- `sqrt` ($\sqrt{}$), 
-- `min` (minimum),
-- `max`(maximum),
+- `sqrt()` ($\sqrt{}$), 
+- `min()` (minimum),
+- `max()`(maximum),
 - and many, many more...
 
-Now use the `min` and `max` functions to calculate a variable called `min_max` which should contain the smallest and largest values of `v1`.
 
-```{r operation-3, exercise = TRUE, exercise.lines = 5}
-v1 <- c(1, 5, -11, 33) 
+### A word of caution
 
-```
+**Be very careful** with the order of operations! 
 
+Remember, from earlier, that R will follow the __BODMAS__ (**B**rackets, **O**rders (powers/roots), **D**ivision, **M**ultiplication, **A**ddition, **S**ubtraction) rule for the order in which it will carry out calculations. Don't be afraid to use brackets to make the order of operation explicit. 
 
-```{r operation-3-solution}
-v1 <- c(1, 5, -11, 33) 
-
-min_max <- c(min(v1), max(v1))
-min_max
-```
-
-**Be very careful** with the order of operations! Don't be afraid to use brackets to make the order of operation explicit. For example, if we wanted to scale (divide) the vector `v1` by `range` (`max` - `min` of `v1`), one might write the following code, but upon inspection, the answer is not right. Correct it.  
+For example, if we wanted to scale (divide) the vector `v1` by `range` (`max` - `min` of `v1`), one might write the following code, but upon inspection, the answer is not right. Correct it.  
 
 ```{r operation-4, exercise = TRUE, exercise.lines = 7}
-v1 <- c(1, 5, -11, 33) 
+opp_v1 <- c(1, 5, -11, 33) 
 
-v1 / max(v1) - min(v1)
+opp_v1 / max(opp_v1) - min(opp_v1)
 
 # we should have returned: 0.02272727  0.11363636 -0.25000000  0.75000000
 ```
 
 ```{r operation-4-solution}
-v1 <- c(1, 5, -11, 33) 
+opp_v1 <- c(1, 5, -11, 33) 
 
-v1 / (max(v1) - min(v1)) # ahhh that much more like it...
+opp_v1 / (max(opp_v1) - min(opp_v1)) # ahhh that much more like it...
 
 # we should have returned: 0.02272727  0.11363636 -0.25000000  0.75000000
 ```
