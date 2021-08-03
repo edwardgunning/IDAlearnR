@@ -278,7 +278,7 @@ quiz(caption = "",
 
 ## Vectors
 ###
-__Atomic vectors__ are one-dimensional arrays which are fundamental for programming in R. For now, we will refer to them simply as __vectors__, noting that we will encounter a more flexible type of vector, called __lists__, later in the course.
+__Vectors__ are one-dimensional arrays which are fundamental for programming in R. In this section, we will learn about the basic types of vectors, and how they can be created and used.
 
 
 ### Creating vectors
@@ -324,7 +324,7 @@ length(my_vec)
 ```
 
 ### Vector types
-R defines different vector __types__ based on the values they contain. The most important types of vector are _logical_, _integer_, _double_, and _character_. 
+R defines different basic vector __types__ based on the values they contain. The most important types of vector are _logical_, _integer_, _double_, and _character_. Later, we will learn about more data structures that are built on top of these basic types.
 
 Watch [this short video](https://vimeo.com/220490316) by RStudio Education to familiarise yourself with these four types.
 
@@ -332,7 +332,7 @@ Watch [this short video](https://vimeo.com/220490316) by RStudio Education to fa
 
 In summary:
 
-- If the values are numbers, R recognises a vector as __numeric__. E.g., `c(1.1, -2, 3)`.
+- If the values are numbers, R recognises a vector as __numeric__. R will store the numbers in [double-precision floating-point format](https://en.wikipedia.org/wiki/Double-precision_floating-point_format), so you will see __numeric__ vectors referred to as being type __double__. E.g., `c(1.1, -2, 3)`.
 
 - If the values are strings, surrounded by quotation marks, R recognises a vector as a __character__. E.g., `c("hello", "goodbye")`.
 
@@ -342,7 +342,7 @@ In summary:
 
 We will explore these variable types, and their extensions, in more depth soon. 
 
-We can use the `typeof()` and `class()` functions to find the type of a vector.
+We can use the `typeof()` function to find the basic type of a vector.
 
 ```{r, echo = T}
 logical_vec <- c(TRUE, FALSE)
@@ -358,25 +358,20 @@ Find out the type of `v1`, `v2` and `v3`.
 ```
 
 ```{r vectors-2-solution}
-class(v1)
-#or
 typeof(v1)
 
-class(v2)
-#or
 typeof(v2)
 
-class(v3)
-# or
 typeof(v3)
 ```
 
 ### Combining vectors
 
-You can use `c()` to combine multiple vectors into a single vector, but this comes with a health warning. If you are not careful, it may result in __type conversions__. Type conversion (also refered to as __typecasting__) refers to changing an entity of one datatype into another.
+One of the very few basic rules in R is that vectors must contain objects of the same type.Therefore, you can use `c()` to combine multiple vectors into a single vector, but this comes with a health warning. If you are not careful, it may result in __type conversions__. Type conversion (also refered to as __typecasting__) refers to changing an entity of one datatype into another, which R can automatically do when we combine two vectors of different types.
 
+### 
 - Use the `c()` function to combine `v4` and `v5` and save in a new variable called `v6.`
-- Check the class of `v6.`
+- Check the type of `v6.`
 
 ```{r vectors-3, exercise = TRUE}
 v4 <- c(1,2,3)
@@ -387,8 +382,12 @@ v5 <- 'This is a string'
 v4 <- c(1,2,3)
 v5 <- 'This is a string'
 v6 <- c(v4 , v5)
-class(v6)
+typeof(v6)
 ```
+
+### 
+To create the vector `v6`, R automatically converted the elements of `v4` to character.
+
 
 ### Subsetting vectors
 
@@ -603,7 +602,7 @@ quiz(caption = "",
     answer('The first two elements of `op_v1` had `c(1, 7)` added to them element wise.'),
     answer('The shorter vector was replicated up to the same length as `op_v1` and then added together element wise.', correct = TRUE),
     allow_retry = TRUE,
-    correct = "Correct! This is something we need to be _very_ careful of. <br> Even though the vectors are of different length, R will not give us a warning or error message. It will recycle the shorter vector, replicating it up to the same length as the longer vector and then perform element-wise operations. <br> If you are skeptical, check that the following give the same result: <br> `c(1, 2) + op_v2` <br> `c(1, 2, 1, 2) + op_v2` <br> `rep(c(1, 2), times = 2) + op_v2` "
+    correct = "Correct! This is something we need to be _very_ careful of. <br> Even though the vectors are of different length, R will not give an error message. It will recycle the shorter vector, replicating it up to the same length as the longer vector and then perform element-wise operations.<br> When the smaller vector's length is a multiple of the length of the bigger vector (like in this case), R will not even give a warning! <br> If you are skeptical, check that the following give the same result: <br> `c(1, 2) + op_v2` <br> `c(1, 2, 1, 2) + op_v2` <br> `rep(c(1, 2), times = 2) + op_v2` "
     )
 )
 ```
@@ -617,10 +616,16 @@ Also, all of the common arithmetic functions are available:
 - `max()`(maximum),
 - and many, many more...
 
+Functions such as `sqrt()`, which take a vector and operate on the entire vector are called __vectorised functions__. 
+
+```{r vectorised example, echo = T}
+squares <- c(1, 4, 9, 16) # vector of first 4 square numbers
+sqrt(squares) # apply sqrt to entire vector
+```
 
 ### A word of caution
 
-**Be very careful** with the order of operations! 
+In addition to working with vectors of different lengths, we must also be very careful with the __order of operations__! 
 
 Remember, from earlier, that R will follow the __BODMAS__ (**B**rackets, **O**rders (powers/roots), **D**ivision, **M**ultiplication, **A**ddition, **S**ubtraction) rule for the order in which it will carry out calculations. Don't be afraid to use brackets to make the order of operation explicit. 
 
@@ -645,72 +650,163 @@ opp_v1 / (max(opp_v1) - min(opp_v1)) # ahhh that much more like it...
 
 ## Variable types
 
-Below is a list of variables that you will encounter
+###
+We have already been introduced to the basic types of vectors in R. Built on top of these are some other _classes_ of objects which will also be important for our data analysis.
 
-|type      |desription                                                         |
-|:---------|:--------------------------------------------------------------    |
+###
+In the data sets we will analyse, the variables we encounter will typically belong to one of the following classes:  
+
+|class     |description                                                         |
+|:-------------|:------------------------------------------------------------    |
 |numeric   |Numeric data (approximations of the decimal numbers, -12.321, 0.1,34.7 etc) |
 |integer   |Integer data (whole numbers, -1,1231, -9765)                       |
-|factor    |Categorical data (simple classifications, like sex)             |
-|ordered   |Ordinal data (ordered classifications, like educational level)     |
+|factor (unordered)   |Categorical data (simple classifications, like sex)             |
+|factor (ordered)   |Ordinal data (ordered classifications, like educational level)     |
 |character |Character data (strings)                                           |
 |logical   | `True` and `False`                                                |
 
+###
+The `class()` function returns the class of an object. 
 
-It is useful to note that often interger vectors are automatically created as numeric vectors in R. This rarely causes a problem. If you need total control over vector type creation and how vectors are cast to different types the `vctrs` package's implementation of vectors is useful. 
+```{r basic class, echo = T}
+num_vec <- c(1, 2, 3)
+class(num_vec)
 
-Answer the following questions using the code box provided to test your answers:
+char_vec <- c("hello", "how are you?")
+class(char_vec)
+
+truth_vec <- c(FALSE, TRUE, T, F)
+class(truth_vec)
+```
+
+###
+__Note:__ `T` and `F` are identical `TRUE` and `FALSE` in R. In this module, we prefer to use `TRUE` and `FALSE` for clarity.
+
+### Factors
+
+We have encountered many of the classes in the above table already as basic vector types. However one important class of object in R which we are yet to learn about are __factors__.
+
+__Factors__ are designed to represent categorical data that can take a fixed set of possible values. 
+
+### Why do we need factors?
+
+Imagine that we have data that records answers to a survey question, where the possible responses are "yes", "no" and "maybe". Given what we have learned so far we would probably record the data as a character vector.
+
+```{r, echo = T}
+char1 <- c("yes", "no", "yes", "maybe")
+```
+###
+However, using a character vector to store this data has two problems.
+
+1. There are only three possible responses, but nothing saving you from typos.
+
+```{r, echo = T}
+char2 <- char2 <- c("yes", "no", "yes", "naybe") # intentional typo
+```
+
+2. It only sorts alphabetically, which might not be the most useful way (maybe we would want it to be sorted in the order "no", "maybe", "yes")
+
+```{r, echo = T}
+sort(char1)
+```
+###
+Both of these problems are fixed by using a factor variable. 
+
+To create the factor variable, we must create a vector containing the valid __levels__, in the order we want them to be sorted.
+
+```{r, echo = T}
+answer_levels <- c("no", "maybe", "yes")
+```
+
+And then use the `factor()` function, with the first argument being the vector of data, and the second taking the levels we have specified.
+
+```{r, echo = T}
+fac1 <- factor(char1, levels = answer_levels)
+class(fac1)
+fac1
+```
+
+###
+Because we have specified the distinct values that our factor is allowed to take, any values not in this set (such as our intentional typo) will be silently converted to `NA`.
+
+```{r, echo = T}
+fac2 <- factor(char2, levels = answer_levels)
+fac2
+```
+
+Our factor now sorts in the order we have specified.
+
+```{r}
+sort(fac1)
+```
+
+### Ordered factors
+Sometimes the levels of a factor variable have a natural ordering that we want R to recognise. We call these ordinal data, and record them as an ordered factor.
+
+Consider data from a Likert scale.
+
+```{r, fig.align = "center"}
+knitr::include_graphics(path = "images/likert-scale.jpg")
+```
+
+```{r, echo = T}
+# create some fake data
+likert_data <- c("Very Satisfied", "Very Unsatisfied", "Neutral", "Very Unsatisfied","Satisfied")  
+# create vector of levels
+likert_levels <- c("Very Unsatisfied", "Unsatisfied", "Neutral", "Satisfied", "Very Satisfied")
+```
+
+We can create an __ordered factor in two ways:
+
+1. Using `factor()` and setting `ordered = TRUE`.
+
+1. Using `ordered()`.
+
+
+```{r}
+likert_ordered <- factor(likert_data, levels = likert_levels, ordered = T)
+likert_ordered
+
+likert_ordered <-ordered(likert_data, levels = likert_levels)
+likert_data
+```
+
+When printing the levels, R shows that they have a definite ordering using the `<` symbol. Other than this, you will not notice any other differences from an unordered factor at first, but it can become important later at the modelling stage of a data analysis.
+
+
+### Extra - factors
+
+Watch the first 4 minutes and 30 seconds of Roger Peng's video about factors in R. Then, test your knowledge about factors in the quiz.
+![](https://www.youtube.com/watch?v=NuY6jY4qE7I){width="90%"}
+
 
 ```{r var-type-1, exercise=TRUE, exercise.lines = 5}
 # The class function might be handy here if your stuck....
-
-
 ```
 
 ```{r var-type-1-solution}
-# Q1
-x <- 1:6
-class(x)
-
-# Q2
-x <- c(1:6, 2.1)
-class(x)
-
-# Q3
-x <- c(1:6, 2.1, T)
-class(x)
 
 ```
 
 ```{r var-type-1-quiz}
 quiz(
-  question("Q1: Given `x <- 1:6`, what class is `x`?",
-    answer("logical"),
-    answer("integer", correct = TRUE),
-    answer("factor"),
-    answer('ordinal'),
-    allow_retry = TRUE
-  ),
-  question("Q2: Given `x <- c(1:6, 2.1)`, what class is `x`?",
-    answer("logical"),
-    answer("integer"),
-    answer("factor"),
-    answer('ordinal'),
-    answer('numeric', correct = TRUE),
-    allow_retry = TRUE
-  ),
-   question("Q3: Given `x <- c(1:6, 2.1, T)`, what class is `x`?",
-    answer("logical"),
-    answer("integer"),
-    answer("factor"),
-    answer('ordinal'),
-    answer('numeric', correct = TRUE),
-    allow_retry = TRUE
-  ),
-  question('Q4: What is the difference between a factor and an ordinal variable?',
-    answer('No differnce.'),
+  question('Q1 What is the difference between a factor and an ordinal variable?',
+    answer('No difference.'),
     answer('Ordinal levels have a natural order.', correct = TRUE),
     answer('Factors store information more efficiently.'),
+    allow_retry = TRUE
+  ),
+  question('Q2 Which basic type of vector is the factor class built upon?',
+    answer('numeric'),
+    answer('character'),
+    answer('integer', correct = TRUE),
+    answer("logical"),
+    allow_retry = TRUE
+  ),
+  question('Q3 If we do not specify the levels argument when creating a factor, what happens?',
+    answer('R gives an error - the levels argument must be specified.'),
+    answer('R creates a factor and the levels sort in alphabetical order.', correct = TRUE),
+    answer('R creates a factor and the levels sort in the order they appear in the data.'),
     allow_retry = TRUE
   )
 )
