@@ -712,7 +712,7 @@ sort(char1)
 ###
 Both of these problems are fixed by using a factor variable. 
 
-To create the factor variable, we must create a vector containing the valid __levels__, in the order we want them to be sorted.
+To create the factor variable, we must create a vector containing the valid __levels__, in the order we want them to be sorted. x
 
 ```{r, echo = T}
 answer_levels <- c("no", "maybe", "yes")
