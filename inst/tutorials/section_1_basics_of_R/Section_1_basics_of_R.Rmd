@@ -114,6 +114,7 @@ knitr::opts_chunk$set(echo = FALSE)
 #   learnr::question(text, allow_retry = FALSE, ...)
 # }
 
+# set up variables
 
 # set for leter ex
 v1 <- c(1, 5, -11, 33)       # Combines Numeric vector, length 4
@@ -712,7 +713,7 @@ sort(char1)
 ###
 Both of these problems are fixed by using a factor variable. 
 
-To create the factor variable, we must create a vector containing the valid __levels__, in the order we want them to be sorted. x
+To create the factor variable, we must create a vector containing the valid __levels__, in the order we want them to be sorted.
 
 ```{r, echo = T}
 answer_levels <- c("no", "maybe", "yes")
