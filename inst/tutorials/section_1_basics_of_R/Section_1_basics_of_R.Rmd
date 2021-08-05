@@ -651,7 +651,7 @@ opp_v1 / (max(opp_v1) - min(opp_v1)) # ahhh that much more like it...
 ## Variable types
 
 ###
-We have already been introduced to the basic types of vectors in R. Built on top of these are some other _classes_ of objects which will also be important for our data analysis.
+We have already been introduced to the basic types of vectors in R. Built on top of these are some other **_classes_** of objects which will also be important for our data analysis.
 
 ###
 In the data sets we will analyse, the variables we encounter will typically belong to one of the following classes:  
@@ -736,12 +736,12 @@ fac2
 
 Our factor now sorts in the order we have specified.
 
-```{r}
+```{r, echo = T}
 sort(fac1)
 ```
 
 ### Ordered factors
-Sometimes the levels of a factor variable have a natural ordering that we want R to recognise. We call these ordinal data, and record them as an ordered factor.
+Sometimes the levels of a factor variable have a natural ordering that we want R to recognise. We call these ordinal data, and record them as an __ordered factor__.
 
 Consider data from a Likert scale.
 
@@ -749,29 +749,35 @@ Consider data from a Likert scale.
 knitr::include_graphics(path = "images/likert-scale.jpg")
 ```
 
+Let's create some fake data.
+
 ```{r, echo = T}
-# create some fake data
 likert_data <- c("Very Satisfied", "Very Unsatisfied", "Neutral", "Very Unsatisfied","Satisfied")  
-# create vector of levels
+```
+
+And a vector of valid levels.
+
+```{r, echo = T}
 likert_levels <- c("Very Unsatisfied", "Unsatisfied", "Neutral", "Satisfied", "Very Satisfied")
 ```
 
-We can create an __ordered factor in two ways:
+We can create an __ordered factor__ in two ways:
 
 1. Using `factor()` and setting `ordered = TRUE`.
 
-1. Using `ordered()`.
-
-
-```{r}
+```{r, echo = T}
 likert_ordered <- factor(likert_data, levels = likert_levels, ordered = T)
 likert_ordered
-
-likert_ordered <-ordered(likert_data, levels = likert_levels)
-likert_data
 ```
 
-When printing the levels, R shows that they have a definite ordering using the `<` symbol. Other than this, you will not notice any other differences from an unordered factor at first, but it can become important later at the modelling stage of a data analysis.
+2. Using `ordered()`.
+
+```{r, echo = T}
+likert_ordered <- ordered(likert_data, levels = likert_levels)
+likert_ordered
+```
+
+When printing the levels, R shows that they have a definite ordering using the `<` symbol. Other than this, you will not notice any other differences from an unordered factor at first, but it can become important later when running statistical models.
 
 
 ### Extra - factors
@@ -781,18 +787,51 @@ Watch the first 4 minutes and 30 seconds of Roger Peng's video about factors in 
 
 
 ```{r var-type-1, exercise=TRUE, exercise.lines = 5}
-# The class function might be handy here if your stuck....
+# use this box to test your answers
+```
+
+```{r var-type-1-hint}
+# partial solution
+char1 <- c("yes", "no", "yes", "maybe")
+answer_levels <- c("no", "maybe", "yes")
+
+# Q2
+fac1 <- factor(char1, levels = answer_levels) # create factor variable
+# check basic type using `typeof()` or remove factor class to check basic type with `unclass()`
+
+#Q3
+fac2 <- factor(char1) # create factor, don't specify levels
+# check ordering of levels using `levels()` function
 ```
 
 ```{r var-type-1-solution}
+# full solution
+char1 <- c("yes", "no", "yes", "maybe")
+answer_levels <- c("no", "maybe", "yes")
 
+# Q2
+fac1 <- factor(char1, levels = answer_levels) # create factor variable
+# check basic type using `typeof()` or remove factor class to check basic type with `unclass()`
+typeof(fac1) 
+unclass(fac1) 
+
+#Q3
+fac2 <- factor(char1) # create factor, don't specify levels
+# check ordering of levels using `levels()` function
+levels(fac2) 
+
+# Extra
+# get levels in the order they appear in the data
+unique_levels <- unique(char1)
+# use these to specify levels
+fac3 <- factor(char3, levels = unique_levels) 
 ```
 
 ```{r var-type-1-quiz}
 quiz(
-  question('Q1 What is the difference between a factor and an ordinal variable?',
+  question('Q1 What is the difference between a factor and an ordered factor?',
     answer('No difference.'),
-    answer('Ordinal levels have a natural order.', correct = TRUE),
+    answer('The levels of an ordered factor have a natural order.', correct = TRUE),
     answer('Factors store information more efficiently.'),
     allow_retry = TRUE
   ),
@@ -801,13 +840,16 @@ quiz(
     answer('character'),
     answer('integer', correct = TRUE),
     answer("logical"),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    correct = "Correct! Factors are built on top of integer vectors in R, where each integer value has a corresponding label that represents the level. If you have a factor vector, you can see its integer representation using the `unclass()` function, or verify for yourself that its basic type is an integer using `typeof()`.",
+    incorrect = "Incorrect! Create a factor variable, and check what basic type of vector it is built upon by using the `typeof()` function."
   ),
   question('Q3 If we do not specify the levels argument when creating a factor, what happens?',
     answer('R gives an error - the levels argument must be specified.'),
     answer('R creates a factor and the levels sort in alphabetical order.', correct = TRUE),
     answer('R creates a factor and the levels sort in the order they appear in the data.'),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    correct = "Correct! R creates a factor with all unique values as levels and they sort in alphabetical order. If we wanted the levels to sort in the order they appear in the data, we could use the `unique()` function to find all unique values in the order they appear in the data, and use this to specify the levels - try it yourself!"
   )
 )
 ```
