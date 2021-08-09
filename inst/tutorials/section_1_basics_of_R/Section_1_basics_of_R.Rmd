@@ -1320,7 +1320,7 @@ your_first_df[,'age']
 # OR....
 your_first_df$age 
 # OR...
-your_frist_df[, 4] # as the 4th column corresponds to age
+your_first_df[, 4] # as the 4th column corresponds to age
 ```
 
 - To obtain the rows 1 and 2, columns 3 and 4 - the female and age
