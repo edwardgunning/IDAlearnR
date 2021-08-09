@@ -411,6 +411,8 @@ Often, we are only interested in specific values in a vector.
 
 - You can index multiple elements by supplying a vector of values that you wish to index a vector by. To index the first and last (fourth) value of `v6` we can use the following `v6[c(1, 4)]`, which will return a (sub-)vector: `"1" "This is a string"`. 
 
+Note that `R` indexes values starting from `1` rather than `0` (unlike `Python` or `C`).
+
 Access the second and third values of `v1` (we have stored `v1` from above for you, so you do not have to create it again).
 
 ```{r assignment-4, exercise = TRUE}
@@ -850,7 +852,7 @@ levels(fac2)
 # get levels in the order they appear in the data
 unique_levels <- unique(char1)
 # use these to specify levels
-fac3 <- factor(char3, levels = unique_levels) 
+fac3 <- factor(char1, levels = unique_levels) 
 ```
 
 ```{r var-type-1-quiz}
@@ -1068,7 +1070,7 @@ These operations return __logical__ (also called *__boolean__* values) which we 
 The `!` operation can be used in front of any boolean value to return the opposite boolean logical. For example:
 
 - `!TRUE` returns `FALSE.`
-- `!(x == 5)` return all value of x that are __not__ equal to 5 as `TRUE`.
+- `!(x == 5)` return all values of x that are __not__ equal to 5 as `TRUE`.
 - `!is.na(x)` returns all values of x that are not missing. 
 
 ```{r logical-op-1, exercise=TRUE, exercise.lines = 10}
@@ -1134,28 +1136,32 @@ v1 %in% c(1:10) # returns a logical vector, indicating whether each element of v
 ```
 
 ## Indexing
+### 
+We have already touched on accessing values in a vector by specifying their position with `[]`, called _numerical indexing_. Remember, `v[1]` will select the first value from the vector `v`. We have also seen how we can access elements of a vector using their names.
 
-In R, specific values of a vector are accessed by indexing using brackets `[]`. For example, `v[1]` will select the first value from the vector `v`. Note that this means that `R` indexes values starting from `1` rather than `0` (unlike `Python` or `C`).
+It is also possible to use __negative indexing__. When a negative number is used to index a vector, all values __except__ for the value in that position are returned.
 
-Whatever you put inside the brackets, tells R which values of the vector object you want. There are two main ways that you can use indexing to access subsets of data in a vector: numerical and logical indexing.
+In this section, we will look more __numerical indexing__, and also introduce __logical indexing__, a powerful technique which uses logical statements which we learned about in the previous section to index vectors.
 
-There are two indexing types: numerical and logical. Numerical indexing accesses elements by their position, whereas logical indexing does it using logical statements. Logical indexing is very powerful when combined with the logical operations from the last section. It is also possible to use __negative indexing__. When a negative number is used to index a vector, all values __except__ for the value in that position are returned.
-
-```{r index-0, exercise=TRUE, exercise.lines = 14}
+```{r index-0, exercise=TRUE, exercise.lines = 15}
+# Create a vector
 v <- c(1, 5, -11, 33)
 
+# Numerical indexing:
 v[c(1,3)] # returns the first and third values of v using numerical indexing
 
+# Logical indexing:
 v[c(TRUE, FALSE, TRUE, FALSE)] # does the same as above but with a logical vector
 
 log_index <- v < 4 # create a logical index, where it is TRUE if it is less than 4 and FALSE otherwise
+log_index # look at index
 v[log_index] # use the logical index to find the values of interest
 
+# Negative indexing:
 v[-c(2,4)] # All other values that are not in position 2 and 4 will be returned
-
 ```
 
-
+### 
 Use __indexing__ (`[]`) to select:
 
 - The third value from `v`.
@@ -1185,7 +1191,7 @@ v[v>3]
 
 
 ```{r index-2-quiz}
-quiz(
+quiz(caption = "",
   question("Q1: The third value from `v`? (Multiple correct answers)",
     answer("`v[3]`", correct = TRUE),
     answer("`v[-3]`"),
