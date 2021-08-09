@@ -134,11 +134,11 @@ your_first_df <- data.frame(
 l <- list(first_element = c(1, 5, -11, 33) , second_element =  c(5, 1.2, -11, 2)) 
 ```
 
-## Assigning values to variables
+## Assigning values to objects
 
 ###
 
-- You can create new objects and assign values by typing `<-`.
+- You can create new objects and assign them values by typing `<-`.
 - All R statements where you create objects, called __assignment__ statements, have the same form:
 
 ```{r, assigment-example-1, eval = FALSE, echo = TRUE}
@@ -151,7 +151,7 @@ object_name # print object_name to screen by run the name of the object
 
 ###
 
-We will start by creating an object and assigning it a numeric value. Try the following:
+We will start by creating an object and assigning it a __numeric__ value. Try the following:
 
 - Create a variable `x` and store the number `3` in it, then print `x`.
 - After you have stored `3` in `x`, store `5` in `x`, and print `x` again.
@@ -197,7 +197,6 @@ Later, when you begin to use RStudio IDE, you can use the keyboard shortcut for 
 * <kbd>Alt</kbd> + <kbd>-</kbd> on Windows.
 * <kbd>Option</kbd> + <kbd>-</kbd> on Mac.
 
-
 ### 
 
 Use the following quiz to to test your knowledge and learn more about assignment statements.
@@ -220,16 +219,21 @@ x <- 1
 x + 3
 
 # Q2
+# try creating an object and assign it a value that is not numeric
+different_value <- "abc"
+different_value
+
+# Q3
 x <- 'first value'
 X <- 'Does this overwrite x?'
 print(x) # well... does it? 
 
-# Q3 
+# Q4 
 x = 5 # just mixing `=` and `<-` to make the point that they do the same thing.
 y <- 6 + 2 * x
 y
 
-# Q4
+# Q5
 3 -> z
 z
 
@@ -253,20 +257,27 @@ quiz(caption = "",
     allow_retry = TRUE,
     correct = "Correct. We can use R as a calculator to perform mathematical operations. `x + 3` adds 3 to the value we have assigned to x. "
   ),
-  question('Q2: Is R case sentitive?',
+  question("Q2: \"We can only assign __numeric__ values to objects in R\" - true or false?",
+    answer("True"),
+    answer("False", correct = TRUE),
+    allow_retry = TRUE,
+    correct = "Correct!  We can assign different types of values to objects in R. Two other types of value that we will encounter frequently are __character__ and __logical__ values. <br><br>__Character__ values, called __strings__ are any values written within a pair of single quote or double quotes. For example, we could create an object called `greeting` as follows: <br> `greeting <- \"Hello, how are you?\"` <br><br> __Logical__ values are special values that can be either `TRUE` or `FALSE` in R.",
+    incorrect = "Incorrect! Try to create an object called `different_value` and assign it a character value (e.g., \"abc\"), within a pair of single quote or double quotes."
+  ),
+  question('Q3: Is R case sentitive?',
     answer('Yes', correct = TRUE), 
     answer('No'),
     allow_retry = TRUE,
     correct = "Correct! R __is__ case sensitive. Assigning a value to `A` would __not__ overwrite a value assigned to `a`."
   ),
-  question('Q3: Given `x = 5` and `y <- 6 + 2 * x`, what is the value of `y`?',
+  question('Q4: Given `x = 5` and `y <- 6 + 2 * x`, what is the value of `y`?',
     answer('40'),
     answer('16', correct = TRUE),
     answer('Error'),
     allow_retry = TRUE,
-    correct = "Correct! <br> R will follow the __BODMAS__ (__B__rackets, __O__rders (powers/roots), __D__ivision, __M__ultiplication, __A__ddition, __S__ubtraction) rule for the order in which it will carry out calculations.<br> In this case, multiplication (`2 * x`) took precedence over addition. <br> If in doubt, we reccomend using brackets to be explicit about the order of operations. E.g., use brackets to differentiate `6 + (2 * x)` from `(6 + 2) * x`."
+    correct = "Correct!  R will follow the __BODMAS__ (__B__rackets, __O__rders (powers/roots), __D__ivision, __M__ultiplication, __A__ddition, __S__ubtraction) rule for the order in which it will carry out calculations.<br><br> In this case, multiplication (`2 * x`) took precedence over addition. <br><br> If in doubt, we reccomend using brackets to be explicit about the order of operations. E.g., use brackets to differentiate `6 + (2 * x)` from `(6 + 2) * x`."
     ), # reference link http://www.jeremy-oakley.staff.shef.ac.uk/mas113/rtutorial/using-r-as-a-calculator.html
-  question('Q4: What do you think `3 -> z` does?',
+  question('Q5: What do you think `3 -> z` does?',
     answer('Throws an Error'),
     answer('Saves the value `3` in `z`', correct = TRUE),
     answer('Test if `z` is greater than `3`'),
@@ -333,15 +344,13 @@ Watch [this short video](https://vimeo.com/220490316) by RStudio Education to fa
 
 In summary:
 
-- If the values are numbers, R recognises a vector as __numeric__. R will store the numbers in [double-precision floating-point format](https://en.wikipedia.org/wiki/Double-precision_floating-point_format), so you will see __numeric__ vectors referred to as being type __double__. E.g., `c(1.1, -2, 3)`.
+- If the values are numbers, R recognises a vector as __numeric__. R will store the numbers in [double-precision floating-point format](https://en.wikipedia.org/wiki/Double-precision_floating-point_format), so you will see __numeric__ vectors referred to as being of type __double__. E.g., `c(1.1, -2, 3)`.
 
 - If the values are strings, surrounded by quotation marks, R recognises a vector as a __character__. E.g., `c("hello", "goodbye")`.
 
 - __integer__ vectors contain integer values, followed by a capital L. E.g., `c(1L, 2L, 4L)`.
 
 - __logical__ vectors contain `TRUE` and `FALSE` (and `NA`) values. E.g., `c(TRUE, FALSE)`.
-
-We will explore these variable types, and their extensions, in more depth soon. 
 
 We can use the `typeof()` function to find the basic type of a vector.
 
@@ -352,7 +361,7 @@ typeof(logical_vec)
 
 ####
 
-Find out the type of `v1`, `v2` and `v3`. 
+Find out the type of `v1`, `v2` and `v3` (we have stored their values for you in the background, so you don't need to create them again). 
 
 ```{r vectors-2, exercise = TRUE}
 
@@ -368,7 +377,7 @@ typeof(v3)
 
 ### Combining vectors
 
-One of the very few basic rules in R is that vectors must contain objects of the same type.Therefore, you can use `c()` to combine multiple vectors into a single vector, but this comes with a health warning. If you are not careful, it may result in __type conversions__. Type conversion (also refered to as __typecasting__) refers to changing an entity of one datatype into another, which R can automatically do when we combine two vectors of different types.
+One of the very few basic rules in R is that vectors must contain objects of the same type. Therefore, you can use `c()` to combine multiple vectors into a single vector, but this comes with a health warning. If you are not careful, it may result in __type conversions__. Type conversion (also referred to as __typecasting__) refers to changing an object of one type into another, which R can automatically do when we combine two vectors of different types.
 
 ### 
 - Use the `c()` function to combine `v4` and `v5` and save in a new variable called `v6.`
@@ -392,33 +401,44 @@ To create the vector `v6`, R automatically converted the elements of `v4` to cha
 
 ### Subsetting vectors
 
+### 
+
 #### Index subsetting
 
 Often, we are only interested in specific values in a vector.
 
-- You can access a specific element of a vector by its index using the brackets operator (`[]`). For example, `v6[4]`, will return the fourth element of `v6`: `'This is a string'` (you can try this in the exercise box above).
+- You can access a specific element of a vector by its index using the square brackets operator `[]`. For example, `v6[4]`, will return the fourth element of `v6` (you can add this to the exercise box above to check!).
 
 - You can index multiple elements by supplying a vector of values that you wish to index a vector by. To index the first and last (fourth) value of `v6` we can use the following `v6[c(1, 4)]`, which will return a (sub-)vector: `"1" "This is a string"`. 
 
-We will deal with indexing in more detail later.
+Access the second and third values of `v1` (we have stored `v1` from above for you, so you do not have to create it again).
 
+```{r assignment-4, exercise = TRUE}
+
+```
+
+```{r assignment-4-solution}
+v1[c(2, 3)]
+```
+
+###
 #### Subsetting named vectors
 
-You can also have __named__ vectors where each entry takes a specific name. This can be useful for indexing (extracting) specific values from a vector without having to reference the position of the desired elements in the vector.
+You can also have __named__ vectors where each entry has a name. This can be useful for indexing (extracting) specific values from a vector without having to reference the position of the desired elements in the vector.
 
-```{r assignment-4, exercise=TRUE}
-
+```{r assignment-5, exercise = T}
 v2 <- c(first_word = "hello", second_word = "world")
 print(v2)
 
-v2["first_word"] # you can access values by names using square brackets
-# more on this later
+v2["first_word"] # you can access values by names using square brackets and single or double quotation marks.
 ```
 
 
 ## Sequences
-###
-You will often have to create a vector containing a sequence of numbers. For example, you might need to generate ID numbers for a data set. There are many ways to generate a sequence in R. We will illustrate two methods in this section. 
+
+### Creating Sequences
+
+You will often have to create a vector containing a sequence of numbers. For example, you might need to generate ID numbers for a data set. There are many ways to generate a sequence in R. We will use two methods in this section. 
 
 ### 
 Create a vector `v` that contains the numbers `1` to `7` via the following:
@@ -507,11 +527,15 @@ Another function that can be useful is the `rep` (short for replicate). Examine 
 
 ```
 
-<div id="sequences-3-hint">
-**Hint:** For the second and third parts of the exercise, you will need to specify either the `times` or `each` arguments. Can you guess which argument each task requires?
-</div>
+```{r sequences-3-hint}
+# For the second and third parts of the exercise, you will need to specify either the `times` or `each` arguments. Can you guess which argument each task requires?
+
+?rep
+```
 
 ```{r sequences-3-solution}
+# full solution
+
 v <- rep("All work and no play makes Jacks a dull boy", 10)  
 v
 
@@ -562,9 +586,9 @@ __Note__: The fourth element of `op_v1/ op_v2` returns `Inf`, because we are div
 
 ### Operations on vectors of different lengths
 
-Now, what happens if we add vectors of different lengths? 
+Now, what happens if we perform operations on vectors of different lengths? 
 
-The simplest case would be to perform an operation on a single numeric value (which is really just a vector of length 1) and a longer vector. 
+The simplest case would be to perform an operation between a single numeric value (which is really just a vector of length 1) and a longer vector. 
 
 Complete the following exercises and, based on the results, answer the quiz questions:
 
@@ -603,7 +627,7 @@ quiz(caption = "",
     answer('The first two elements of `op_v1` had `c(1, 7)` added to them element wise.'),
     answer('The shorter vector was replicated up to the same length as `op_v1` and then added together element wise.', correct = TRUE),
     allow_retry = TRUE,
-    correct = "Correct! This is something we need to be _very_ careful of. <br> Even though the vectors are of different length, R will not give an error message. It will recycle the shorter vector, replicating it up to the same length as the longer vector and then perform element-wise operations.<br> When the smaller vector's length is a multiple of the length of the bigger vector (like in this case), R will not even give a warning! <br> If you are skeptical, check that the following give the same result: <br> `c(1, 2) + op_v2` <br> `c(1, 2, 1, 2) + op_v2` <br> `rep(c(1, 2), times = 2) + op_v2` "
+    correct = "Correct! This is something we need to be _very_ careful of. <br><br> Even though the vectors are of different length, R will not give an error. It will recycle the shorter vector, replicating it up to the same length as the longer vector and then perform element-wise operations.<br><br> When the smaller vector's length is a multiple of the length of the bigger vector (like in this case), R will not even give a warning! <br><br> If you are skeptical, check that the following give the same result: <br> `c(1, 2) + op_v2` <br> `c(1, 2, 1, 2) + op_v2` <br> `rep(c(1, 2), times = 2) + op_v2` "
     )
 )
 ```
@@ -617,13 +641,14 @@ Also, all of the common arithmetic functions are available:
 - `max()`(maximum),
 - and many, many more...
 
-Functions such as `sqrt()`, which take a vector and operate on the entire vector are called __vectorised functions__. 
+Functions such as `sqrt()`, which take a vector and operate on every element of the vector are called __vectorised functions__. 
 
 ```{r vectorised example, echo = T}
 squares <- c(1, 4, 9, 16) # vector of first 4 square numbers
 sqrt(squares) # apply sqrt to entire vector
 ```
 
+<!-- 
 ### A word of caution
 
 In addition to working with vectors of different lengths, we must also be very careful with the __order of operations__! 
@@ -647,12 +672,12 @@ opp_v1 / (max(opp_v1) - min(opp_v1)) # ahhh that much more like it...
 
 # we should have returned: 0.02272727  0.11363636 -0.25000000  0.75000000
 ```
+-->
 
-
-## Variable types
+## Important vector classes 
 
 ###
-We have already been introduced to the basic types of vectors in R. Built on top of these are some other **_classes_** of objects which will also be important for our data analysis.
+We have already been introduced to the basic types of vectors in R. Built on top of these are some other **_classes_** of objects which will be important for our data analysis.
 
 ###
 In the data sets we will analyse, the variables we encounter will typically belong to one of the following classes:  
@@ -664,7 +689,7 @@ In the data sets we will analyse, the variables we encounter will typically belo
 |factor (unordered)   |Categorical data (simple classifications, like sex)             |
 |factor (ordered)   |Ordinal data (ordered classifications, like educational level)     |
 |character |Character data (strings)                                           |
-|logical   | `True` and `False`                                                |
+|logical   | `TRUE` and `FALSE`                                                |
 
 ###
 The `class()` function returns the class of an object. 
@@ -702,7 +727,7 @@ However, using a character vector to store this data has two problems.
 1. There are only three possible responses, but nothing saving you from typos.
 
 ```{r, echo = T}
-char2 <- char2 <- c("yes", "no", "yes", "naybe") # intentional typo
+char2 <-  c("yes", "no", "yes", "naybe") # intentional typo
 ```
 
 2. It only sorts alphabetically, which might not be the most useful way (maybe we would want it to be sorted in the order "no", "maybe", "yes")
@@ -742,7 +767,7 @@ sort(fac1)
 ```
 
 ### Ordered factors
-Sometimes the levels of a factor variable have a natural ordering that we want R to recognise. We call these ordinal data, and record them as an __ordered factor__.
+Sometimes the levels of a factor variable in a data set have a natural ordering that we want R to recognise. We call these ordinal data, and record them as an __ordered factor__.
 
 Consider data from a Likert scale.
 
@@ -778,7 +803,7 @@ likert_ordered <- ordered(likert_data, levels = likert_levels)
 likert_ordered
 ```
 
-When printing the levels, R shows that they have a definite ordering using the `<` symbol. Other than this, you will not notice any other differences from an unordered factor at first, but it can become important later when running statistical models.
+When printing the levels, R shows that they have a definite ordering using the `<` symbol. Other than this, you will not notice any differences from an unordered factor at first, but the ordering information can be useful later in statistical modelling.
 
 
 ### Extra - factors
@@ -855,9 +880,9 @@ quiz(
 )
 ```
 
-### Type testing and converting
+### Class testing and converting
 
-You can easily test if a vector is of a certain type or convert a vector using the following functions: 
+You can easily test if a vector is of a certain class or convert a vector using the following functions: 
 
 |test         |conversion   |
 |:------------|:------------|
@@ -883,8 +908,9 @@ x <- c("7", "7*", "7.0", "7,0")
 
 is.numeric(x)
 
-y <- as.numeric(x); y
+y <- as.numeric(x)
 
+y
 
 is.numeric(y)
 ```
@@ -895,7 +921,8 @@ quiz(
   question("Q1: Is `x` numeric?",
     answer('Yes'),
     answer('No', correct = TRUE),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    incorrect = "Incorrect! Try running `is.numeric(x)`"
   ),
   question("Q2: What is the class of `x`?",
     answer("logical"),
@@ -904,17 +931,18 @@ quiz(
     answer('ordinal'),
     answer('numeric'),
     answer('character', correct = TRUE),
+    correct = "Correct! The elements of `x` are strings, enclosed by `\"\"`, so R recognises `x` as a character vector.",
+    incorrect = "Incorrect! Try running `class(x)`",
     allow_retry = TRUE
   ),
   question('Q3: What is the length of `y`',
     answer('NA'),
     answer('2'),
     answer('4', correct = TRUE),
-    answer('NaN'),
     allow_retry = TRUE
   ),
-  question('Q4: what does the warning message when converting `x` to numeric mean?',
-    answer('R does not know how to convert some values of `x`', correct = TRUE),
+  question('Q4: What does the warning message when converting `x` to numeric mean?',
+    answer('R does not know how to convert some values of `x` to numeric, so it has set them to missing values `NA`', correct = TRUE),
     answer('Some values of `x` caused numeric overflow when converting'),
     allow_retry = TRUE
   ), 
@@ -962,10 +990,29 @@ Like most programming languages, `R` has several special values that are excepti
 - Since `Inf` is numeric, operations between `Inf` and a finite numeric are well-defined, and comparison operators work as expected.
 - the exception is `0/0` which results in `NaN` since it is not defined.
 
-```{r special-2, exercise=TRUE, exercise.lines = 5}
+### 
+Complete the quiz below to test your knowledge of special values
 
+```{r special-2, exercise=TRUE, exercise.lines = 5}
+# use this box to test your answers
 ```
 
+```{r special-2-solution}
+# Q1
+NA + 1
+
+# Q2
+sum(c(NA, 1, 2))
+
+# Q3
+sum(c(1, 2, NULL, 4))
+
+# Q4 
+Inf == Inf
+
+# Q5 
+log(-10)
+```
 
 ```{r special-2-quiz}
 quiz(
@@ -976,39 +1023,37 @@ quiz(
     answer('A warning message'),
     allow_retry = TRUE
   ),
-  question('Q2: Running `sum(c(NA, 1, 2))` results in an `NA`; what argument from the function `sum` can help the computation run as expected?',
+  question('Q2: The `sum()` function returns the sum of a vector of numbers. Running `sum(c(NA, 1, 2))` results in an `NA`; what argument from the function `sum` can help the computation run as expected?',
     answer('`na.retain = FALSE`'),
     answer('`na.rm = TRUE`', correct = TRUE),
+    correct = "Correct! Setting `na.rm = TRUE` means that missing values are removed from the vector before the computation is performed.",
     allow_retry = TRUE
   ),
-  question("Q3: Why does `NA == NA` return `NA`",
-    answer("It does not, its return `TRUE`"),
-    answer("The statement compares something __not available__ to something __not available__.", correct = TRUE),
-    allow_retry = TRUE
-  ),
-  question("Q4: What is the result of `sum(c(1, 2, NULL, 4))?`",
+  question("Q3: What is the result of `sum(c(1, 2, NULL, 4))?`",
     answer("`NA`"),
     answer("`NULL`"),
     answer("`7`", correct = TRUE)
   ),
-  question("Q5: What is the result of `Inf == Inf`? Note: that “==” asks the question “are these quantities equal?”. More logical operations are on the way",
+  question("Q4: What is the result of `Inf == Inf`? Note: that “==” asks the question “are these quantities equal?”. More logical operations are on the way",
     answer("`TRUE`", correct = TRUE),
     answer("`NA`"),
     answer("`NULL`"),
     allow_retry = TRUE
   ),
-  question("Q6: What is the result of `log(-10)`?",
+  question("Q5: What is the result of `log(-10)`?",
     answer("`TRUE`"),
-    answer("`NA`", correct = TRUE),
+    answer("`NaN`", correct = TRUE),
     answer("`NULL`"),
+    answer("`NA`"),
+    correct = "Correct! The logarithm function is only defined for positive numbers, you can't take the logarithm of negative values, so `NaN` is returned.",
     allow_retry = TRUE
   )
 )
 ```
 
 ## Logical operations
-
-We can use the standard operators to compare different data structures (vectors, matrices, data.frames, tibbles, etc.):
+###
+We can use the standard operators to compare vectors (and also data structures such as matrices, data.frames, tibbles, etc. which we will learn about later):
 
 - `==` (equality),
 - `!=` (inequality, the `!` is read as "is not"),
@@ -1017,8 +1062,9 @@ We can use the standard operators to compare different data structures (vectors,
 - `<=` (less than or equal to), 
 - `>=` (greater than or equal to). 
 
-These operations return boolean values (which we have seen before): `TRUE` or `FALSE` (often abbreviated to just `T` and `F`).
+These operations return __logical__ (also called *__boolean__* values) which we have seen before: `TRUE` or `FALSE`.
 
+### 
 The `!` operation can be used in front of any boolean value to return the opposite boolean logical. For example:
 
 - `!TRUE` returns `FALSE.`
@@ -1026,7 +1072,7 @@ The `!` operation can be used in front of any boolean value to return the opposi
 - `!is.na(x)` returns all values of x that are not missing. 
 
 ```{r logical-op-1, exercise=TRUE, exercise.lines = 10}
-x <- c(10,5,5,122)
+x <- c(10, 5, 5, 122)
 
 x == 5 # checks which values of x are equal to 5
 
@@ -1034,10 +1080,9 @@ x != 5 # checks which values of x are not equal to 5
 
 # or
 !(x == 5)
-
 ```
 
-
+### 
 The `|` and `&` operators work on boolean values:
 
 - `|` is the OR operator (e.g. `x | y` will return `TRUE` if either `x` OR `y` are `TRUE`).
@@ -1056,13 +1101,14 @@ x <- c(1,2,3,11) # if we wanted to see which values of x
 y <- c(-10:10) # are in y
 
 x %in% y # we get TRUE for any values of x that are in y and FALSE for if they are not present.
-
 ```
+
+###
 
 Given the vectors `v1` and `v2` run the following comparisons: 
 
-- Test if `v1` is greater than `2`.
-- Test `v1` and `v2` for equality (you should return values for each element).
+- Test if `v1` is greater than `2` (should return values for each element).
+- Test `v1` and `v2` for equality (should return values for each element).
 - Test for values of `v1` that are greater than `2` __OR__ values of `v2` that are less than `-3.`
 - Test which values of `v1` are in the vector `c(1:10)`
 
@@ -1078,14 +1124,13 @@ v2 <- c(1, 5.0, -11, 2)
 
 v1 > 2       # Each element is compared to 2, returns logical vector
 
-v1==v2       # Are corresponding elements equivalent, returns logical vector.
+v1 == v2       # Are corresponding elements equivalent? returns logical vector.
 
-v1!=v2       # Are corresponding elements *not* equivalent? Same as !(v1==v2)
+v1 != v2       # Are corresponding elements *not* equivalent? Same as !(v1==v2)
 
 (v1 > 2) | (v2 < -3)   # | is the boolean OR, returns a vector.
 
-v1 %in% c(1:10)
-
+v1 %in% c(1:10) # returns a logical vector, indicating whether each element of v1 is contained in c(1:10)
 ```
 
 ## Indexing
