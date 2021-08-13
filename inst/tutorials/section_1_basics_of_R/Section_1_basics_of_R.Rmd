@@ -1135,39 +1135,47 @@ v1 != v2       # Are corresponding elements *not* equivalent? Same as !(v1==v2)
 v1 %in% c(1:10) # returns a logical vector, indicating whether each element of v1 is contained in c(1:10)
 ```
 
-## Indexing
+## Subsetting vectors
+
 ### 
-We have already touched on accessing values in a vector by specifying their position with `[]`, called _numerical indexing_. Remember, `v[1]` will select the first value from the vector `v`. We have also seen how we can access elements of a vector using their names.
+*__Subsetting__* refers the use of indexing to accessing object elements. In this section, we will build on the indexing techniques for vectors which we have already seen, and combine them with the logical statements from the last section.
 
-It is also possible to use __negative indexing__. When a negative number is used to index a vector, all values __except__ for the value in that position are returned.
+### Introducing logical indexing
 
-In this section, we will look more __numerical indexing__, and also introduce __logical indexing__, a powerful technique which uses logical statements which we learned about in the previous section to index vectors.
+We have already looked at accessing values in a vector by specifying their position with `[]`, called _numerical indexing_. Remember, `v[1]` will select the first value from the vector `v`. We have also seen how to access elements of a vector using their names. 
 
-```{r index-0, exercise=TRUE, exercise.lines = 15}
+Furthermore, it is possible to use __negative indexing__. When a negative number is used to index a vector, all values __except__ for the value in that position are returned. For example,  `v[-1]` will select everything _except_ the first value from the vector `v`.
+
+In this section, we will take another look at __numerical indexing__, and also introduce __logical indexing__, a powerful technique which uses logical statements that we learned about in the previous section to index vectors. The below code demonstrates different types of indexing. Feel free to change it and try to access different elements of `v` yourself!
+
+```{r index-0, exercise=TRUE, exercise.lines = 17}
 # Create a vector
 v <- c(1, 5, -11, 33)
 
 # Numerical indexing:
-v[c(1,3)] # returns the first and third values of v using numerical indexing
+v[c(1, 3)] # returns the first and third values of v using numerical indexing
+# Negative indexing:
+v[-c(2, 4)] # All other values that are not in position 2 and 4 will be returned
 
 # Logical indexing:
 v[c(TRUE, FALSE, TRUE, FALSE)] # does the same as above but with a logical vector
 
-log_index <- v < 4 # create a logical index, where it is TRUE if it is less than 4 and FALSE otherwise
-log_index # look at index
-v[log_index] # use the logical index to find the values of interest
-
-# Negative indexing:
-v[-c(2,4)] # All other values that are not in position 2 and 4 will be returned
+# How we would use logical indexing in practice:
+logical_index <- v < 4 # v < 4 create a logical vector the same length as v,
+# where it is TRUE if the element in its position in v is less than 4 and FALSE otherwise
+logical_index # look at the vector
+v[logical_index] # use the logical index to find the values of interest
 ```
 
 ### 
 Use __indexing__ (`[]`) to select:
 
-- The third value from `v`.
-- The second to the fourth values from `v`.
-- The first and third values from `v` using a vector of numbers and a vector of booleans.
+- The third element of `v`.
+- The second to the fourth elements of `v`.
+- The first and third elements of `v` using numerical __and__ logical indexing.
 - All values in `v` greater than `3` using a logical statement.
+
+Then, test your knowledge with the quiz questions.
 
 ```{r index-1, exercise=TRUE, exercise.lines = 5}
 v <- c(1, 5, -11, 33)
@@ -1182,11 +1190,11 @@ v[3]             # third element of v1
 
 v[2:4]           # elements 2, 3, 4 of v1
 
-v[c(1,3)]        # elements 1 and 3 - note that your indexes are a vector
+v[c(1, 3)]        # elements 1 and 3 - note that your indexes are a vector
 
-v[c(T,F,T,F)]  # elements 1 and 2 - only the ones that are TRUE
+v[c(TRUE, FALSE, TRUE, FALSE)]  # elements 1 and 2 - only the ones that are TRUE
 
-v[v>3]     
+v[v>3]     # Logical indexing: v>3 creates a logical vector used to index
 ```
 
 
@@ -1198,39 +1206,36 @@ quiz(caption = "",
     answer("`v[c(3)]`", correct = TRUE),
     answer("`v[c(2)]`"),
     answer("`v[2]`"),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    correct = "Correct! `3` and `c(3)` are the same, and therefore can both be used to access the third element of `v`."
   ),
-  question("Q2: The second to the fourth values from `v`? (Multiple correct answers)",
+  question("Q2: The second to the fourth values from `v` using numeric indexing? (Multiple correct answers)",
     answer("`v[2,3,4]`"),
     answer("`v[c(2), c(4)]`"),
     answer("`v[c(2,3,4)]`", correct = TRUE),
     answer("`v[2:4]`", correct = TRUE),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    correct = "Correct! To access the second, third and fourth elements of `v`, we need to index using a single vector containing the numbers 2, 3 and 4. `c(2, 3, 4)` and `2:4` both create this vector."
   ),
-  question("Q3: To select the values which are either negative or greater than 10? (Multiple correct answers)" ,
+  question("Q3: To select the values which are either negative or greater than 10 using logical indexing? (One correct answer)" ,
     answer("`v[1:10]`"),
-    answer("`v[c(-2,-3)]`"),
+    answer("`v[v < 0 & v > 10]`"),
     answer("`v[v < 0 | v > 10]`", correct = TRUE),
-    answer("`v[3:4]`", correct = FALSE),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    correct = "Correct! To use logical indexing, we need to create a vector of `TRUE` and `FALSE` values indicating whether each element in `v` is negative __or__ greater than 10.<br>This is done by `v < 0 | v > 10` (remember from the last section that `|` is the __OR__ operator)."
   ),
   question("Q4: The first and third values from `v`? (Multiple correct answers)",
-    answer("`v[1,3]`"),
+    answer("`v[1, 3]`"),
     answer("`v[seq(from = 1, to = 3, by = 1)]`"),
-    answer("`v[c(1,3)]`", correct = TRUE),
-    answer("`v[c(T,F,T,F)]`", correct = TRUE),
-    allow_retry = TRUE
-  ),
-  question("Q5: Using a logical operation on the sequence of `v = c(1,5,-11,33)` get the second and fourth? (Multiple correct answers)",
-    answer("`v[v>=5]`", correct = TRUE),
-    answer("`v[!(v<3)]`", correct = TRUE),
-    answer("`v[v>4]`", correct = TRUE),
-    answer("`v[v == 5 | v == 33]`",correct = TRUE),
-    allow_retry = TRUE
-  )
-)
+    answer("`v[c(1, 3)]`", correct = TRUE),
+    answer("`v[c(T, F, T, F)]`", correct = TRUE),
+    allow_retry = TRUE,
+    correct = "Correct! `c(1, 3)` uses numeric indexing as we have seen previously, and `c(T, F, T, F)` uses logical indexing, creating a logical vector with TRUE in the first and third elements."
+  ))
 ```
 
+<!--  Comment out lists for now --->
+<!--
 ## Lists, briefly
 
 Lists are a versatile structure that allows for the storage of any data structure. A single list can contain all kinds of elements --- character strings, numeric vectors, matrices, other lists, and so on. The elements of lists are often named for easier access.
@@ -1274,68 +1279,131 @@ l[[3]] <- c(22, 23) # adds a vector as element 3 in the empty list l.
 l$Something <- "A thing"  # Appends an list element - "A thing", named "Something" - to the end of the list
 ```
 
-
 The function `names()` can be used to find the names of list elements.
+-->
 
 ## Data frames
+###
+Data frames are used to store tabular data in R - think of _"rows as observations, columns as variables"_ - and are frequently used in statistical modeling applications. 
 
-The data frame is a special kind of list used for storing dataset tables. Think of rows as cases, columns as variables. Each column is a vector, where the vectors may contain different variable types (e.g., numeric, logical, factor).
+Under the hood, a data frame is simply a list of equal-length vectors (we will cover lists in the next tutorial, the knowledge you have built up on vectors is sufficient for now). Each column of a data frame is a vector, and importantly these vectors may be of different classes (e.g., numeric, logical, factor). 
 
-Creating a dataframe:
+### 
+The `data.frame()` function can be used to create a data frame. We pass vectors as arguments to create columns, each separated by a `,`. We usually also supply column names.
 
-```{r, eval = TRUE, echo = TRUE}
+Run the code below to get a feel for creating data frames, and try adding extra variables to it.
+
+```{r df-example, exercise = TRUE}
 # create a data frame
 your_first_df <- data.frame(
-  ID = 1:4, # create a varaible (column) called ID
-  name = c("Stephen","Aoife","Pete","Sarah"), 
-  female = c(F,T,F,T), # add logical for 'female' varaible
-  age=c(22,33,44,55), # create a age varaible
-  stringsAsFactors = FALSE # other wise all 'strings' will be treated as factors
+  ID = 1:4, # create a variable (column) called ID
+  name = c("Stephen", "Aoife", "Pete", "Sarah"), 
+  female = c(F, T, F, T), # add logical for 'female' variable
+  age = c(22, 33, 44, 55) # create a age varaible
   )
+
+# print
+your_first_df
 ```
 
-### Indexing data frames
+```{r df-example-hint}
+# idea - we could add a height variable
 
-Indexing data frames is similar to vectors or lists. As data frames are two dimensional, you have to specify the __rows__ and __columns__ of interest, again, using square brackets. For example `your_first_df[rows_of_interest, cols_of_interest]`. As columns are names vectors, you can also specify via the variable name as well. Some examples are given below:
+your_second_df <- data.frame(
+  ID = 1:4, # create a variable (column) called ID
+  name = c("Stephen", "Aoife", "Pete", "Sarah"), 
+  female = c(F, T, F, T), # add logical for 'female' variable
+  age = c(22, 33, 44, 55), # create a age varaible
+  height = c(170, 175, 186, 161) # height in cm
+  )
+
+# print
+your_second_df
+```
+
+__Tip:__ For large data frames, using `head()` or `tail()` to print only the first or last few rows is usually a better idea than printing the entire object.
+
+###
+The `str()` function provides a quick and easy way to understand the *structure* of your data frame.
+
+```{r, echo = T}
+str(your_first_df)
+```
+
+###
+The number of rows and columns of the data.frame can accessed directly using `ncol()` and `nrow()`.
+
+```{r, echo = T}
+ncol(your_first_df)
+nrow(your_first_df)
+```
+
+###
+The column names can be accessed  using `names()` (or `colnames()`) and the row names using `rownames()`.
+
+```{r, echo = T}
+names(your_first_df)
+rownames(your_first_df)
+```
+
+###
+Both of these are __attributes__ of the data frame object, and can be viewed together using `attributes()`.
+
+```{r, echo = T}
+attributes(your_first_df)
+```
+
+
+### Subsetting data frames
+
+Subsetting data frames with indexing is similar to subsetting vectors vectors. However, as data frames are two dimensional, you have to specify the __rows__ and __columns__ of interest, again, using square brackets. For example `your_first_df[rows_of_interest, cols_of_interest]`.
+
+As columns are named vectors, you can also use named subsetting; as before with square brackets `your_first_df[, "column_name"]`, or using the `$` operator `your_first_df$column_name`. Some examples are given below.
+
+__Note:__ We have stored `your_first_df` in the background, so it doesn't need to be created again.
+
+###
 
 - To obtain the first row, all columns
 
 ```{r df-1, exercise=TRUE, exercise.lines = 3}
-your_first_df[1,] # return the first row  
+your_first_df[1, ] # return the first row  
 
-your_first_df[3,] # return the third row
+your_first_df[3, ] # return the third row
 ```
-
+###
 - To obtain the first column, all rows
 
 ```{r df-2, exercise=TRUE, exercise.lines = 3}
 your_first_df[, 1] 
 
 ```
-
+###
 - To obtain the age column, all rows
 
 ```{r df-3, exercise=TRUE, exercise.lines = 6}
-your_first_df[,'age']
+your_first_df[, 'age']
 # OR....
-your_first_df$age 
+your_first_df$age # note the $ indexing - very useful
 # OR...
 your_first_df[, 4] # as the 4th column corresponds to age
 ```
-
+###
 - To obtain the rows 1 and 2, columns 3 and 4 - the female and age
 
 ```{r df-4, exercise=TRUE, exercise.lines = 3}
-your_first_df[1:2,3:4]
-your_first_df[1:2,c('female', 'age')]
+your_first_df[1:2, 3:4]
+your_first_df[1:2, c('female', 'age')]
 ```
 
+###
 - To obtain the rows 1 and 3, all columns
 
 ```{r df-5, exercise=TRUE, exercise.lines = 3}
-your_first_df[c(1,3),]
+your_first_df[c(1, 3),]
 ```
 
+###
 How would you obtain all rows with age greater than 30?
 
 ```{r df-6, exercise=TRUE, exercise.lines = 3}
@@ -1343,8 +1411,40 @@ How would you obtain all rows with age greater than 30?
 ```
 
 ```{r df-6-solution}
+# access the age column and use it to 
+# perform logical indexing on the rows.
 your_first_df[your_first_df$age>30, ]
+```
 
+### Quiz
+
+```{r quiz-exercises, exercise = TRUE, exercise.lines = 8}
+# use this section to test your answers
+```
+
+```{r df-quiz}
+quiz(caption = "",
+  question("Q1: What would happen if we tried the following `data.frame(var1 = c(1, 2), var2 = c(1, 2, 3))`?",
+    answer("R will create a data frame, and the third element of `var1` will be `NA`"),
+    answer("R will throw an error - vectors being used to create columns of a data frame must be of equal length", correct = TRUE),
+    answer("R will create a data frame, and the first element of the `var1` columns will be recycled and used again as the third element"),
+    allow_retry = TRUE,
+    correct = "Correct! Vectors used to create columns of a data frame must be of equal length, R will throw an error otherwise.",
+    incorrect = "Incorrect! Run `data.frame(var1 = c(1, 2), var2 = c(1, 2, 3))` in the exercise above, then try again."
+  ),
+  question("Q2: Which of the following commands would we use set new row names for `your_first_df`?",
+    answer("`names(your_first_df) <- c(\"row1\", \"row2\", \"row3\", \"row4\")`"),
+    answer("`rownames(your_first_df) <- c(\"row1\", \"row2\", \"row3\", \"row4\")`", correct = TRUE),
+    answer("`rownames(your_first_df, c(\"row1\", \"row2\", \"row3\", \"row4\"))`"),
+    allow_retry = TRUE,
+    correct = "Correct! We can __assign__ a vector of new row names using `rownames(your_first_df) <- c(\"row1\", \"row2\", \"row3\", \"row4\")`", incorrect = "Test the commands in the exercise box and try a different answer."),
+  question("Q3: What __class__ of object will `your_first_df[1, ]` return?",
+    answer("A data frame with 1 row and 4 columns."),
+    answer("A data frame with 4 rows and 1 column."),
+    answer("A vector of length 4.", correct = TRUE),
+    allow_retry = TRUE,
+    correct = "Correct! We will finish this section on this important note. Unless we specify, *__R will return the simplest possible data structure__*. That is, if we subset a single row or column, R will return a vector. To avoid this happening and return a data frame with 1 row and 4 columns, then we would have to specify `drop = FALSE` as follows: `your_first_df[1,, drop = F]`. Onviously, if we subset more than one row or columns, R will have to return a data frame.",
+  incorrect = "Incorrect! Try `is.vector(your_first_df[1, ])` or `is.data.frame(your_first_df[1, ])`"))
 ```
 
 <!-- ## Functions -->
