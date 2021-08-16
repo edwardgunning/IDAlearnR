@@ -4,10 +4,12 @@
 # IDAlearnR
 
 <!-- badges: start -->
+
+<img src="inst/figures/hex-badge.png" width="200px" />
 <!-- badges: end -->
 
 The goal of IDAlearnR is to publish interactive tutorials for the module
-“Introduction to Data Analytics with R”.
+**“Introduction to Data Analytics with R”**.
 
 ## Installation
 

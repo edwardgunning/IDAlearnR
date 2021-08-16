@@ -16,9 +16,12 @@ knitr::opts_chunk$set(
 # IDAlearnR
 
 <!-- badges: start -->
+```{r, fig.asp=1, out.width="200px", echo = FALSE}
+knitr::include_graphics(path = "inst/figures/hex-badge.png")
+```
 <!-- badges: end -->
 
-The goal of IDAlearnR is to publish interactive tutorials for the module "Introduction to Data Analytics with R".
+The goal of IDAlearnR is to publish interactive tutorials for the module **"Introduction to Data Analytics with R"**.
 
 ## Installation
 
