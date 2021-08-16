@@ -137,7 +137,7 @@ your_first_df <- data.frame(
 ##
 Welcome! In this learnR tutorial, you will be introduced to programming basics in R.  
 
-The topics covered in this section are shown on the left hand side of this page. You can navigate your way through by clicking on the topic you want to complete, or you can work through the sections sequentially. You can click "next topic" below to move top the first topic.
+The topics covered in this section are shown on the left hand side of this page. You can navigate your way through by clicking on the topic you want to complete, or you can work through the sections sequentially. You can click "next topic" below to move to the first topic.
 
 __Tip:__ If you are viewing this in a pop-up browser from RStudio, click ![](images/open-browser.png) in the top left-hand corner for the best experience!
 
