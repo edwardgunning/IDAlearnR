@@ -1768,6 +1768,7 @@ par(mfrow = c(1, 2)) # create 2 x 1 layout for side-by side plotting
 ```
 
 ```{r}
+rm(mtcars)
 data("mtcars")
 ```
 
@@ -1780,6 +1781,7 @@ boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"),
 ```
 
 ```{r}
+rm(mtcars)
 data("mtcars")
 ```
 
@@ -1798,6 +1800,7 @@ plot(disp ~ wt, data = mtcars, type = "n",
 ```
 
 ```{r}
+rm(mtcars)
 data("mtcars")
 ```
 
@@ -1824,6 +1827,7 @@ points(disp ~ wt, data = mtcars, subset = am == "manual", # only manual = automa
 ```
 
 ```{r}
+rm(mtcars)
 data("mtcars")
 ```
 
@@ -1856,6 +1860,7 @@ title(main = "Displacement vs. Weight")
 ```
 
 ```{r}
+rm(mtcars)
 data("mtcars")
 ```
 
@@ -1890,6 +1895,7 @@ text(x = 2.5, y = 400, label = correlation_string)
 ```
 
 ```{r}
+rm(mtcars)
 data("mtcars")
 ```
 
