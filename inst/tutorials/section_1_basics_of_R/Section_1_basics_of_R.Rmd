@@ -1581,6 +1581,10 @@ mtcars$am <- factor(mtcars$am, levels = c(0, 1), labels = c("automatic", "manual
 boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"))
 ```
 
+```{r, echo = F}
+rm(mtcars)
+```
+
 ###
 __Note__:
 
@@ -1722,6 +1726,7 @@ __Exercise__: Try to recreate the following plot of data from the the `mtcars` d
 
 ```{r, fig.width = 8.5, fig.asp = 0.5}
 data("mtcars")
+
 # factor is coded 1 and 0s, give it proper labels
 mtcars$am <- factor(mtcars$am, levels = c(0, 1), labels = c("automatic", "manual")) 
 
