@@ -4,6 +4,8 @@ output:
   learnr::tutorial:
     progressive: true
     allow_skip: true
+    highlight: pygments
+    ace_theme: textmate
 runtime: shiny_prerendered
 ---
 
@@ -29,7 +31,7 @@ runtime: shiny_prerendered
   --header-font-is-google: 1;
   --code-font-family: 'Fira Mono';
   --code-font-is-google: 1;
-  --base-font-size: 20px;
+  --base-font-size: 15px;
   --text-font-size: 1rem;
   --code-font-size: 0.9rem;
   --code-inline-font-size: 1em;
@@ -58,7 +60,10 @@ runtime: shiny_prerendered
 
 
 
-
+code {
+  font-family: Consolas, Monaco, 'Courier New', monospace;
+  font-size: 90%;
+}
 
 h1, #TOC>ul>li {
   color: #005337;
@@ -94,6 +99,7 @@ body {
   font-family: var(--text-font-family), var(--text-font-family-fallback), var(--text-font-base);
   font-weight: 400;
   color: var(--text-color);
+  font-size: var(--base-font-size)
 }
 
 
@@ -108,15 +114,12 @@ a, a > code {
 
 ```{r setup, include=FALSE}
 library(learnr)
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, fig.align = "center", fig.asp = 1, fig.height = 5, fig.width = 5)
 
-# question_retry <- function(text, ...){
-#   learnr::question(text, allow_retry = FALSE, ...)
-# }
 
 # set up variables
 
-# set for leter ex
+# set for later ex
 v1 <- c(1, 5, -11, 33)       # Combines Numeric vector, length 4
 v2 <- c("hello","world")    # Character vector, length 2 (a vector of strings)
 v3 <- c(TRUE, TRUE, FALSE)  # Logical vector, same as c(T, T, F)
@@ -126,13 +129,18 @@ your_first_df <- data.frame(
   ID = 1:4, # create a varaible (column) called ID
   name = c("Stephen","Aoife","Pete","Sarah"), 
   female = c(F,T,F,T), # add logical for 'female' varaible
-  age=c(22,33,44,55), # create a age varaible
-  stringsAsFactors = FALSE # other wise all 'strings' will be treated as factors
+  age=c(22,33,44,55) # create a age varaible
   )
-
-
-l <- list(first_element = c(1, 5, -11, 33) , second_element =  c(5, 1.2, -11, 2)) 
+#l <- list(first_element = c(1, 5, -11, 33) , second_element =  c(5, 1.2, -11, 2)) 
 ```
+
+##
+Welcome! In this learnR tutorial, you will be introduced to programming basics in R.  
+
+The topics covered in this section are shown on the left hand side of this page. You can navigate your way through by clicking on the topic you want to complete, or you can work through the sections sequentially. You can click "next topic" below to move top the first topic.
+
+__Tip:__ If you are viewing this in a pop-up browser from RStudio, click ![](images/open-browser.png) in the top left-hand corner for the best experience!
+
 
 ## Assigning values to objects
 
@@ -144,19 +152,19 @@ l <- list(first_element = c(1, 5, -11, 33) , second_element =  c(5, 1.2, -11, 2)
 ```{r, assigment-example-1, eval = FALSE, echo = TRUE}
 object_name <- value
 
-object_name # print object_name to screen by run the name of the object
-
-
+object_name # print object_name to screen by running the name of the object
 ```
 
 ###
 
-We will start by creating an object and assigning it a __numeric__ value. Try the following:
+We will start by creating an object and assigning it a __numeric__ value. Try the following exercise.
+
+__Exercise__:
 
 - Create a variable `x` and store the number `3` in it, then print `x`.
 - After you have stored `3` in `x`, store `5` in `x`, and print `x` again.
 
-```{r assignment-1, exercise=TRUE}
+```{r assignment-1, exercise=TRUE, exercise.lines = 6}
 
 ```
 
@@ -184,9 +192,9 @@ You could also use `=` to assign values to variables. Why use `<-` instead of `=
 - `=` is usually reserved for function arguments.
 - `<-` more explicitly shows that variable assignment is being carried out (particularly when `=` is reserved for another purpose).
 
-- [Hadley Wickham](http://hadley.nz/) (Chief Scientist at RStudio & creator of the [tidyverse packages](https://www.tidyverse.org/packages/)) recommends against using `=` instead of `<-` in the [R for Data Science book](https://r4ds.had.co.nz/workflow-basics.html#coding-basics) with [Garrett Grolemund](https://www.rstudio.com/speakers/garrett-grolemund/), and also in the [tidyverse style guide](https://style.tidyverse.org/syntax.html#assignment-1).
+<!---- [Hadley Wickham](http://hadley.nz/) (Chief Scientist at RStudio & creator of the [tidyverse packages](https://www.tidyverse.org/packages/)) recommends against using `=` instead of `<-` in the [R for Data Science book](https://r4ds.had.co.nz/workflow-basics.html#coding-basics) with [Garrett Grolemund](https://www.rstudio.com/speakers/garrett-grolemund/), and also in the [tidyverse style guide](https://style.tidyverse.org/syntax.html#assignment-1). --->
 
-- The majority of the help you find online, on StackOverflow for example, will use `<-`.
+- The majority of the help you find online, on [StackOverflow](https://stackoverflow.com/questions/tagged/r) for example, will use `<-`.
 
 <!--- - For historical reasons: the computers that `R` was developed on actually had a `<-` button. --->
 
@@ -199,9 +207,9 @@ Later, when you begin to use RStudio IDE, you can use the keyboard shortcut for 
 
 ### 
 
-Use the following quiz to to test your knowledge and learn more about assignment statements.
+__Exercise__: Use the following quiz to test your knowledge and learn more about assignment statements.
 
-```{r quiz-prac-1, exercise=TRUE, exercise.lines = 5}
+```{r quiz-prac-1, exercise=TRUE, exercise.lines = 12}
 # if you are unsure, or want to test your answer, you can type code in here
 
 
@@ -242,10 +250,10 @@ z
 
 # pro tip for funky looking code
 x <- 3 -> y
-# seriously though, this is nice to be able to do but someone else reading your code will get a headache from doing this kind of stuff too much...
+# assigns 3 to both x and y
+# Again though, very unconventional and could cause confusion for soomebody reading your code
 
-x <- y <- 3 # this is quite handy and is much more readable
-
+x <- y <- 3 # this is does the same and is much more readable
 ```
 
 ```{r quiz-intro-1}
@@ -262,7 +270,7 @@ quiz(caption = "",
     answer("False", correct = TRUE),
     allow_retry = TRUE,
     correct = "Correct!  We can assign different types of values to objects in R. Two other types of value that we will encounter frequently are __character__ and __logical__ values. <br><br>__Character__ values, called __strings__ are any values written within a pair of single quote or double quotes. For example, we could create an object called `greeting` as follows: <br> `greeting <- \"Hello, how are you?\"` <br><br> __Logical__ values are special values that can be either `TRUE` or `FALSE` in R.",
-    incorrect = "Incorrect! Try to create an object called `different_value` and assign it a character value (e.g., \"abc\"), within a pair of single quote or double quotes."
+    incorrect = "Incorrect! Try to create an object called `different_value` and assign it a character value (e.g., \"abc\"), within a pair of single or double quotes."
   ),
   question('Q3: Is R case sentitive?',
     answer('Yes', correct = TRUE), 
@@ -300,14 +308,14 @@ The `c()` function (read __combine__ for `c`) is used to combine multiple values
 For example, the command `c(1, 2, 3, 4)` combines the numbers `1` to `4` in a vector of type __numeric__.
 
 ### 
-
-Using the `c()` function create the following vectors:
+__Exercise__:
+Using the `c()` function, create the following vectors:
 
 - `v1` containing numbers `1`, `5`, `-11`, and `33`.
 - `v2` containing strings `"Hello"`, and `"world"`.
 - `v3` containing logical `TRUE`, `TRUE`, and `FALSE`.
 
-```{r vectors-1, exercise = TRUE}
+```{r vectors-1, exercise = TRUE, exercise.lines = 8}
 
 ```
 
@@ -359,9 +367,9 @@ logical_vec <- c(TRUE, FALSE)
 typeof(logical_vec)
 ```
 
-####
-
-Find out the type of `v1`, `v2` and `v3` (we have stored their values for you in the background, so you don't need to create them again). 
+###
+__Exercise__:
+Find out the type of `v1`, `v2` and `v3` (we have stored them for you in the background, so you don't need to create them again). 
 
 ```{r vectors-2, exercise = TRUE}
 
@@ -380,6 +388,8 @@ typeof(v3)
 One of the very few basic rules in R is that vectors must contain objects of the same type. Therefore, you can use `c()` to combine multiple vectors into a single vector, but this comes with a health warning. If you are not careful, it may result in __type conversions__. Type conversion (also referred to as __typecasting__) refers to changing an object of one type into another, which R can automatically do when we combine two vectors of different types.
 
 ### 
+__Exercise__:
+
 - Use the `c()` function to combine `v4` and `v5` and save in a new variable called `v6.`
 - Check the type of `v6.`
 
@@ -401,19 +411,18 @@ To create the vector `v6`, R automatically converted the elements of `v4` to cha
 
 ### Subsetting vectors
 
-### 
-
 #### Index subsetting
 
 Often, we are only interested in specific values in a vector.
 
-- You can access a specific element of a vector by its index using the square brackets operator `[]`. For example, `v6[4]`, will return the fourth element of `v6` (you can add this to the exercise box above to check!).
+- You can access a specific element of a vector by its index using the square brackets operator `[]`. For example, `v6[4]`, will return the fourth element of `v6` (you can add this command to the exercise box above to check!).
 
 - You can index multiple elements by supplying a vector of values that you wish to index a vector by. To index the first and last (fourth) value of `v6` we can use the following `v6[c(1, 4)]`, which will return a (sub-)vector: `"1" "This is a string"`. 
 
-Note that `R` indexes values starting from `1` rather than `0` (unlike `Python` or `C`).
+Note that `R` indexes values starting from `1` rather than `0` (unlike Python or C).
 
-Access the second and third values of `v1` (we have stored `v1` from above for you, so you do not have to create it again).
+###
+__Exercise__: Access the second and third values of `v1` (we have stored `v1` from above for you, so you do not have to create it again).
 
 ```{r assignment-4, exercise = TRUE}
 
@@ -430,7 +439,7 @@ You can also have __named__ vectors where each entry has a name. This can be use
 
 ```{r assignment-5, exercise = T}
 v2 <- c(first_word = "hello", second_word = "world")
-print(v2)
+v2 # print
 
 v2["first_word"] # you can access values by names using square brackets and single or double quotation marks.
 ```
@@ -443,13 +452,13 @@ v2["first_word"] # you can access values by names using square brackets and sing
 You will often have to create a vector containing a sequence of numbers. For example, you might need to generate ID numbers for a data set. There are many ways to generate a sequence in R. We will use two methods in this section. 
 
 ### 
-Create a vector `v` that contains the numbers `1` to `7` via the following:
+__Exercise__: Create a vector `v` that contains the numbers `1` to `7` via the following:
 
 - Using the `:` which will create a sequence (`x:y` will generate a sequence from `x` to `y` with a spacing of `1` unit between values).
 
 - Using the `seq()` function. R has an extensive help function, run `?seq` to look up the documentation of how to use the `seq`. In particular, look to the arguments section to see what values you should pass to the `seq()` function.
 
-```{r sequences-1, exercise = TRUE}
+```{r sequences-1, exercise = TRUE, exercise.lines = 7}
 
 ```
 
@@ -477,6 +486,7 @@ We used the `from = 1` argument to define the first term in the sequence, `to = 
 Instead of specifying the increment using the `by` argument, we could instead specify the __number of terms__ in the sequence using the `length.out` argument. 
 
 ### 
+__Exercise:__ 
 
 - Use `seq()`, again specifying the `by` argument, to generate a sequence from `-10`, to `10`, where the sequence increases in steps of `2`. Call it `v_by`.
 
@@ -484,7 +494,7 @@ Instead of specifying the increment using the `by` argument, we could instead sp
 
 - Now that you know the length of `v_by`, create the same sequence using `seq()`, but specify `length.out` instead of `by`. Call it `v_out` and compare it to `v_by`.
 
-```{r sequences-2, exercise = TRUE}
+```{r sequences-2, exercise = TRUE, exercise.lines = TRUE}
 
 ```
 
@@ -519,7 +529,9 @@ v_out
 
 ### Extra: Replication
 
-Another function that can be useful is the `rep` (short for replicate). Examine the help file to see how the `rep` function operates and answer the following:
+Another function that can be useful is the `rep` (short for replicate). Examine the help file to see how the `rep` function operates and complete the following exercise.
+
+__Exercise__:
 
 - create a vector that contains the string `"All work and no play makes Jack a dull boy"` 10 times.
 - create a vector that contains the sequence `1:3` where the sequence is repeated 2 __times__.
@@ -563,6 +575,8 @@ You can use the normal mathematical operations between vectors. The typical arit
 
 Operations between vectors are performed element-wise. When vectors are of the same length, this is straightforward to understand. Investigate this in the following exercise.
 
+__Exercise__:
+
 1. Add `op_v1` and `op_v2` together. Make sure you are happy that each element in `op_v1` was added to the corresponding element in `op_v2`.
 
 2. Divide `op_v1` by `op_v2` and note the output.
@@ -592,7 +606,9 @@ Now, what happens if we perform operations on vectors of different lengths?
 
 The simplest case would be to perform an operation between a single numeric value (which is really just a vector of length 1) and a longer vector. 
 
-Complete the following exercises and, based on the results, answer the quiz questions:
+Complete the following exercise and, based on the results, answer the quiz questions:
+
+__Exercise__:
 
 1. Subtract the value `1` from `op_v1`.
 
@@ -895,6 +911,8 @@ You can easily test if a vector is of a certain class or convert a vector using 
 |is.character |as.character |
 |is.ordered   |as.ordered   |
 
+__Exercise__:
+
 Given the following vector `x`: 
 
 - Test if `x` is a numeric variable.
@@ -993,7 +1011,9 @@ Like most programming languages, `R` has several special values that are excepti
 - the exception is `0/0` which results in `NaN` since it is not defined.
 
 ### 
-Complete the quiz below to test your knowledge of special values
+__Exercise__:
+
+Complete the quiz below to test your knowledge of special values.
 
 ```{r special-2, exercise=TRUE, exercise.lines = 5}
 # use this box to test your answers
@@ -1107,6 +1127,8 @@ x %in% y # we get TRUE for any values of x that are in y and FALSE for if they a
 
 ###
 
+__Exercise__:
+
 Given the vectors `v1` and `v2` run the following comparisons: 
 
 - Test if `v1` is greater than `2` (should return values for each element).
@@ -1168,6 +1190,8 @@ v[logical_index] # use the logical index to find the values of interest
 ```
 
 ### 
+__Exercise__: 
+
 Use __indexing__ (`[]`) to select:
 
 - The third element of `v`.
@@ -1445,6 +1469,454 @@ quiz(caption = "",
     allow_retry = TRUE,
     correct = "Correct! We will finish this section on this important note. Unless we specify, *__R will return the simplest possible data structure__*. That is, if we subset a single row or column, R will return a vector. To avoid this happening and return a data frame with 1 row and 4 columns, then we would have to specify `drop = FALSE` as follows: `your_first_df[1,, drop = F]`. Onviously, if we subset more than one row or columns, R will have to return a data frame.",
   incorrect = "Incorrect! Try `is.vector(your_first_df[1, ])` or `is.data.frame(your_first_df[1, ])`"))
+```
+
+## Plotting
+
+### The base R plotting system
+
+Now that we have seen how tabular data can be constructed and stored in R, it is time to introduce the Base R Graphics System. These built in plotting methods in R allow data graphics to be created quickly and easily.
+
+###
+Creating data graphics with the Base R system typically consists of two steps:
+
+__Step 1.__ Calling a new plot. We use functions such as `plot(x = vector_1, y = vector_2)` to initialise a new scatterplot or `hist(x = vector_1)` to initialise a new histogram. Basically, this will will launch a graphics device (if one is not already open) and draw a new plot. In this section, we will learn about `plot()`, `boxplot()` and `hist()`.
+
+__Step 2.__ Annotating the existing plot. We can add lines, points, text, titles and labels to a plot that is already drawn.
+
+### Data set
+
+To practice plotting, we will use the `cars` data set. We do not need to create or read in this data set, it is stored within R as a data frame. The data give the speed of cars and the distances taken to stop. Run and add to the following code box to become familiar with the data set (*tip*: the help function `?` works for built in data sets too).
+
+```{r plotty, exercise = T, exercise.lines = 10}
+?cars # use the help function to get information
+
+str(cars) # look at structure
+
+head(cars, n = 5) # look at first 5 rows
+# or
+# tail(cars, n = 5) # look at last 5 rows
+```
+
+### Histogram
+
+A simple histogram can be created using the `hist()` function.
+
+```{r, echo = T}
+hist(cars$dist)
+```
+
+We have passed the variable which we want to make a histogram of to `hist()` as a vector, but `hist()` has many other arguments, letting you set the title, x axis label, y axis label, colour etc.
+
+###
+__Exercise:__ Use the help function to investigate the arguments of the `hist()` function, and try to recreate the following plot.
+
+```{r recreate, echo = F}
+hist(cars$dist, xlab = "Stopping distance (ft)", main = "Histogram of stopping distance",
+     breaks = 12, col = "lightblue")
+abline(v = mean(cars$dist), lwd = 2, lty = 2)
+```
+
+**Tip:** The dashed vertical line is at the mean value of `cars$dist`. Use the `abline()` function to annotate this line once after you have used the `hist()` function.
+
+
+```{r plot2, exercise = TRUE, exercise.lines = 10}
+
+```
+
+```{r plot2-hint}
+# hints:
+
+# help on the histogram
+?hist
+
+# help on the vertical line
+?abline
+
+# and more information on graphical parameters such as line type
+?par
+```
+
+```{r plot2-solution}
+# full solution with explanation of arguments:
+
+hist(x = cars$dist,
+     xlab = "Stopping distance (ft)", # xlab specifies the x axis label
+     main = "Histogram of stopping distance", # main is the main title of the plot
+     breaks = 12, # number of breaks for dividing the histogram into bins (try changing this and see what happens)
+     col = "lightblue") # color 
+
+# overlay straight line with 
+abline(v = mean(cars$dist), # v means a vertical line crossing the x axis at the point we supply
+       lwd = 2, # lwd := line width, we make it a bit thicker than usual (default is 1)
+       lty = 2) # lty = 2 gives dashed lines, we could have also used: lty = "dashed"
+
+# note: lty can either be specified as an integer
+#(0=blank, 1=solid (default), 2=dashed, 3=dotted, 4=dotdash, 5=longdash, 6=twodash)
+# or as one of the character strings:
+#"blank", "solid", "dashed", "dotted", "dotdash", "longdash", or "twodash".
+```
+
+
+### Boxplot
+Boxplots can be created using the `boxplot()` function. We can pass a vector as the first argument.
+
+```{r, echo = TRUE}
+boxplot(cars$speed, ylab = "Speed (mph)")
+```
+
+### 
+If we have a factor variable in our data set, then we can create a separate boxplot for each level by passing a **formula** as the first argument. A formula has form of `y-axis ~ x-axis`. Anytime you see a `~` in R, it’s a formula. 
+
+Look at this example on different data set about cars in R (the `mtcars` data set). We make a boxplot of `disp` (Displacement) _by transmission_, which allows us to compare between manual and automatic cars.
+
+```{r, echo = FALSE}
+data("mtcars")
+```
+
+```{r boxplot, echo = TRUE}
+# factor is coded 1 and 0s, give it proper labels
+mtcars$am <- factor(mtcars$am, levels = c(0, 1), labels = c("automatic", "manual")) 
+
+boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"))
+```
+
+###
+__Note__:
+
+- We did not have to type `mtcars$disp` or `mtcars$am` in the formula. Because we supplied `data = mtcars`, R knows that we are referring to its column names in the argument.
+
+- Because there are two boxplots (one for each type of transmission), we were able to supply a vector of color names: `col = c("red", "blue")`. If we had supplied a single color, R would have recycled it and used it to color both boxes. 
+
+### Scatterplot
+
+Scatterplots can be made using the `plot()` function. Run the following code to create a scatterplot of the cars data set.
+
+```{r scatter1, exercise = T, exercise.lines = 6}
+# run this code:
+plot(x = cars$speed, y = cars$dist)
+
+# alternatively use formula notation
+# plot(dist ~ speed, data = cars)
+# ^ gives the same plot
+```
+###
+Each point corresponds to a row in the `cars` data set. Its position along the x (horizontal) axis is determined by its speed, and its position along the y (vertical) axis is determined by its stopping distance. It can be seen that cars with a higher speed also tend to have a stopping distance.
+
+###
+While the default for a plot is points, there are a number of different options:
+
+We set `type = “p”` for points,
+`type = “l”` for lines,
+`type = “b”` for both, 
+`type = “c”` for the lines part alone of “b”, 
+`type = “o”` for both “overplotted”,
+`type = “h”` for histogram like (or high-density) vertical lines,
+`type = "s"` and `type = "S"` for stair steps, and
+`type = “n”` for no plotting.
+
+```{r, out.width='300px', fig.align='center'}
+knitr::include_graphics(path = "https://r-charts.com/en/tags/base-r/lines_files/figure-html/plot-line-types.png")
+```
+
+### Plot annotation
+
+Once we have created a plot, the second step is to annotate it. Some important annotation functions which can be used to add to existing plots are:
+
+- `lines()` adds lines to a plot.
+
+- `points()` adds points to a plot.
+
+- `text()` adds text labels to a plot, given x and y coordinates of where the labels should be placed.
+
+- `title()` adds annotations to the title, subtitle and axis labels.
+
+- `abline()` adds straight lines to the plot. We can supply the x intercept using the argument `v` for a straight vertical line, the y intercept using `h` for a straight horizontal line, or supply the intercept (`a`) and slope (`b`) of any line. Furthermore, if we estimate a trend line using the `lm()` function in R, we can pass the object we create directly to `abline()` and it will automatically overlay it on the plot.
+
+###
+
+__Exercise__: Work through the hints to see the evolution of a plot:
+
+```{r evo, exercise = TRUE, fig.asp=1, exercise.lines = 8}
+plot(dist ~ speed, data = cars, xlab = "Speed", ylab = "Stopping Distance")
+```
+
+```{r evo-hint-1}
+# Step 1: add title
+plot(dist ~ speed, data = cars, xlab = "Speed", ylab = "Stopping Distance")
+title(main = "Scatterplot of the cars data set")
+```
+
+
+```{r evo-hint-2}
+# Step 2: add trendline
+# lm() estimates a resgression line and it uses formula notation
+plot(dist ~ speed, data = cars, xlab = "Speed", ylab = "Stopping Distance")
+title(main = "Scatterplot of the cars data set")
+abline(lm(formula = dist ~ speed, data = cars), lty = 2, lwd = 2, col = "blue") # blue dashed trendline
+```
+
+
+```{r evo-solution}
+# Step 3 (final step): Annotate with a text label
+# we position it at about x = 9 and y = 100
+plot(dist ~ speed, data = cars, xlab = "Speed", ylab = "Stopping Distance")
+title(main = "Scatterplot of the cars data set")
+abline(lm(formula = dist ~ speed, data = cars), lty = 2, lwd = 2, col = "blue")
+text(x = 9, y = 100, labels = "Stopping distance \n increases with speed!", cex = 1.2) 
+# cex = 1.2 increases the text size (default is 1).
+```
+
+
+### Important Parameters
+
+Many base plotting functions (e.g., `plot()`) share a set of global parameters. Here are some important ones
+
+
+- `pch`: the plotting symbol (default is `= 1` for open circle), but there are many more options:
+
+```{r, out.width='300px', fig.align='center'}
+knitr::include_graphics(path = "images/pch-in-r.png")
+```
+
+- `lty`: the line type (default is `= 1` for solid line), can be dashed, dotted, etc.
+
+```{r, out.width='300px', fig.align='center'}
+knitr::include_graphics(path = "images/lty-in-r.png")
+```
+
+ - `lwd`: the line width, specified as an integer multiple.
+ 
+- `col`: the plotting color, specified as a number, string, or hex code; the colors() function gives you a vector of  colors by name. Check out [this guide of colors in R](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjBzvXJpbXyAhWSfMAKHXYSCiwQFnoECAMQAQ&url=http%3A%2F%2Fwww.stat.columbia.edu%2F~tzheng%2Ffiles%2FRcolor.pdf&usg=AOvVaw1XIn-mwZ73RgG8bxh4Lan4).
+
+- `xlab` and `ylab`: character strings for specifying the x- and y-axis labels
+
+###
+
+The `par()` function is used to specify the global graphics parameters that affect all plots in an R session. These parameters can be overridden when they are specified as arguments to specific plotting functions. If you want to learn more, run `?par`.
+
+Two important arguments are `mfrow` and `mfcol`. They allow us to put multiple plots side-by-side and stacked on one another. Both functions take a vector of two numbers as an argument, to specify the dimensions of a matrix-type grid for plotting. For example `par(mfrow = c(2, 2))` and `par(mcol = c(2, 2))` both set up $2 \times 2$ grids for plotting, the only difference is that the grid is filled __row-wise__ with `mfrow` and __column-wise__ with `mfcol`.
+
+```{r, echo = T, fig.height=5}
+par(mfrow = c(2, 2))
+plot(x = 1, y = 1, main = "plot 1")
+plot(x = 1, y = 1, main = "plot 2")
+plot(x = 1, y = 1, main = "plot 3")
+plot(x = 1, y = 1, main = "plot 4")
+```
+```{r, echo = T, fig.height=5}
+# and 
+par(mfcol = c(2, 2))
+plot(x = 1, y = 1, main = "plot 1")
+plot(x = 1, y = 1, main = "plot 2")
+plot(x = 1, y = 1, main = "plot 3")
+plot(x = 1, y = 1, main = "plot 4")
+```
+
+Typically, we will use `mfrow()` because we read and write by going from left to right first, but both functions are useful.
+
+
+### Test your knowledge
+
+__Exercise__: Try to recreate the following plot of data from the the `mtcars` data set.
+
+```{r, fig.width = 8.5, fig.asp = 0.5}
+data("mtcars")
+# factor is coded 1 and 0s, give it proper labels
+mtcars$am <- factor(mtcars$am, levels = c(0, 1), labels = c("automatic", "manual")) 
+
+par(mfrow = c(1, 2))
+boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"),
+        ylab = "Displacement (cu.in.)", xlab = "Transmission")
+
+plot(disp ~ wt, data = mtcars, type = "n", 
+     xlab = "Displacement (cu.in.)", ylab = "Weight (1000 lbs)")
+
+points(disp ~ wt, data = mtcars, subset = am == "automatic",
+       pch = 16, col = "red")
+
+points(disp ~ wt, data = mtcars, subset = am == "manual",
+       pch = 17, col = "blue")
+
+abline(lm(disp ~ wt, data = mtcars), lwd = 2, lty = 3)
+
+correlation <- cor(mtcars$disp, mtcars$wt)
+correlation <- round(correlation, 2)
+correlation_string <- paste("Correlation =", correlation)
+text(x = 2.5, y = 400, label = correlation_string)
+title(main = "Displacement vs. Weight")
+```
+
+```{r}
+data("mtcars")
+```
+
+```{r final, exercise = TRUE, fig.width =  8.5, fig.asp = 0.5, exercise.lines = 30}
+# factor is coded 1 and 0s, give it proper labels
+mtcars$am <- factor(mtcars$am, levels = c(0, 1), labels = c("automatic", "manual")) 
+```
+
+```{r final-hint-1}
+# Hint 1: set up for side by side plotting
+mtcars$am <- factor(mtcars$am, levels = c(0, 1), labels = c("automatic", "manual")) 
+par(mfrow = c(1, 2)) # create 2 x 1 layout for side-by side plotting 
+```
+
+```{r}
+data("mtcars")
+```
+
+```{r final-hint-2}
+# Hint 2: Add boxplot
+mtcars$am <- factor(mtcars$am, levels = c(0, 1), labels = c("automatic", "manual")) 
+par(mfrow = c(1, 2))
+boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"),
+        ylab = "Displacement (cu.in.)", xlab = "Transmission")
+```
+
+```{r}
+data("mtcars")
+```
+
+```{r final-hint-3}
+# Hint 3: Set up scatter plot
+# use type = "n" to set up plot with no points
+# we will next add red and blue points separately
+mtcars$am <- factor(mtcars$am, levels = c(0, 1), labels = c("automatic", "manual")) 
+par(mfrow = c(1, 2))
+
+boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"),
+        ylab = "Displacement (cu.in.)", xlab = "Transmission")
+
+plot(disp ~ wt, data = mtcars, type = "n", 
+     xlab = "Displacement (cu.in.)", ylab = "Weight (1000 lbs)")
+```
+
+```{r}
+data("mtcars")
+```
+
+```{r final-hint-4}
+# Hint 4: Add red and blue points
+# we can plot a subset of points from our data
+# by providing a logical statment in the subset
+# argument.
+mtcars$am <- factor(mtcars$am, levels = c(0, 1), labels = c("automatic", "manual")) 
+par(mfrow = c(1, 2))
+
+boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"),
+        ylab = "Displacement (cu.in.)", xlab = "Transmission")
+
+plot(disp ~ wt, data = mtcars, type = "n", 
+     xlab = "Displacement (cu.in.)", ylab = "Weight (1000 lbs)")
+
+points(disp ~ wt, data = mtcars, subset = am == "automatic", # only am = automatic
+       pch = 16, col = "red") # red dots
+
+points(disp ~ wt, data = mtcars, subset = am == "manual", # only manual = automatic
+       pch = 17, col = "blue") # blue triangles
+
+```
+
+```{r}
+data("mtcars")
+```
+
+```{r final-hint-5}
+# Step 5:
+# Estimate trendline using lm() 
+# and overlay it using abline()
+mtcars$am <- factor(mtcars$am, levels = c(0, 1), labels = c("automatic", "manual")) 
+
+par(mfrow = c(1, 2))
+boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"),
+        ylab = "Displacement (cu.in.)", xlab = "Transmission")
+
+plot(disp ~ wt, data = mtcars, type = "n", 
+     xlab = "Displacement (cu.in.)", ylab = "Weight (1000 lbs)")
+
+points(disp ~ wt, data = mtcars, subset = am == "automatic",
+       pch = 16, col = "red")
+
+points(disp ~ wt, data = mtcars, subset = am == "manual",
+       pch = 17, col = "blue")
+
+abline(lm(disp ~ wt, data = mtcars), lwd = 2, lty = 3)
+
+correlation <- cor(mtcars$disp, mtcars$wt)
+correlation <- round(correlation, 2)
+correlation_string <- paste("Correlation =", correlation)
+text(x = 2.5, y = 400, label = correlation_string)
+title(main = "Displacement vs. Weight")
+```
+
+```{r}
+data("mtcars")
+```
+
+```{r final-hint-6}
+# Step 6 :
+# Calculate correlation coefficient using cor()
+# and annotate it as text label
+mtcars$am <- factor(mtcars$am, levels = c(0, 1), labels = c("automatic", "manual")) 
+
+par(mfrow = c(1, 2))
+boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"),
+        ylab = "Displacement (cu.in.)", xlab = "Transmission")
+
+plot(disp ~ wt, data = mtcars, type = "n", 
+     xlab = "Displacement (cu.in.)", ylab = "Weight (1000 lbs)")
+
+points(disp ~ wt, data = mtcars, subset = am == "automatic",
+       pch = 16, col = "red")
+
+points(disp ~ wt, data = mtcars, subset = am == "manual",
+       pch = 17, col = "blue")
+
+abline(lm(disp ~ wt, data = mtcars), lwd = 2, lty = 3)
+
+# correlation:
+correlation <- cor(mtcars$disp, mtcars$wt) # calculates correlation
+correlation <- round(correlation, digits = 2) # round to 2 decimal places
+# paste it with some text to create character string
+correlation_string <- paste("Correlation =", correlation) 
+# annotate string as text label
+text(x = 2.5, y = 400, label = correlation_string)
+```
+
+```{r}
+data("mtcars")
+```
+
+```{r final-solution}
+# Step 7 (last step):
+# Add title
+mtcars$am <- factor(mtcars$am, levels = c(0, 1), labels = c("automatic", "manual")) 
+
+par(mfrow = c(1, 2))
+boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"),
+        ylab = "Displacement (cu.in.)", xlab = "Transmission")
+
+plot(disp ~ wt, data = mtcars, type = "n", 
+     xlab = "Displacement (cu.in.)", ylab = "Weight (1000 lbs)")
+
+points(disp ~ wt, data = mtcars, subset = am == "automatic",
+       pch = 16, col = "red")
+
+points(disp ~ wt, data = mtcars, subset = am == "manual",
+       pch = 17, col = "blue")
+
+abline(lm(disp ~ wt, data = mtcars), lwd = 2, lty = 3)
+
+# correlation:
+correlation <- cor(mtcars$disp, mtcars$wt) # calculates correlation
+correlation <- round(correlation, digits = 2) # round to 2 decimal places
+# paste it with some text to create character string
+correlation_string <- paste("Correlation =", correlation) 
+# annotate string as text label
+text(x = 2.5, y = 400, label = correlation_string)
+
+title(main = "Displacement vs. Weight")
 ```
 
 <!-- ## Functions -->
