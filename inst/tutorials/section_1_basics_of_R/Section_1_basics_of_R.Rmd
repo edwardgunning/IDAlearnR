@@ -131,7 +131,6 @@ your_first_df <- data.frame(
   female = c(F,T,F,T), # add logical for 'female' varaible
   age=c(22,33,44,55) # create a age varaible
   )
-#l <- list(first_element = c(1, 5, -11, 33) , second_element =  c(5, 1.2, -11, 2)) 
 ```
 
 ##
@@ -165,7 +164,7 @@ __Exercise__:
 - After you have stored `3` in `x`, store `5` in `x`, and print `x` again.
 
 ```{r assignment-1, exercise=TRUE, exercise.lines = 6}
-
+# click in the box to start typing
 ```
 
 
@@ -194,7 +193,7 @@ You could also use `=` to assign values to variables. Why use `<-` instead of `=
 
 <!---- [Hadley Wickham](http://hadley.nz/) (Chief Scientist at RStudio & creator of the [tidyverse packages](https://www.tidyverse.org/packages/)) recommends against using `=` instead of `<-` in the [R for Data Science book](https://r4ds.had.co.nz/workflow-basics.html#coding-basics) with [Garrett Grolemund](https://www.rstudio.com/speakers/garrett-grolemund/), and also in the [tidyverse style guide](https://style.tidyverse.org/syntax.html#assignment-1). --->
 
-- The majority of the help you find online, on [StackOverflow](https://stackoverflow.com/questions/tagged/r) for example, will use `<-`.
+- The majority of the help you find online, for example on [StackOverflow](https://stackoverflow.com/questions/tagged/r), will use `<-`.
 
 <!--- - For historical reasons: the computers that `R` was developed on actually had a `<-` button. --->
 
@@ -456,7 +455,9 @@ __Exercise__: Create a vector `v` that contains the numbers `1` to `7` via the f
 
 - Using the `:` which will create a sequence (`x:y` will generate a sequence from `x` to `y` with a spacing of `1` unit between values).
 
-- Using the `seq()` function. R has an extensive help function, run `?seq` to look up the documentation of how to use the `seq`. In particular, look to the arguments section to see what values you should pass to the `seq()` function.
+- Using the `seq()` function. R has an extensive help function, run `?seq` (or `help(seq)`) to look up the documentation of how to use the `seq`. In particular, look to the _arguments_ section to see what values you should pass to the `seq()` function.
+
+**Note**: If you have launced this tutorial from RStudio via the IDAlearnR package, then after running `?seq` in the box below, the help file will show in the Help tab of your RStudio window, rather than in this tutorial window.
 
 ```{r sequences-1, exercise = TRUE, exercise.lines = 7}
 
@@ -535,7 +536,7 @@ __Exercise__:
 
 - create a vector that contains the string `"All work and no play makes Jack a dull boy"` 10 times.
 - create a vector that contains the sequence `1:3` where the sequence is repeated 2 __times__.
-- create a vector that contains the sequence `1:3` where __each__ element is repeated 3 times.
+- create a vector that contains the sequence `1:3` where __each__ element is individually repeated 3 times (i.e. `111222333`)
 
 ```{r sequences-3, exercise = TRUE}
 
@@ -762,7 +763,7 @@ To create the factor variable, we must create a vector containing the valid __le
 answer_levels <- c("no", "maybe", "yes")
 ```
 
-And then use the `factor()` function, with the first argument being the vector of data, and the second taking the levels we have specified.
+Then, use the `factor()` function, with the first argument being the vector of data, and the second taking the levels we have specified.
 
 ```{r, echo = T}
 fac1 <- factor(char1, levels = answer_levels)
@@ -1444,6 +1445,9 @@ your_first_df[your_first_df$age>30, ]
 
 ```{r quiz-exercises, exercise = TRUE, exercise.lines = 8}
 # use this section to test your answers
+
+# your_first_df is already stored in the background
+
 ```
 
 ```{r df-quiz}
@@ -1462,13 +1466,13 @@ quiz(caption = "",
     answer("`rownames(your_first_df, c(\"row1\", \"row2\", \"row3\", \"row4\"))`"),
     allow_retry = TRUE,
     correct = "Correct! We can __assign__ a vector of new row names using `rownames(your_first_df) <- c(\"row1\", \"row2\", \"row3\", \"row4\")`", incorrect = "Test the commands in the exercise box and try a different answer."),
-  question("Q3: What __class__ of object will `your_first_df[1, ]` return?",
+  question("Q3: What __class__ of object will `your_first_df[, 1]` return?",
     answer("A data frame with 1 row and 4 columns."),
     answer("A data frame with 4 rows and 1 column."),
     answer("A vector of length 4.", correct = TRUE),
     allow_retry = TRUE,
-    correct = "Correct! We will finish this section on this important note. Unless we specify, *__R will return the simplest possible data structure__*. That is, if we subset a single row or column, R will return a vector. To avoid this happening and return a data frame with 1 row and 4 columns, then we would have to specify `drop = FALSE` as follows: `your_first_df[1,, drop = F]`. Onviously, if we subset more than one row or columns, R will have to return a data frame.",
-  incorrect = "Incorrect! Try `is.vector(your_first_df[1, ])` or `is.data.frame(your_first_df[1, ])`"))
+    correct = "Correct! We will finish this section on this important note. Unless we specify, *__R will return the simplest possible data structure__*. That is, if we subset a single column, R will return a vector. To avoid this happening and to return a data frame with 1 column and 4 rows, then we would have to specify `drop = FALSE` as follows:<br> `your_first_df[ ,1, drop = F]`.",
+  incorrect = "Incorrect! Try `is.vector(your_first_df[, 1])` or `is.data.frame(your_first_df[, 1])`"))
 ```
 
 ## Plotting
@@ -1514,11 +1518,7 @@ __Exercise:__ Use the help function to investigate the arguments of the `hist()`
 ```{r recreate, echo = F}
 hist(cars$dist, xlab = "Stopping distance (ft)", main = "Histogram of stopping distance",
      breaks = 12, col = "lightblue")
-abline(v = mean(cars$dist), lwd = 2, lty = 2)
 ```
-
-**Tip:** The dashed vertical line is at the mean value of `cars$dist`. Use the `abline()` function to annotate this line once after you have used the `hist()` function.
-
 
 ```{r plot2, exercise = TRUE, exercise.lines = 10}
 
@@ -1530,31 +1530,17 @@ abline(v = mean(cars$dist), lwd = 2, lty = 2)
 # help on the histogram
 ?hist
 
-# help on the vertical line
-?abline
-
-# and more information on graphical parameters such as line type
+# and more information on graphical parameters
 ?par
 ```
 
 ```{r plot2-solution}
 # full solution with explanation of arguments:
-
 hist(x = cars$dist,
      xlab = "Stopping distance (ft)", # xlab specifies the x axis label
      main = "Histogram of stopping distance", # main is the main title of the plot
      breaks = 12, # number of breaks for dividing the histogram into bins (try changing this and see what happens)
      col = "lightblue") # color 
-
-# overlay straight line with 
-abline(v = mean(cars$dist), # v means a vertical line crossing the x axis at the point we supply
-       lwd = 2, # lwd := line width, we make it a bit thicker than usual (default is 1)
-       lty = 2) # lty = 2 gives dashed lines, we could have also used: lty = "dashed"
-
-# note: lty can either be specified as an integer
-#(0=blank, 1=solid (default), 2=dashed, 3=dotted, 4=dotdash, 5=longdash, 6=twodash)
-# or as one of the character strings:
-#"blank", "solid", "dashed", "dotted", "dotdash", "longdash", or "twodash".
 ```
 
 
@@ -1605,7 +1591,7 @@ plot(x = cars$speed, y = cars$dist)
 # ^ gives the same plot
 ```
 ###
-Each point corresponds to a row in the `cars` data set. Its position along the x (horizontal) axis is determined by its speed, and its position along the y (vertical) axis is determined by its stopping distance. It can be seen that cars with a higher speed also tend to have a stopping distance.
+Each point corresponds to a row in the `cars` data set. Its position along the x (horizontal) axis is determined by its speed, and its position along the y (vertical) axis is determined by its stopping distance. It can be seen that cars with a high speed also tend to have a high stopping distance.
 
 ###
 While the default for a plot is points, there are a number of different options:
@@ -1614,7 +1600,7 @@ We set `type = “p”` for points,
 `type = “l”` for lines,
 `type = “b”` for both, 
 `type = “c”` for the lines part alone of “b”, 
-`type = “o”` for both “overplotted”,
+`type = “o”` for lines “overplotted” on points,
 `type = “h”` for histogram like (or high-density) vertical lines,
 `type = "s"` and `type = "S"` for stair steps, and
 `type = “n”` for no plotting.
@@ -1639,22 +1625,53 @@ Once we have created a plot, the second step is to annotate it. Some important a
 
 ###
 
-__Exercise__: Work through the hints to see the evolution of a plot:
 
-```{r evo, exercise = TRUE, fig.asp=1, exercise.lines = 8}
-plot(dist ~ speed, data = cars, xlab = "Speed", ylab = "Stopping Distance")
+__Exercise__: 
+
+Given the histogram of `cars$dist` that we made earlier, annotate vertical lines at the mean and median using `abline()`. Make them different colors using the `col` argument.
+
+```{r annotate, exercise = TRUE, exercise.lines = 12}
+hist(x = cars$dist,
+     xlab = "Stopping distance (ft)", # xlab specifies the x axis label
+     main = "Histogram of stopping distance", # main is the main title of the plot
+     breaks = 12, # number of breaks for dividing the histogram into bins (try changing this and see what happens)
+     col = "lightblue") # color 
+
+# annotate with abline():
 ```
 
-```{r evo-hint-1}
-# Step 1: add title
+
+
+```{r, annotate-solution}
+hist(x = cars$dist,
+     xlab = "Stopping distance (ft)", # xlab specifies the x axis label
+     main = "Histogram of stopping distance", # main is the main title of the plot
+     breaks = 12, # number of breaks for dividing the histogram into bins (try changing this and see what happens)
+     col = "lightblue") # color 
+
+abline(v = mean(cars$dist), col = 'red', lwd = 1.5) # lwd = 1.5 makes lines a bit thicker than default (which is 1)
+abline(v = median(cars$dist), col = 'pink', lwd = 1.5)
+```
+ 
+### 
+
+__Exercise__: 
+Given the scatterplot of the cars data set we created earlier, do the following:
+
+- Estimate a trendline using `lm()` and add it to the plot.
+
+- Annotate the text label "Stopping distance \n increases with speed!" on plot. Choose the x and y position of the text so that it does not interfere with the points.
+
+```{r evo, exercise = TRUE, fig.asp=1, exercise.lines = 8}
 plot(dist ~ speed, data = cars, xlab = "Speed", ylab = "Stopping Distance")
 title(main = "Scatterplot of the cars data set")
 ```
 
 
-```{r evo-hint-2}
-# Step 2: add trendline
-# lm() estimates a resgression line and it uses formula notation
+```{r evo-hint-1}
+# Partial Solution
+# Add trendline
+# lm() estimates a regression line and it uses formula notation
 plot(dist ~ speed, data = cars, xlab = "Speed", ylab = "Stopping Distance")
 title(main = "Scatterplot of the cars data set")
 abline(lm(formula = dist ~ speed, data = cars), lty = 2, lwd = 2, col = "blue") # blue dashed trendline
@@ -1662,12 +1679,14 @@ abline(lm(formula = dist ~ speed, data = cars), lty = 2, lwd = 2, col = "blue") 
 
 
 ```{r evo-solution}
-# Step 3 (final step): Annotate with a text label
+# Step 3 (final step): 
+# Annotate with a text label
 # we position it at about x = 9 and y = 100
 plot(dist ~ speed, data = cars, xlab = "Speed", ylab = "Stopping Distance")
 title(main = "Scatterplot of the cars data set")
 abline(lm(formula = dist ~ speed, data = cars), lty = 2, lwd = 2, col = "blue")
 text(x = 9, y = 100, labels = "Stopping distance \n increases with speed!", cex = 1.2) 
+# \n does a line break (new line)
 # cex = 1.2 increases the text size (default is 1).
 ```
 
@@ -1735,7 +1754,7 @@ boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"),
         ylab = "Displacement (cu.in.)", xlab = "Transmission")
 
 plot(disp ~ wt, data = mtcars, type = "n", 
-     xlab = "Displacement (cu.in.)", ylab = "Weight (1000 lbs)")
+     ylab = "Displacement (cu.in.)", xlab = "Weight (1000 lbs)")
 
 points(disp ~ wt, data = mtcars, subset = am == "automatic",
        pch = 16, col = "red")
@@ -1796,7 +1815,7 @@ boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"),
         ylab = "Displacement (cu.in.)", xlab = "Transmission")
 
 plot(disp ~ wt, data = mtcars, type = "n", 
-     xlab = "Displacement (cu.in.)", ylab = "Weight (1000 lbs)")
+     ylab = "Displacement (cu.in.)", xlab = "Weight (1000 lbs)")
 ```
 
 ```{r}
@@ -1816,7 +1835,7 @@ boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"),
         ylab = "Displacement (cu.in.)", xlab = "Transmission")
 
 plot(disp ~ wt, data = mtcars, type = "n", 
-     xlab = "Displacement (cu.in.)", ylab = "Weight (1000 lbs)")
+     ylab = "Displacement (cu.in.)", xlab = "Weight (1000 lbs)")
 
 points(disp ~ wt, data = mtcars, subset = am == "automatic", # only am = automatic
        pch = 16, col = "red") # red dots
@@ -1842,7 +1861,7 @@ boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"),
         ylab = "Displacement (cu.in.)", xlab = "Transmission")
 
 plot(disp ~ wt, data = mtcars, type = "n", 
-     xlab = "Displacement (cu.in.)", ylab = "Weight (1000 lbs)")
+     ylab = "Displacement (cu.in.)", xlab = "Weight (1000 lbs)")
 
 points(disp ~ wt, data = mtcars, subset = am == "automatic",
        pch = 16, col = "red")
@@ -1875,7 +1894,7 @@ boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"),
         ylab = "Displacement (cu.in.)", xlab = "Transmission")
 
 plot(disp ~ wt, data = mtcars, type = "n", 
-     xlab = "Displacement (cu.in.)", ylab = "Weight (1000 lbs)")
+     ylab = "Displacement (cu.in.)", xlab = "Weight (1000 lbs)")
 
 points(disp ~ wt, data = mtcars, subset = am == "automatic",
        pch = 16, col = "red")
@@ -1901,15 +1920,15 @@ data("mtcars")
 
 ```{r final-solution}
 # Step 7 (last step):
-# Add title
+# Add title using title()
 mtcars$am <- factor(mtcars$am, levels = c(0, 1), labels = c("automatic", "manual")) 
 
 par(mfrow = c(1, 2))
 boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"),
-        ylab = "Displacement (cu.in.)", xlab = "Transmission")
+        ylab = "Displacement (cu.in.)", xlab = "Weight (1000 lbs)")
 
 plot(disp ~ wt, data = mtcars, type = "n", 
-     xlab = "Displacement (cu.in.)", ylab = "Weight (1000 lbs)")
+     ylab = "Displacement (cu.in.)", xlab = "Weight (1000 lbs)")
 
 points(disp ~ wt, data = mtcars, subset = am == "automatic",
        pch = 16, col = "red")
@@ -1929,94 +1948,4 @@ text(x = 2.5, y = 400, label = correlation_string)
 
 title(main = "Displacement vs. Weight")
 ```
-
-<!-- ## Functions -->
-
-<!-- ```{r eval = FALSE, echo= TRUE} -->
-<!-- length(v1) -->
-
-<!-- length(v2) -->
-<!-- ``` -->
-
-<!-- ```{r, echo = FALSE} -->
-<!-- set.seed(1916) -->
-<!-- x <- sample(1:100, size = 200, replace = TRUE) -->
-<!-- ind <- sample(1:100, size = 14, replace = TRUE) -->
-<!-- x[ind] <- NA -->
-<!-- ``` -->
-
-<!-- ```{r, echo = TRUE} -->
-<!-- head(x, 20) -->
-<!-- ``` -->
-
-<!-- Use the `is.na()` and `sum()` function to find the number of na values in `x`. -->
-
-<!-- Note that `TRUE` values are treated as `1` and `FALSE` values are treated as 0.  -->
-
-<!-- ```{r functions-1, exercise=TRUE, exercise.lines = 5} -->
-
-
-<!-- ``` -->
-
-<!-- ```{r functions-1-solution} -->
-<!-- sum(is.na(x)) -->
-<!-- ``` -->
-
-<!-- Use `length()` to find the fraction of `NA` in `x`. -->
-
-<!-- ```{r functions-1.1, exercise=TRUE, exercise.lines = 5} -->
-
-
-<!-- ``` -->
-
-<!-- ```{r functions-1.1-solution} -->
-<!-- sum(is.na(x))/length(x) -->
-<!-- ``` -->
-
-<!-- Use the help function (`?(the function of interest)`) to find investigate the use of the function `which()` -->
-
-<!-- ```{r functions-2, exercise=TRUE, exercise.lines = 5} -->
-
-
-<!-- ``` -->
-
-<!-- ```{r functions-2-solution} -->
-<!-- ?which -->
-<!-- ``` -->
-
-
-<!-- Use the `which()` and `is.na()` to find the positions of the `na` values in `x`. -->
-
-<!-- ```{r functions-3, exercise=TRUE, exercise.lines = 5} -->
-
-
-<!-- ``` -->
-
-<!-- ```{r functions-3-solution} -->
-<!-- which(is.na(x)) -->
-<!-- ``` -->
-
-
-<!-- ```{r quiz-functions} -->
-<!-- quiz( -->
-<!--   question("What is the result of mean(x)?", -->
-<!--     answer("NA", correct = TRUE), -->
-<!--     answer("0"), -->
-<!--     answer("NaN")) -->
-<!--   ) -->
-<!-- ``` -->
-
-<!-- Investigate the parameters of `mean()` to force it to remove `NA` values automatically. -->
-
-<!-- ```{r functions-4, exercise=TRUE, exercise.lines = 5} -->
-
-
-<!-- ``` -->
-
-<!-- ```{r functions-4-solution} -->
-<!-- mean(x, na.rm = TRUE) -->
-<!-- ``` -->
-
-
-
 
