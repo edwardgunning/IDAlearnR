@@ -457,7 +457,7 @@ __Exercise__: Create a vector `v` that contains the numbers `1` to `7` via the f
 
 - Using the `seq()` function. R has an extensive help function, run `?seq` (or `help(seq)`) to look up the documentation of how to use the `seq`. In particular, look to the _arguments_ section to see what values you should pass to the `seq()` function.
 
-**Note**: If you have launced this tutorial from RStudio via the IDAlearnR package, then after running `?seq` in the box below, the help file will show in the Help tab of your RStudio window, rather than in this tutorial window.
+**Note**: If you have launced this tutorial from RStudio via the `run_tutorial()` function, then after running `?seq` in the box below, the help file will show in the Help tab of your RStudio window, rather than in this tutorial window.
 
 ```{r sequences-1, exercise = TRUE, exercise.lines = 7}
 
@@ -1154,6 +1154,10 @@ v1 == v2       # Are corresponding elements equivalent? returns logical vector.
 v1 != v2       # Are corresponding elements *not* equivalent? Same as !(v1==v2)
 
 (v1 > 2) | (v2 < -3)   # | is the boolean OR, returns a vector.
+
+# note: the space between < and - 
+# because <- (no space) is the assignment operator
+# if in doubt put brackets around (3)
 
 v1 %in% c(1:10) # returns a logical vector, indicating whether each element of v1 is contained in c(1:10)
 ```

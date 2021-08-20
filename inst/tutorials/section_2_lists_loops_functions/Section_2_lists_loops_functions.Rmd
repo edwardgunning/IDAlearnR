@@ -1,0 +1,663 @@
+---
+title: "Tutorial"
+output:
+  learnr::tutorial:
+          progressive: true
+          allow_skip: true
+          highlight: pygments
+          ace_theme: textmate
+runtime: shiny_prerendered
+---
+
+<!-- insert UL logo in top right corner -->
+<div style="text-align: right"><img src="images/ul-logo.jpg" width="150" /></div>
+
+
+<!-- include CSS within markdown document -->
+<!-- not sure why linking to the CSS doesn't work-->
+```{css, echo = F}
+@import url(https://fonts.googleapis.com/css?family=Montserrat:300,300i&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Fira+Mono&display=swap);
+
+
+:root {
+  /* Fonts */
+  --text-font-family: Montserrat;
+  --text-font-is-google: 1;
+  --text-font-family-fallback: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial;
+  --text-font-base: sans-serif;
+  --header-font-family: 'Josefin Sans';
+  --header-font-is-google: 1;
+  --code-font-family: 'Fira Mono';
+  --code-font-is-google: 1;
+  --base-font-size: 15px;
+  --text-font-size: 1rem;
+  --code-font-size: 0.9rem;
+  --code-inline-font-size: 1em;
+  --header-h1-font-size: 2.75rem;
+  --header-h2-font-size: 2.25rem;
+  --header-h3-font-size: 1.75rem;
+
+  /* Colors */
+  --text-color: #272822;
+  --header-color: #005337;
+  --background-color: #FFFFFF;
+  --link-color: #0fb157;
+  --text-bold-color: #0fb157;
+  --code-highlight-color: rgba(255,255,0,0.5);
+  --inverse-text-color: #FFFFFF;
+  --inverse-background-color: #005337;
+  --inverse-header-color: #FFFFFF;
+  --title-slide-background-color: #1c5253;
+  --title-slide-text-color: #FFFFFF;
+  --header-background-color: #1c5253;
+  --header-background-text-color: #FFFFFF;
+  --base: #1c5253;
+  --white: #FFFFFF;
+  --black: #272822;
+}
+
+
+
+code {
+  font-family: Consolas, Monaco, 'Courier New', monospace;
+  font-size: 90%;
+}
+
+h1, #TOC>ul>li {
+  color: #005337;
+  font-family:  'Josefin Sans';
+  font-weight: bold;
+  text-align: center;
+}
+
+h2, #TOC>ul>ul>li {
+  color: #005337;
+  font-family:  'Josefin Sans';
+  font-weight: bold;
+}
+
+h3 {
+  color: #005337;
+  font-family:  'Josefin Sans';
+  font-weight: bold;
+}
+
+h4 {
+  color: #005337;
+  font-family:  'Josefin Sans';
+  font-weight: bold;
+}
+
+a {
+  color: #0ead5b;
+}
+
+
+body {
+  font-family: var(--text-font-family), var(--text-font-family-fallback), var(--text-font-base);
+  font-weight: 400;
+  color: var(--text-color);
+  font-size: var(--base-font-size)
+}
+
+
+a, a > code {
+  color: #272822;
+  text-decoration: underline;
+}
+```
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r prepare objects}
+# preparing for lists
+l <- list(first_element = c(1, 5, -11, 33) , second_element =  c(5, 1.2, -11, 2)) 
+```
+
+## Lists
+
+### Introducing lists
+
+In the last tutorial, we learned that a vector in R can only contain elements of the same class. 
+
+In contrast, **lists** are a versatile structure that can contain objects of _different classes_ as elements. The elements of a list can be of any class --- character strings, numeric vectors, matrices, and even other lists! 
+
+### Creating lists
+
+The `list()` function can be used to create a list in R. If no arguments are passed, then the list is empty. Each argument that is passed to a list becomes an element of the list, which can be either named or unnamed. The elements of lists are often named for easier access.
+
+### 
+
+**Exercise**: 
+
+The following code creates a named list with elements which are numeric vectors of the same length. Modify the code to:
+
+- Store vectors of different lengths in `my_list()`.
+
+- Store vectors of different classes and different lengths in `my_list()`.
+
+Use descriptive names for the elements.
+
+```{r list1, exercise=TRUE, exercise.lines = 20}
+# Example of creating an empty list:
+my_list <- list()
+my_list
+
+
+# Create a named list with the following vectors as elements
+v1 <- c(1, 5, -11, 33) 
+v2 <- c(5, 1.2, -11, 2) # create vectors
+
+my_list <- list(first_element = v1, second_element = v2) # create list
+
+my_list
+```
+
+```{r list1-solution}
+# Part 1: Two vectors of different lengths. 
+v1 <- c(1, 5, -11, 33, 55, 66) 
+v2 <- c(5, 1.2, -11, 2)
+
+my_list <- list(longer_element = v1, shorter_element = v2) 
+
+my_list
+
+# Part 2
+
+# Part 1: Two vectors of different classes lengths. 
+# Longer character vector:
+v1 <- c("Hello", "how", "are", "you", "today", "?") 
+# shorter numeric vector
+v2 <- c(5, 1.2, -11, 2)
+
+my_list <- list(longer_char= v1, shorter_num = v2) 
+
+my_list
+```
+
+### Subsetting Lists
+
+Similarly to indexing vectors, you can use brackets (`[]`) to access elements of a list, which will _always_ return a list. You can use double brackets (`[[]]`) or `$name` to return an element of a list, but the class of the object returned is the class of the object 
+stored in that position (which often will not be a list).
+
+###
+
+__Exercise__:
+
+- Run and manipulate the following code to become familiar with subsetting lists.
+
+```{r list-2, exercise=TRUE, exercise.lines = 17}
+l <- list(first_element = c(1, 5, -11, 33) , second_element =  c(5, 1.2, -11, 2)) 
+
+# Access first_element with single brackets: this returns a list.
+preserved <- l["first_element"]   
+preserved
+class(preserved)
+
+# Access first_element with double brackets: this returns the vector stored. In this case a numeric vector
+simplified <- l[["first_element"]] 
+simplified
+class(simplified)
+
+# Alternatives:
+l # print the full list to screen
+l[1] # equivalent to preserved
+l[[1]]  #  equivalent to simplified.
+l$first_element # equivalent to simplified
+```
+
+__Note__: 
+
+- Subsetting using `[]` is called __preserving__ because it preserves the class of the object (it still returns a list). Subsetting using `[[]]` is called __simplifying__, it returns the simplest class of object possible, which in this case is the class of the object stored in the list.
+
+### Appending lists
+
+You can add elements to a list simply by referencing the position or name that you want the object to be saved at in the list. The following code demonstrates how elements can be added to a list.
+
+```{r, echo = T}
+# Create list:
+l <- list(first_element = c(1, 5, -11, 33) , second_element =  c(5, 1.2, -11, 2)) 
+
+# Add by position
+l[[3]] <- c(22, 23) # adds a vector as element 3 in l.
+
+# Add by Name: 
+l$Something <- "A thing"  # Appends an list element - "A thing", named "Something" - to the end of the list
+
+# Print list
+l
+```
+
+###
+
+__Note__: It printed `[[3]]` instead of `$name` for the third element because we did not use a name to append it.
+
+### Element names
+
+The function `names()` can be used to find the names of list elements.
+
+```{r, echo = T}
+names(l)
+```
+
+### 
+
+Assigning values to elements to the vector that `names()` returns allows us to add or change names.
+
+```{r, echo = T}
+# let's name third element
+names(l)[3] <- "third_element"
+
+l
+```
+
+### Making a connection - data frames and lists
+
+In the last tutorial, we said that data frames were lists containing vectors of the same length, used to store tabular data. That is why we can use `$name` subsetting to access a column of a data frame --- underneath the hood, we are just accessing the element of a list!
+
+We can also use `[[]]` subsetting to access columns of a data frame.
+
+
+## If-else statements
+
+###
+
+`if`-`else` statements are very common and will be familiar to those with experience in almost any programming language. They allow you to test a condition and act on it depending on whether it’s true or false.
+
+### `if` statements
+
+To start, we will introduce an `if` statement.
+
+```r
+if(<condition>) {
+  # do something
+}
+# continue with rest of code
+```
+
+The `<condition>` here will be a logical statement (revise this section in Tutorial 1 if you are unsure). If the statement returns `TRUE`, the code within the `{}` will be executed. Otherwise, nothing will happen.
+
+###
+
+__Exercise:__
+
+The following code generates a number between 0 and 10 and assigns it to `rand_num` (note: we haven't set the random seed so this will be different each time you run it). Add to the code so that the string `"Greater than 5"` is printed if the number is greater than 5, and nothing happens otherwise. Run your solution multiple times and observe different results.
+
+```{r ifel, exercise = TRUE, exercise.lines = 10}
+rand_num <- runif(n = 1, min = 0, max = 10)
+```
+
+```{r ifel-solution}
+rand_num <- runif(n = 1, min = 0, max = 10)
+
+rand_num # check out what the number is
+
+if(rand_num > 5) {
+  print("Greater than 5")
+}
+```
+
+### `else` statements
+
+The above code does nothing if the condition is false. If you have an action you want to execute when the condition is false, then you need an `else` clause. The general structure is as follows.
+
+```r
+if(<condition>) {
+  # do something
+} else {
+  #do something else
+}
+```
+
+###
+
+__Exercise__:
+
+Add an `else` statement to the previous exercise's solution to print the string `"Less than or equal to 5"` if the number is not greater than 5.
+
+```{r ifel2, exercise = TRUE, exercise.lines = 10}
+rand_num <- runif(n = 1, min = 0, max = 10)
+
+rand_num # check out what the number is
+
+if(rand_num > 5) {
+  print("Greater than 5")
+}
+```
+
+
+```{r ifel2-solution}
+rand_num <- runif(n = 1, min = 0, max = 10)
+
+rand_num # check out what the number is
+
+if(rand_num > 5) {
+  print("Greater than 5")
+} else {
+  print("Less than or equal to 5")
+}
+```
+
+## Loops
+
+### Introducing loops
+
+Loops are used in programming when you need to do the same thing to multiple inputs: repeating the same operation on different columns, or on different datasets. Loops are used less frequently in R than in other languages (it is common to write functions, which we will come across next in this tutorial, to extract repeated tasks and remove the need for duplicate code) but many R users will use loops from time to time. In this section, we will learn about __for loops__.
+
+### Basic structure of `for` loops
+
+`for` loops in R have the following structure.
+
+```r
+for(iterator_variable in some_vector) { # sequence
+
+  do_something_to(iterator variable) # body
+  
+}
+```
+
+`for` loops take an iterator variable --- we usually use `i` to abbreviate iterator, but any letter, or valid object name can be used --- and assign it successive values from some vector (often, this vector is a sequence of integers used `for` indexing, but not always).
+
+###
+
+__Example__: Print the numbers between 1 and 10.
+
+```{r, echo = T}
+for(i in 1:10) {
+  print(i)
+}
+```
+
+Of course, we could also define the vector `1:10` beforehand and use it in the same way.
+
+```{r, echo = T}
+iter_seq <- 1:10
+for(i in iter_seq) {
+  print(i)
+}
+```
+
+
+### Iterating
+
+Now, suppose we have the character vector `c("a", "b", "c", "d")`.
+
+```{r, echo = T}
+char_vec <- c("a", "b", "c", "d")
+```
+
+We could print each element in a number of ways:
+
+###
+
+#### 1. Define a sequence of integers for indexing manually
+
+Generate the sequence `1:4` for indexing manually, because we know that `char_vec` has four elements. The `char_vec[i]` gives the $i^th$ element of `char_vec`.
+
+```{r, echo = T}
+for(i in 1:4) { # sequence
+  print(char_vec[i]) # body
+}
+```
+
+###
+
+#### 2. Use `seq_along` to automatically generate a sequence of integers for indexing 
+
+First, let's see what `seq_along()` does.
+
+```{r, echo = T}
+seq_along(char_vec)
+```
+
+It creates a sequence of integers for indexing `char_vec`. We can iterate through this sequence, indexing `char_vec` in the exact same way as before.
+
+```{r, echo = T}
+for(i in seq_along(char_vec)) {
+  print(char_vec[i])
+}
+```
+
+###
+
+__Tip__: Although `1:length(char_vec)` will achieve the same thing as `seq_along(char_vec)` in most cases, `seq_along()` is regarded as safer because it handles vectors of length 0 differently. 
+
+###
+
+#### 3. Iterate through `char_vec` itself, instead of indexing
+
+```{r, echo = T}
+for(i in char_vec) {
+  print(i)
+}
+```
+
+### 
+
+This might seem like the easiest way to construct the loop, however, we often we want to store a result in another vector, and looping through indexes is useful for iterating through both the input and output. Furthermore, we can only iterate through a vector, so when we want to loop through elements of a list, we must use indexing.
+
+###
+
+__Exercise__: 
+
+We have created a list in the background called `num_list`, which contains numeric vectors of different lengths. Write a `for` loop to print the mean of each element.
+
+```{r}
+set.seed(1) # ensures the random numbers are the same each time this is drawn.
+num_list <- list() # create empty list and we will then fill elements
+num_list[[1]] <- rnorm(n = 10) # generate 10 numbers randomly from a normal distribution
+num_list[[2]] <- rnorm(n = 20) # generate 20 numbers randomly from a normal distribution
+num_list[[3]] <- c(1, 1, 2, 3, 4, 6) # create a shorter vector
+num_list[[4]] <- seq(from = 1, to = 25, by = 1) # a sequence from 1 to 25
+```
+
+```{r looplist, exercise = TRUE, exercise.lines = 8}
+str(num_list) # look at structure of list
+```
+
+```{r looplist-hint}
+# Partial Solution:
+
+for(i in seq_along(num_list)) {
+  # do something
+}
+```
+
+
+```{r looplist-solution}
+# Full Solution:
+
+for(i in seq_along(num_list)) {
+  print(mean(num_list[[i]]))
+}
+```
+
+
+
+### Storing outputs
+
+So far, we have just printed values within the `for` loop. However, we will usually perform some calculation, and need to store the output. It is good practice to create an object in which to store the output _before_ the `for` loop.
+
+###
+
+For example, suppose we have a data frame with four numeric columns:
+
+```{r, echo = TRUE}
+# Generate a data set
+set.seed(1) # ensures the random numbers are the same each time this is drawn.
+num_df <- data.frame(var1 = rnorm(n = 10),
+                     var2 = rnorm(n = 10),
+                     var3 = rnorm(n = 10),
+                     var4 = rnorm(n = 10))
+```
+
+If we wanted to calculate and store the standard deviation of each column using a loop, we would first need to create a vector to store the output.
+
+__Note__: Vectors can be created quickly using the `vector()` function. We indicated that it would be numeric, by specifying `mode = "numeric"` and chose it to be of length 4 to store the standard deviation for each of the four columns (the length of our output vector should be the same as the length of the sequence we iterate through).
+
+```{r, echo = TRUE}
+output_store <- vector(mode = "numeric", length = length(num_df)) # 1. output
+
+for(i in seq_along(num_df)) { # 2. sequence
+  
+  output_store[i] <- sd(num_df[[i]]) # 3. body
+}
+```
+
+###
+
+We can then call the vector `output_store` to view our output.
+
+```{r, echo = TRUE}
+output_store
+```
+
+###
+
+So, when we want to store our output, our basic `for` loop structure has three steps:
+
+1. Output: Set up an object to store the output of the loop.
+
+2. Sequence: Define an iterator variable and a vector to iterate through.
+
+3. Body: This is the code that does the work. It is run repeatedly, each time with a different value for the iterator variable.
+
+###
+
+__Exercise__: 
+
+Modify the loop that you wrote above to __store__ instead __print__ the mean of each vector in `num_list`. Then print your stored output. Check that this vector contains the numbers you printed earlier.
+
+```{r outputloop, exercise = TRUE, exercise.lines = 12}
+# Previous solution:
+for(i in seq_along(num_list)) {
+  print(mean(num_list[[i]]))
+}
+```
+
+```{r outputloop-solution}
+mean_store <- vector(mode = "numeric", length = length(num_list)) #1. output
+
+for(i in seq_along(num_list)) { # 2. sequence
+  
+  mean_store[i] <- mean(num_list[[i]]) # 3. body
+  
+}
+
+# print our result
+mean_store
+```
+
+### 
+
+__Exercise__:
+
+Write a `for` loop to find the __number of unique values__ in each column of the `mtcars` data set.
+
+```{r mtcarsunique, exercise = TRUE, exercise.lines = 12}
+# 
+```
+
+```{r mtcarsunique-hint-1}
+# unique gives the unique values of a vector
+x1 <- c(1, 1, 2, 2, 3, 3)
+unique(x1)
+# ... now think about how we would get the NUMBER of unique values
+```
+
+```{r mtcarsunique-hint-2}
+# unique gives the unique values of a vector
+x1 <- c(1, 1, 2, 2, 3, 3)
+unique(x1)
+# Then the NUMBER of unique values is the length of the vector of unique values
+length(unique(x1))
+# Now, Think about the output, sequence, and body for writing the loop.
+```
+
+
+```{r mtcarsunique-solution}
+unique_store <- vector(mode = "numeric", length = length(mtcars)) # 1. output 
+
+for(i in seq_along(mtcars)) { # 2. sequence
+  
+  unique_store[i] <- length(unique(mtcars[, i])) # 3. body
+  
+}
+
+# print stored output
+unique_store
+```
+
+### 
+
+Note that there are also `while` and `repeat` loops in R,  but we will not cover them in this course.
+
+## Functions
+
+### Functions
+
+So far, we have used many of the built in functions in R such as `c()`, `mean()`, `seq()` and `plot()`. In this section we will explore functions in more depth. You will learn how to write your own functions, which will eventually allow you to automate common tasks in a more powerful and general way than copy-and-pasting. 
+
+###
+
+A functional style of R programming consists of decomposing a big problem into smaller pieces, then solving each piece with a function or combination of functions. 
+
+Three advantages of this functional style are:
+
+1. You can give a function an evocative name that makes your code easier to understand.
+
+2. As requirements change, you only need to update code in one place, instead of many.
+
+3. You eliminate the chance of making incidental mistakes when you copy and paste (i.e. updating a variable name in one place, but not in another).
+
+### Functions in R
+
+- Functions in R are objects and are treated similarly to other objects (e.g., vectors). They can be passed as arguments to other functions and even defined within other functions.
+
+- Watch this [short video](https://vimeo.com/220490105) about functions in R from Rstudio.
+
+### Basic structure of a function
+
+Defining a function in R consists of defining main things: a _name_, _arguments_ and a _body_. 
+
+###
+
+#### Name
+
+Let's first create a function that takes no arguments and returns nothing. Here, we are only concerned with defining and naming the function.
+
+```{r, echo = TRUE}
+return_nothing <- function() {
+  # empty body
+}
+```
+
+This is an assignment statement for creating an object (using `<-`) like we have already seen. We have chosen a descriptive name for our object - it tells the user what the function does. The function object is created by the `function()` command.
+
+Function objects have their own class.
+
+```{r,echo = TRUE}
+class(return_nothing)
+```
+
+
+Let's execute the function by typing the object name followed by `()`.
+
+```{r, echo = TRUE}
+return_nothing()
+```
+
+As expected, it returns nothing!
+
+###
+
+#### Body
+
+
+
+
