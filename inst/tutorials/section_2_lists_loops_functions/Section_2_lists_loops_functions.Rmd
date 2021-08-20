@@ -603,17 +603,9 @@ Note that there are also `while` and `repeat` loops in R,  but we will not cover
 
 So far, we have used many of the built in functions in R such as `c()`, `mean()`, `seq()` and `plot()`. In this section we will explore functions in more depth. You will learn how to write your own functions, which will eventually allow you to automate common tasks in a more powerful and general way than copy-and-pasting. 
 
-###
-
 A functional style of R programming consists of decomposing a big problem into smaller pieces, then solving each piece with a function or combination of functions. 
 
-Three advantages of this functional style are:
-
-1. You can give a function an evocative name that makes your code easier to understand.
-
-2. As requirements change, you only need to update code in one place, instead of many.
-
-3. You eliminate the chance of making incidental mistakes when you copy and paste (i.e. updating a variable name in one place, but not in another).
+Read [this section](https://r4ds.had.co.nz/functions.html) of R for Data Science on the advnatages of the functional style.
 
 ### Functions in R
 
@@ -632,7 +624,7 @@ Defining a function in R consists of defining main things: a _name_, _arguments_
 Let's first create a function that takes no arguments and returns nothing. Here, we are only concerned with defining and naming the function.
 
 ```{r, echo = TRUE}
-return_nothing <- function() {
+do_nothing <- function() {
   # empty body
 }
 ```
@@ -642,22 +634,79 @@ This is an assignment statement for creating an object (using `<-`) like we have
 Function objects have their own class.
 
 ```{r,echo = TRUE}
-class(return_nothing)
+class(do_nothing)
 ```
 
 
 Let's execute the function by typing the object name followed by `()`.
 
 ```{r, echo = TRUE}
-return_nothing()
+do_nothing()
 ```
 
-As expected, it returns nothing!
+As expected, it does nothing!
 
 ###
 
 #### Body
 
-_<to be continued>_
+Now, suppose we want the function to do some computation, we place some code in the __body__, within the `{}`, after `function()`. This code is run each time we call our function object. For now, we will just make our function print a sentence to the screen.
+
+```{r, echo = TRUE}
+print_something <- function() {
+  print("I have written a function!")
+}
+```
+
+Now, let's call our function again:
+
+```{r, echo = TRUE}
+print_something()
+```
+
+### 
+
+#### Arguments
+
+__Arguments__ are the options that you can specify to the user that the user may explicity set. For this basic function, we can add an argument that determines how many times "I have written a function!" is printed to the console.
+
+```{r, echo = T}
+print_something_n_times <- function(n){
+  for(i in 1:n){
+    print("I have written a function!")
+  }
+}
+```
+
+Then, when we (as the user) call the function, we must specify `n`. Suppose we want to print the sentence to the screen 4 times.
+
+```{r,echo = TRUE}
+print_something_n_times(n = 4)
+```
+
+###
+
+If we tried to call our function without specifying `n`, we would get an error.
+
+```{r, error = TRUE, echo = TRUE}
+print_something_n_times()
+```
+
+### 
+
+We can, however, set default argument values when writing our function, by typing `= <value>` after the argument name. The argument in our function will take this value unless otherwise specified.
+
+```{r, echo = TRUE}
+print_something_n_times <- function(n = 2){
+  for(i in 1:n){
+    print("I have written a function!")
+  }
+}
+```
+
+Now, if `print_something_n_times()` is called, but `n` is not specified, it will print our sentence twice (because we have specificied `n = 2`).
 
 
+```{r, echo = TRUE}
+print_something_n_times()
+```
