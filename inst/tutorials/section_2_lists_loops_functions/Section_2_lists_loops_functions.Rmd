@@ -1,5 +1,5 @@
 ---
-title: "Tutorial"
+title: "Lists, loops and functions"
 output:
   learnr::tutorial:
           progressive: true
@@ -658,6 +658,6 @@ As expected, it returns nothing!
 
 #### Body
 
-
+_<to be continued>_
 
 

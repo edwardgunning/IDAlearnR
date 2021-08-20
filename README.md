@@ -25,10 +25,14 @@ devtools::install_github("edwardgunning/IDAlearnR")
 ### Launching from the Tutorials pane
 
 Once you have installed the package, you should be able to launch the
-tutorials from the Tutorials pane on the right-hand side of the RStudio
+tutorials from the “Tutorial” pane on the right-hand side of the RStudio
 IDE (provided that you have a recent version of RStudio installed).
 
 ![](inst/figures/tutorial-pane.png)
+
+Press “Start Tutorial” and once it has loaded in the pane, press the
+![](inst/figures/open-in-browser.png) button to open the tutorial in an
+internet browser.
 
 Otherwise, you can launch them using the `run_tutorial()` function from
 the `learnr` package.
