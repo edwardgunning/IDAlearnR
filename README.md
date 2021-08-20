@@ -45,3 +45,10 @@ the `learnr` package.
 learnr::run_tutorial(name = "section_1_basics_of_R",
                      package = "IDAlearnR")
 ```
+
+#### Tutorial 2 - Lists, loops and functions (incomplete)
+
+``` r
+learnr::run_tutorial(name = "section_2_lists_loops_functions",
+                     package = "IDAlearnR")
+```
