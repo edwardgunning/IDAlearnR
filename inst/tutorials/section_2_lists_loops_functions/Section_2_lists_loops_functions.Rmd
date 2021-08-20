@@ -710,3 +710,8 @@ Now, if `print_something_n_times()` is called, but `n` is not specified, it will
 ```{r, echo = TRUE}
 print_something_n_times()
 ```
+
+
+### Return statments
+
+__to be continued__
