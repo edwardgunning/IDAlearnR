@@ -107,6 +107,79 @@ a, a > code {
   color: #272822;
   text-decoration: underline;
 }
+
+
+.notesbox {
+  padding: 1em 1em 1em 4em;
+  margin-bottom: 10px;
+  border: 2px dotted orange;
+  border-radius: 10px;
+  background: #fffbe6 5px center/3em no-repeat;
+  background-image: url(images/notes.png)
+}
+
+.tipsbox {
+  padding: 1em 1em 1em 4em;
+  margin-bottom: 10px;
+  border: 2px dotted orange;
+  border-radius: 10px;
+  background: #fffbe6 5px center/3em no-repeat;
+  background-image: url(images/lightbulb.png)
+}
+
+.readingbox {
+  padding: 1em 1em 1em 4em;
+  margin-bottom: 10px;
+  border: 2px dotted orange;
+  border-radius: 10px;
+  background: #fffbe6 5px center/3em no-repeat;
+  background-image: url(images/open-book.png)
+}
+
+.videobox {
+  padding: 1em 1em 1em 4em;
+  margin-bottom: 10px;
+  border: 2px dotted orange;
+  border-radius: 10px;
+  background: #fffbe6 5px center/3em no-repeat;
+  background-image: url(images/video.png)
+}
+
+.hintsbox {
+  padding: 1em 1em 1em 4em;
+  margin-bottom: 10px;
+  border: 2px solid #B0C4DE;
+  border-radius: 10px;
+  background: #F0F8FF 5px center/3em no-repeat;
+  background-image: url(images/whisper.png)
+}
+
+.extrabox {
+  padding: 1em 1em 1em 4em;
+  margin-bottom: 10px;
+  border: 2px solid #D8BFD8;
+  border-radius: 10px;
+  background: #FFF0F5 5px center/3em no-repeat;
+  background-image: url(images/extra.png)
+}
+
+
+.exercise-box {
+  padding: 1em 1em 1em 4em;
+  margin-bottom: 10px;
+  border: 2px double #F8F8F8; /*  #005337;
+  border-radius: 10px;
+  background: white 5px center/3em no-repeat;
+}
+
+
+.center {
+  text-align: center;
+}
+
+
+
+
 ```
 
 ```{r setup, include=FALSE}
@@ -134,7 +207,10 @@ The `list()` function can be used to create a list in R. If no arguments are pas
 
 ### 
 
-**Exercise**: 
+
+:::: {.exercise-box }
+
+#### Exercise
 
 The following code creates a named list with elements which are numeric vectors of the same length. Modify the code to:
 
@@ -178,6 +254,9 @@ my_list <- list(longer_char= v1,
 
 my_list
 ```
+::::
+
+
 
 ### Subsetting Lists
 
@@ -186,9 +265,11 @@ stored in that position (which often will not always be a list).
 
 ###
 
-__Exercise__:
+:::: {.exercise-box }
 
-- Run and manipulate the following code to become familiar with subsetting lists.
+#### Exercise
+
+Run the following code blocks and observe the results to become familiar with subsetting lists.
 
 ```{r list-2-1, exercise=TRUE, exercise.lines = 8}
 l <- list(first_element = c(1, 5, -11, 33),
@@ -221,9 +302,15 @@ l[[1]]  #  equivalent to simplified (by index)
 l$first_element # equivalent to simplified
 ```
 
-__Note__: 
+::::
 
-- Subsetting using `[]` is called __preserving__ because it preserves the class of the object (it still returns a list). Subsetting using `[[]]` is called __simplifying__, it returns the simplest class of object possible, which in this case is the class of the object stored in the list.
+###
+
+:::: {.notesbox .center}
+Subsetting using `[]` is called __preserving__ because it preserves the class of the object (it still returns a list). 
+
+Subsetting using `[[]]` is called __simplifying__, it returns the simplest class of object possible, which in this case is the class of the object stored in the list.
+::::
 
 ### Appending lists
 
@@ -245,7 +332,9 @@ l
 
 ###
 
-__Note__: It printed `[[3]]` instead of `$name` for the third element because we did not use a name to append it.
+:::: {.notesbox .center}
+It printed `[[3]]` instead of `$name` for the third element because we did not use a name to append it.
+::::
 
 ### Element names
 
@@ -294,7 +383,9 @@ The `<condition>` here will be a logical statement (revise this section in Tutor
 
 ###
 
-__Exercise:__
+:::: {.exercise-box }
+
+#### Exercise
 
 The following code generates a number between 0 and 10 and assigns it to `rand_num` (note: we haven't set the random seed so this will be different each time you run it). Add to the code so that the string `"Greater than 5"` is printed if the number is greater than 5, and nothing happens otherwise. Run your solution multiple times and observe different results.
 
@@ -312,6 +403,8 @@ if(rand_num > 5) {
 }
 ```
 
+::::
+
 ### `else` statements
 
 The above code does nothing if the condition is false. If you have an action you want to execute when the condition is false, then you need an `else` clause. The general structure is as follows.
@@ -326,7 +419,9 @@ if(<condition>) {
 
 ###
 
-__Exercise__:
+:::: {.exercise-box }
+
+#### Exercise
 
 Add an `else` statement to the previous exercise's solution to print the string `"Less than or equal to 5"` if the number is not greater than 5.
 
@@ -352,6 +447,8 @@ if(rand_num > 5) {
   print("Less than or equal to 5")
 }
 ```
+
+::::
 
 ## Loops
 
@@ -449,11 +546,17 @@ for(i in seq_along(char_vec)) {
 
 ###
 
+:::: {.tipsbox }
 __Tip__: Although `1:length(char_vec)` will achieve the same thing as `seq_along(char_vec)` in most cases, `seq_along()` is regarded as safer because it handles objects of length 0 differently. To see this yourself, compare the two approaches for generating sequences to index an empty list or data frame or a vector of length 0. For example, try `seq_along(list())` and `1:length(list())`.
+::::
+
+
 
 ###
 
-__Exercise__: 
+:::: {.exercise-box }
+
+#### Exercise
 
 We have created a list in the background called `num_list`, containing numeric vectors of different lengths. Write a `for` loop to print the mean of each element.
 
@@ -487,6 +590,7 @@ for(i in seq_along(num_list)) {
 }
 ```
 
+::::
 
 
 ### Storing outputs
@@ -508,7 +612,11 @@ num_df <- data.frame(var1 = rnorm(n = 10),
 
 If we wanted to calculate and store the standard deviation of each column using a loop, we would first need to create a vector to store the four standard deviations.
 
-__Note__: Vectors can be created quickly using the `vector()` function. We indicated that it would be numeric, by specifying `mode = "numeric"` and chose it to be of length 4 to store the standard deviation for each of the four columns (the length of our output vector should be the same as the length of the sequence we iterate through).
+:::: {.tipsbox }
+__Tip__: Vectors can be created quickly using the `vector()` function.
+::::
+
+We can create a numeric vector by specifying `mode = "numeric"` and choose it to be of length 4 to store the standard deviation for each of the four columns (the length of our output vector should be the same as the length of the sequence we iterate through).
 
 ```{r, echo = TRUE}
 output_store <- vector(mode = "numeric", length = length(num_df)) # 1. output
@@ -539,7 +647,9 @@ To summarise, when we want to store our output, our basic `for` loop structure h
 
 ###
 
-__Exercise__: 
+:::: {.exercise-box }
+
+#### Exercise 
 
 Modify the loop that you wrote above to __store__ instead __print__ the mean of each vector in `num_list` (remember, we have stored `num_list` in the background for you). Then, print your stored output. Check that this vector contains the numbers you printed earlier.
 
@@ -563,10 +673,15 @@ for(i in seq_along(num_list)) { # 2. sequence
 # print our result
 mean_store
 ```
+::::
+
 
 ### 
 
-__Exercise__:
+:::: {.exercise-box }
+
+
+#### Exercise
 
 Write a `for` loop to find the __number of unique values__ in each column of the `mtcars` data set.
 
@@ -605,9 +720,16 @@ for(i in seq_along(mtcars)) { # 2. sequence
 unique_store
 ```
 
+::::
+
+
 ### 
 
-There are also `while` and `repeat` loops in R, but we will not cover them in this course. Additionally, the `lapply` function allows you to loop through elements of a list and apply a function to them without writing a loop.
+:::: {.readingbox }
+
+Additionally, the `lapply` function allows you to loop through elements of a list and apply a function to them without writing a loop. You can read about it [in R Programming for Data Science](https://bookdown.org/rdpeng/rprogdatascience/loop-functions.html#lapply). 
+
+::::
 
 ## Functions
 
@@ -621,14 +743,20 @@ There are also `while` and `repeat` loops in R, but we will not cover them in th
 
 So far, we have used many of the built in functions in R such as `c()`, `mean()`, `seq()` and `plot()`. In this section we will explore functions in more depth. You will learn how to write your own functions, which will eventually allow you to automate common tasks and solve specific problems in a more powerful and general way than copy-and-pasting. 
 
+:::: {.readingbox }
 
 [This section](https://r4ds.had.co.nz/functions.html) of R for Data Science describes the advantages of the functional style.
+::::
 
 ### Functions in R
 
 - Functions in R are objects and are treated similarly to other objects (e.g., vectors). They can be passed as arguments to other functions and even defined within other functions.
 
-- Watch this [short video](https://vimeo.com/220490105) about functions in R from Rstudio.
+:::: {.videobox }
+
+Watch this [short video](https://vimeo.com/220490105) about functions in R from Rstudio.
+
+::::
 
 ### Basic structure of a function
 
@@ -733,7 +861,11 @@ print_something_n_times()
 
 The `print_something_n_times()` function does not return any object, it just prints our sentence out onto the screen. Say we wish to return the total number of characters that are printed to the screen (excluding the quotation marks) and store this to be used later (i.e. the number of characters in "I have written a function!" times the number of times it is printed)
 
+:::: {.notesbox }
+
 **Note:** the number of characters in a string can be obtained using the `nchar()` function.
+::::
+
 
 ```{r, echo = T}
 print_sentence_return_n_char <- function(n = 2){
@@ -786,6 +918,7 @@ quiz(caption = "",
 
 ### Exercises
 
+:::: {.exercise-box }
 
 #### Exercise 1
 
@@ -803,7 +936,11 @@ sq_num <- function(x){
 }
 ```
 
+::::
+
 ###
+
+:::: {.exercise-box }
 
 #### Exercise 2
 
@@ -862,12 +999,17 @@ test_vec2 <- c(2, 3, 6)
 l2_norm(vec = test_vec2)
 ```
 
-
-**Note:** We do not have to use a loop to square each element in the vector, simply writing `vec^2` squared each element because the operation is vectorised.
-
-
+::::
 
 ###
+
+:::: {.notesbox }
+**Note:** We do not have to use a loop to square each element in the vector, simply writing `vec^2` squared each element because the operation is vectorised.
+::::
+
+###
+
+:::: {.exercise-box }
 
 #### Exercise 3
 
@@ -882,9 +1024,13 @@ Write a function called `lp_norm` that calculates the L-p norm of any vector in 
 
 Verify your calculation by calculating the L-2 norm of $(3, 4)^T$ and $(2, 3, 6)^T$ (again) and the L-1 norm of $(1, 2, -2)^T$ - the answer should also be 5.
 
+:::: {.hintsbox }
 **Hint:** Don't start afresh, modify the code from exercise 2.
+::::
 
+:::: {.extrabox }
 **Extra:** If you wish, you can set the default value of $p$ as 2, so that the function returns the L-2 norm by default
+::::
 
 
 ```{r Lpnorm, exercise = TRUE, exercise.lines = 15}
@@ -936,6 +1082,8 @@ test_vec3 <- c(1, 2, -2)
 lp_norm(vec = test_vec3, p = 1)
 ```
 
+::::
+
 
 
 ## Function Arguments
@@ -963,6 +1111,8 @@ We can see that it has the three arguments:
 3. `sd` - the standard deviation of the distribution for each draw. Again, we will just specify a single number.
 
 The argument `n` has no default, but `mean` and `sd` have dafaults of 0 and 1 respecively. We should note the order of the function arguments.
+
+###
 
 #### Questions
 
@@ -1049,12 +1199,17 @@ quiz(caption = "",
 
 So far, you have have used functions in R that were installed when you downloaded R from the **C**omprehensive **R** **A**rchive **N**etwork (CRAN). This is called the *base R system*. Base packages contain low-level, fundamental functions that allow R to work and perform standard statistical and graphical methods (e.g., `mean()`, `sum()`, `plot()`...). 
 
+:::: {.exercise-box }
+
+#### Exercise
+
 Run the following command to see the base packages that are automatically loaded in your R session.
 
 ```{r base, exercise = TRUE, exercise.lines = 5}
 sessionInfo()$basePkgs
 ```
 
+::::
 
 ### Extending the functionality of base R
 
@@ -1102,11 +1257,13 @@ Then,  to load the tidyverse and make it available in your current R session, ru
 library(tidyverse)
 ```
 
+:::: {.exercise-box }
 
 #### Exercise
 
 Read the high-level summaries of the core tidyverse packages [here](https://www.tidyverse.org/packages/#core-tidyverse).
 
+::::
 
 ## References
 
@@ -1117,3 +1274,11 @@ Read the high-level summaries of the core tidyverse packages [here](https://www.
 - Peng, R.D., 2016. *R programming for data science.* Leanpub.
 
 - Harvard Chan Bioinformatics Core *Introduction to R (Section 4, Packages and libraries)* [Online Repository](http://bioinformatics.sph.harvard.edu/)  
+
+#### Credit for icons used
+
+<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
+<div>Icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
+<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
