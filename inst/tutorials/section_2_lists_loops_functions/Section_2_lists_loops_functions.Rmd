@@ -116,7 +116,8 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```{r prepare objects}
 # preparing for lists
-l <- list(first_element = c(1, 5, -11, 33) , second_element =  c(5, 1.2, -11, 2)) 
+l <- list(first_element = c(1, 5, -11, 33),
+          second_element =  c(5, 1.2, -11, 2)) 
 ```
 
 ## Lists
@@ -137,42 +138,39 @@ The `list()` function can be used to create a list in R. If no arguments are pas
 
 The following code creates a named list with elements which are numeric vectors of the same length. Modify the code to:
 
-- Store vectors of different lengths in `my_list()`.
+1. Store vectors of different lengths in `my_list()`.
 
-- Store vectors of different classes and different lengths in `my_list()`.
+2. Store vectors of different classes and different lengths in `my_list()`.
 
 Use descriptive names for the elements.
 
 ```{r list1, exercise=TRUE, exercise.lines = 20}
-# Example of creating an empty list:
-my_list <- list()
-my_list
-
-
-# Create a named list with the following vectors as elements
+# Creating a named list with the following vectors as elements
+# create vectors:
 v1 <- c(1, 5, -11, 33) 
-v2 <- c(5, 1.2, -11, 2) # create vectors
+v2 <- c(5, 1.2, -11, 2)
 
+# create list containing vectors
 my_list <- list(first_element = v1, second_element = v2) # create list
 
 my_list
 ```
 
-```{r list1-solution}
+```{r list1-hint}
 # Part 1: Two vectors of different lengths. 
-v1 <- c(1, 5, -11, 33, 55, 66) 
-v2 <- c(5, 1.2, -11, 2)
+v1 <- c(1, 5, -11, 33, 55, 66) # length 6 
+v2 <- c(5, 1.2, -11, 2) # length 4
 
-my_list <- list(longer_element = v1, shorter_element = v2) 
+my_list <- list(longer = v1, shorter = v2) 
 
 my_list
+```
 
-# Part 2
-
-# Part 1: Two vectors of different classes lengths. 
-# Longer character vector:
-v1 <- c("Hello", "how", "are", "you", "today", "?") 
-# shorter numeric vector
+```{r list1-solution}
+# Part 2 Two vectors of different classes and lengths. 
+# Long character vector:
+v1 <- c("Hello", "how", "are", "you", "today", "?")
+# Short numeric vector
 v2 <- c(5, 1.2, -11, 2)
 
 my_list <- list(longer_char= v1, shorter_num = v2) 
@@ -183,7 +181,7 @@ my_list
 ### Subsetting Lists
 
 Similarly to indexing vectors, you can use brackets (`[]`) to access elements of a list, which will _always_ return a list. You can use double brackets (`[[]]`) or `$name` to return an element of a list, but the class of the object returned is the class of the object 
-stored in that position (which often will not be a list).
+stored in that position (which often will not always be a list).
 
 ###
 
@@ -191,23 +189,34 @@ __Exercise__:
 
 - Run and manipulate the following code to become familiar with subsetting lists.
 
-```{r list-2, exercise=TRUE, exercise.lines = 17}
-l <- list(first_element = c(1, 5, -11, 33) , second_element =  c(5, 1.2, -11, 2)) 
+```{r list-2-1, exercise=TRUE, exercise.lines = 8}
+l <- list(first_element = c(1, 5, -11, 33),
+          second_element = c(5, 1.2, -11, 2)) 
 
 # Access first_element with single brackets: this returns a list.
 preserved <- l["first_element"]   
 preserved
 class(preserved)
+```
+
+```{r list-2-2, exercise=TRUE, exercise.lines = 8}
+l <- list(first_element = c(1, 5, -11, 33),
+          second_element = c(5, 1.2, -11, 2)) 
 
 # Access first_element with double brackets: this returns the vector stored. In this case a numeric vector
 simplified <- l[["first_element"]] 
 simplified
 class(simplified)
+```
 
-# Alternatives:
+```{r list-2-3, exercise=TRUE, exercise.lines = 9}
+l <- list(first_element = c(1, 5, -11, 33),
+          second_element = c(5, 1.2, -11, 2)) 
+
+# Some Alternatives:
 l # print the full list to screen
-l[1] # equivalent to preserved
-l[[1]]  #  equivalent to simplified.
+l[1] # equivalent to preserved (by index)
+l[[1]]  #  equivalent to simplified (by index)
 l$first_element # equivalent to simplified
 ```
 
@@ -347,7 +356,9 @@ if(rand_num > 5) {
 
 ### Introducing loops
 
-Loops are used in programming when you need to do the same thing to multiple inputs: repeating the same operation on different columns, or on different datasets. Loops are used less frequently in R than in other languages (it is common to write functions, which we will come across next in this tutorial, to extract repeated tasks and remove the need for duplicate code) but many R users will use loops from time to time. In this section, we will learn about __for loops__.
+Loops are used in programming when you need to do the same thing to multiple inputs: repeating the same operation on different columns, or on different datasets. Loops are used less frequently in R than in other languages (it is common to write functions, which we will come across next, to extract repeated tasks and remove the need for duplicate code) but many R users will use loops from time to time. 
+
+In this section, we will learn about __for loops__.
 
 ### Basic structure of `for` loops
 
@@ -397,7 +408,7 @@ We could print each element in a number of ways:
 
 #### 1. Define a sequence of integers for indexing manually
 
-Generate the sequence `1:4` for indexing manually, because we know that `char_vec` has four elements. The `char_vec[i]` gives the $i^th$ element of `char_vec`.
+Generate the sequence `1:4` for indexing manually, because we know that `char_vec` has four elements. The `char_vec[i]` gives the i<sup>th</sup> element of `char_vec`.
 
 ```{r, echo = T}
 for(i in 1:4) { # sequence
@@ -445,7 +456,7 @@ This might seem like the easiest way to construct the loop, however, we often we
 
 __Exercise__: 
 
-We have created a list in the background called `num_list`, which contains numeric vectors of different lengths. Write a `for` loop to print the mean of each element.
+We have created a list in the background called `num_list`, containing numeric vectors of different lengths. Write a `for` loop to print the mean of each element.
 
 ```{r}
 set.seed(1) # ensures the random numbers are the same each time this is drawn.
@@ -496,7 +507,7 @@ num_df <- data.frame(var1 = rnorm(n = 10),
                      var4 = rnorm(n = 10))
 ```
 
-If we wanted to calculate and store the standard deviation of each column using a loop, we would first need to create a vector to store the output.
+If we wanted to calculate and store the standard deviation of each column using a loop, we would first need to create a vector to store the four standard deviations.
 
 __Note__: Vectors can be created quickly using the `vector()` function. We indicated that it would be numeric, by specifying `mode = "numeric"` and chose it to be of length 4 to store the standard deviation for each of the four columns (the length of our output vector should be the same as the length of the sequence we iterate through).
 
@@ -519,19 +530,19 @@ output_store
 
 ###
 
-So, when we want to store our output, our basic `for` loop structure has three steps:
+To summarise, when we want to store our output, our basic `for` loop structure has three steps:
 
-1. Output: Set up an object to store the output of the loop.
+1. **Output:** Set up an object to store the output of the loop.
 
-2. Sequence: Define an iterator variable and a vector to iterate through.
+2. **Sequence:** Define an iterator variable and a vector to iterate through.
 
-3. Body: This is the code that does the work. It is run repeatedly, each time with a different value for the iterator variable.
+3. **Body:** This is the code that does the work. It is run repeatedly, each time with a different value for the iterator variable.
 
 ###
 
 __Exercise__: 
 
-Modify the loop that you wrote above to __store__ instead __print__ the mean of each vector in `num_list`. Then print your stored output. Check that this vector contains the numbers you printed earlier.
+Modify the loop that you wrote above to __store__ instead __print__ the mean of each vector in `num_list` (remember, we have stored `num_list` in the background for you). Then, print your stored output. Check that this vector contains the numbers you printed earlier.
 
 ```{r outputloop, exercise = TRUE, exercise.lines = 12}
 # Previous solution:
@@ -541,7 +552,8 @@ for(i in seq_along(num_list)) {
 ```
 
 ```{r outputloop-solution}
-mean_store <- vector(mode = "numeric", length = length(num_list)) #1. output
+mean_store <- vector(mode = "numeric",
+                     length = length(num_list)) #1. output
 
 for(i in seq_along(num_list)) { # 2. sequence
   
@@ -581,7 +593,8 @@ length(unique(x1))
 
 
 ```{r mtcarsunique-solution}
-unique_store <- vector(mode = "numeric", length = length(mtcars)) # 1. output 
+unique_store <- vector(mode = "numeric",
+                       length = length(mtcars)) # 1. output 
 
 for(i in seq_along(mtcars)) { # 2. sequence
   
@@ -595,17 +608,22 @@ unique_store
 
 ### 
 
-Note that there are also `while` and `repeat` loops in R,  but we will not cover them in this course.
+There are also `while` and `repeat` loops in R, but we will not cover them in this course. Additionally, the `lapply` function allows you to loop through elements of a list and apply a function to them without writing a loop.
 
 ## Functions
 
-### Functions
+###
 
-So far, we have used many of the built in functions in R such as `c()`, `mean()`, `seq()` and `plot()`. In this section we will explore functions in more depth. You will learn how to write your own functions, which will eventually allow you to automate common tasks in a more powerful and general way than copy-and-pasting. 
+> A functional style means decomposing a big problem into smaller pieces, then solving each piece with a function or combination of functions.
+>
+> --- Wickham, H., (2019)
 
-A functional style of R programming consists of decomposing a big problem into smaller pieces, then solving each piece with a function or combination of functions. 
+###
 
-Read [this section](https://r4ds.had.co.nz/functions.html) of R for Data Science on the advnatages of the functional style.
+So far, we have used many of the built in functions in R such as `c()`, `mean()`, `seq()` and `plot()`. In this section we will explore functions in more depth. You will learn how to write your own functions, which will eventually allow you to automate common tasks and solve specific problems in a more powerful and general way than copy-and-pasting. 
+
+
+[This section](https://r4ds.had.co.nz/functions.html) of R for Data Science describes the advantages of the functional style.
 
 ### Functions in R
 
@@ -714,4 +732,392 @@ print_something_n_times()
 
 ### Return statments
 
-__to be continued__
+Now, this function does not return any object, it just prints our sentence to the screen. Say, we wish to return the number of characters that are printed to the the screen in total (excluding the quotation marks) to be stored and used later.
+
+(this is just the number of character in "I have written a function!" times the number of times it is printed)
+
+note: the number of characters in a string can be obtained using the `nchar()` function.
+
+```{r, echo = T}
+print_sentence_return_n_char <- function(n = 2){
+  for(i in 1:n){
+    print("I have written a function!")
+  }
+  
+  num_of_char <- nchar("I have written a function!")
+   
+  num_of_char * n # return this number
+}
+```
+
+R returns the **last expression** that is evaluated within the function body, which in this case is `num_of_char * n`. There `return()` function can be used to select what is returned, but its use is reserved for special cases.
+
+```{r, echo = T}
+print_sentence_return_n_char(n = 1)
+```
+
+And, we can store the value it returns using an assignment statement.
+
+```{r, echo = T}
+num_of_chars_1 <- print_sentence_return_n_char(n = 1)
+```
+
+```{r, echo = T}
+num_of_chars_1
+```
+
+This object (the number 26) is now stored in out R environment, and can be used again. For example, we can perform arithmetic operations on it:
+
+```{r, echo = T}
+num_of_chars_1 * 2
+```
+
+### Quiz question 
+
+```{r functions-quiz}
+quiz(caption = "",
+  question("For the function defined above, what value would running `print_sentence_return_n_char()` **return**?",
+    answer("An error! We have not specified any arguments."),
+    answer("`NA` (missing value)"),
+    answer("`52`", correct = TRUE),
+    answer("`26`"),
+    allow_retry = TRUE,
+    correct = "Correct. The default value for the argument `n` is set to 2, so in this case, because we have not specified `n`, the function returns 2 times the number of characters in \"I have written a function!\" (which we know from above is 26): 2 × 26 = 52.",
+    incorrect = "Incorrect! Check whether a **default** value for `n` was specified when we defined the function."
+  ))
+```
+
+### Exercises
+
+
+#### Exercise 1
+
+Write a function that returns the square of a number. Call it, `sq_num()`.
+
+```{r sqnm, exercise = TRUE, exercise.lines = 6}
+# type solution here
+```
+
+
+```{r sqnm-solution}
+# full solution
+sq_num <- function(x){
+  x^2
+}
+```
+
+###
+
+#### Exercise 2
+
+In mathematics, the "L-2 norm" of an n-dimensional vector $(x_1, \dots, x_n)^T$ is given by
+
+$$
+||x||_2 = \sqrt{x_1^2 + .... + x_n^2} .
+$$
+Write a function called `l2_norm` that calculates and returns the L-2 norm of an n-dimensional vector in R. 
+
+Verify your calculation by testing the function on some known examples (e.g., the vectors $(3, 4)^T$ and $(2, 3, 6)^T$ - the answers should be 5 and 7, respectively).
+
+```{r L2norm, exercise = TRUE, exercise.lines = 12}
+
+```
+
+```{r L2norm-hint-1}
+# Partial solution to function
+l2_norm <- function(vec) {
+  
+  sum_part <- sum(vec ^ 2) # sum of each element squared
+  
+  # now need to return square root of sum part...
+}
+
+```
+
+
+```{r L2norm-hint-2}
+# Full solution without tests
+l2_norm <- function(vec) {
+  
+  sum_part <- sum(vec ^ 2) # sum of each element squared
+  
+  sqrt(sum_part)
+}
+
+```
+
+```{r L2norm-solution}
+# Full solution with tests
+
+# Function
+l2_norm <- function(vec) {
+  
+  sum_part <- sum(vec ^ 2) # sum of each element squared
+  
+  sqrt(sum_part)
+}
+
+# Test:
+test_vec1 <- c(3, 4)
+l2_norm(vec = test_vec1)
+
+test_vec2 <- c(2, 3, 6)
+l2_norm(vec = test_vec2)
+```
+
+
+**Note:** We did not have to use a loop to square each element in the vector, simply writing `vec^2` squared each element because the operation is vectorised.
+
+
+
+###
+
+#### Exercise 3
+
+Building on Exercise 2, the general "L-p norm" of an n-dimensional vector $(x_1, \dots, x_n)^T$ is given by
+
+$$
+||x||_p = (|x_1|^p + .... + |x_n|^p)^{1/p}.
+$$
+
+Write a function called `lp_norm` that calculates the L-p norm of any vector in R, given a value of p.
+
+
+Verify your calculation by calculating the L-2 norm of $(3, 4)^T$ and $(2, 3, 6)^T$ (again) and the L-1 norm of $(1, 2, -2)^T$ - the answer should also be 5.
+
+**Hint:** Don't start afresh, modify the code from exercise 2.
+
+**Extra:** If you wish, you can set the default value of $p$ as 2, so that the function returns the L-2 norm by default
+
+
+```{r Lpnorm, exercise = TRUE, exercise.lines = 15}
+
+```
+
+
+```{r Lpnorm-hint-1}
+# Function, no test
+
+lp_norm <- function(vec, p = 2) {
+  
+  # get the absolute value of each element of vector
+  abs_vec <- abs(vec)
+  
+  # sum of each element to power of p
+  sum_part <- sum(abs_vec ^ p) 
+  
+  # return sum part ^ 1/p
+  (sum_part)^(1/p)
+}
+```
+
+```{r Lpnorm-solution}
+# Function, with tests
+
+# note: setting default value of p = 2
+lp_norm <- function(vec, p = 2) {
+  
+  # get the absolute value of each element of vector
+  abs_vec <- abs(vec)
+  
+  # sum of each element to power of p
+  sum_part <- sum(abs_vec ^ p) 
+  
+  # return sum part ^ 1/p
+  (sum_part)^(1/p)
+}
+
+# Tests of L2 norm
+test_vec1 <- c(3, 4)
+lp_norm(vec = test_vec1)
+
+test_vec2 <- c(2, 3, 6)
+lp_norm(vec = test_vec2)
+
+# test of L1 norm
+test_vec3 <- c(1, 2, -2)
+lp_norm(vec = test_vec3, p = 1)
+```
+
+
+
+## Function Arguments
+
+###
+
+You have learned how to write your own functions in R. However, you will often use functions that someone else has written, and it's important to know how to specify arguments for them. This interactive quiz will test your knowledge and familiarize you with function arguments.
+
+### Quiz
+
+#### Set up
+We will work with the `rnorm()` function which generates random draws from a normal distribution. 
+
+```{r, echo = T}
+# get structure:
+str(rnorm) 
+```
+
+We can see that it has the three arguments:
+
+1. `n` - the number of observations/ draws.
+
+2. `mean` - the mean of the distribution for each draw. While this can be a vector the of length `n` (a different mean for each draw), for now we'll just specify it as a single number (the same mean for each draw).
+
+3. `sd` - the standard deviation of the distribution for each draw. Again, we will just specify a single number.
+
+The argument `n` has no default, but `mean` and `sd` have dafaults of 0 and 1 respecively. We should note the order of the function arguments.
+
+#### Questions
+
+```{r testarguments, exercise = TRUE, exercise.lines = 10}
+# use this box to test your answers
+
+# you can use set.seed(1) before each random draw 
+# if you want to set the state of the random number generator
+
+
+```
+
+```{r testarguments-solution}
+# 1)
+set.seed(1)
+rnorm(n = 1)
+
+set.seed(1)
+rnorm(n = 1, mean = 0, sd = 1)
+
+
+# 2)
+set.seed(1)
+rnorm(n = 1, mean = 0, sd = 2)
+
+set.seed(1)
+rnorm(1, 0, 2)
+
+# 3)
+rnorm(sd = 2, mean = 0, n = 1)
+
+# 4) 
+set.seed(1)
+rnorm(sd = 2, 5, 3)
+set.seed(1)
+rnorm(n = 5, mean = 3, sd = 2)
+```
+
+```{r arguments-quiz}
+quiz(caption = "",
+  question("Are the following commands equivalent? \n \n`rnorm(n = 1)` and \n`rnorm(n = 1, mean = 0, sd = 1)`?",
+    answer("Yes", correct = TRUE),
+    answer("No"),
+    allow_retry = TRUE,
+    correct = "Correct. When we don't specify `mean` and `sd` in `rnorm(n = 1)`, they take on the default values of 0 and 1, respectively.",
+    incorrect = "Incorrect, try again."
+  ),
+  question("Are the following commands equivalent? \n \n`rnorm(1, 0, 2)` and `rnorm(n = 1, mean = 0, sd = 2)`",
+    answer("Yes", correct = TRUE),
+    answer("No"),
+    allow_retry = TRUE,
+    correct = "Correct. When we don't specify argument names, R assigns them the values we supply in order.",
+    incorrect = "Incorrect, try again."
+  ),
+  question("Will the folllowing throw an error? \n \n `rnorm(sd = 2, mean = 0, n = 1)`",
+    answer("Yes, the argument names are in the wrong order"),
+    answer("No", correct = TRUE),
+    allow_retry = TRUE,
+    correct = "Correct. We can specify arguments by name in any order we like. The above command is identical to `rnorm(n = 1, mean = 0, sd = 2)`.",
+    incorrect = "Incorrect, try again."
+  ),
+  question("The command `rnorm(sd = 2, 5, 3)` is equivalent to which of the following? ",
+    answer("`rnorm(n = 3, mean = 5, sd = 2)`"),
+    answer("`rnorm(n = 5, mean = 3, sd = 2)`", correct = TRUE),
+    allow_retry = TRUE,
+    correct = "Correct. When we specify one argument by name and others without, the named argument is 'taken out' and the others are evaluated in order In this case, 5 is assigned to `n` and 3 to `mean`.",
+    incorrect = "Incorrect, try again."
+  )
+  )
+```
+
+<!-- Packages -->
+
+## Packages
+
+###
+
+> "An R package is a collection of functions, data, and documentation that extends the capabilities of base R."
+>
+>--- Wickham & Grolemund, (2016)
+
+
+### Base R
+
+So far, you have have used functions in R that were installed when you downloaded R from the **C**omprehensive **R** **A**rchive **N**etwork (CRAN). This is called the *base R system*. Base packages contain low-level, fundamental functions that allow R to work and perform standard statistical and graphical methods (e.g., `mean()`, `sum()`, `plot()`...). 
+
+Run the following command to see the base packages that are automatically loaded in your R session.
+
+```{r base, exercise = TRUE, exercise.lines = 5}
+sessionInfo()$basePkgs
+```
+
+
+### Extending the functionality of base R
+
+Base R's capabilities are extended through user-created packages, which add specific functionality to R. They include reusable R functions, the documentation that describes how to use them, and sample data.
+
+CRAN hosts R packages for download. At the time of writing, there are over [18,000 R packages available for download from CRAN](https://cran.r-project.org/web/packages/). All packages on CRAN must consistently meet standards/ a certain level of quality and they are routinely tested. 
+
+Packages from CRAN can be installed with just a single command 
+
+```{r, echo = TRUE, eval = F}
+install.packages("package_name")
+```
+
+Then to load them into R, so that you can use their functionality, you can just type the following:
+
+```{r, echo = TRUE, eval = F}
+library("package_name")
+# or
+library(package_name)
+```
+
+Package documentation and help can be found by either of the following commands:
+
+```{r, eval = FALSE, echo = TRUE}
+help(package = "package_name")
+# or
+package?package_name
+```
+
+### The `tidyverse` packages
+
+Now that we have mastered the basics of R programming, our attention will turn to using R for *data analysis*. For this, we turn to the **Tidyverse**, a collection of R packages designed to make data science faster and easier.
+
+The tidyverse is contains packages that contain functions for dealing with common data science tasks, including data import and export, wrangling and cleaning, transformation and visualisation. All packages in the tidyverse share an underlying design philosophy, grammar, and data structures.
+
+To install the tidyverse, run the following command in your RStudio console:
+
+```{r insttidy, echo = TRUE, eval = FALSE}
+install.packages("tidyverse")
+```
+
+Then,  to load the tidyverse and make it available in your current R session, run:
+
+```{r libtidy, echo = TRUE, eval = F}
+library(tidyverse)
+```
+
+
+#### Exercise
+
+Read the high-level summaries of the core tidyverse packages [here](https://www.tidyverse.org/packages/#core-tidyverse).
+
+
+
+## References
+
+- Wickham, H. and Grolemund, G., 2016. *R for data science: import, tidy, transform, visualize, and model data.* " O'Reilly Media, Inc.".
+
+- Wickham, H., 2019. *Advanced R.* CRC Press.
+
+- Peng, R.D., 2016. *R programming for data science.* Leanpub.
+
+- Harvard Chan Bioinformatics Core *Introduction to R (Section 4, Packages and libraries)* [Online Repository](http://bioinformatics.sph.harvard.edu/)  
