@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 ```{r, fig.asp=1, out.width="200px", echo = FALSE}
-knitr::include_graphics(path = "inst/figures/hex-badge.png")
+#knitr::include_graphics(path = "inst/figures/hex-badge.png")
 ```
 <!-- badges: end -->
 
