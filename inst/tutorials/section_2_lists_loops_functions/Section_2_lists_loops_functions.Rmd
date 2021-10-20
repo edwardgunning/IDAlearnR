@@ -173,7 +173,8 @@ v1 <- c("Hello", "how", "are", "you", "today", "?")
 # Short numeric vector
 v2 <- c(5, 1.2, -11, 2)
 
-my_list <- list(longer_char= v1, shorter_num = v2) 
+my_list <- list(longer_char= v1,
+                shorter_num = v2) 
 
 my_list
 ```
@@ -356,9 +357,7 @@ if(rand_num > 5) {
 
 ### Introducing loops
 
-Loops are used in programming when you need to do the same thing to multiple inputs: repeating the same operation on different columns, or on different datasets. Loops are used less frequently in R than in other languages (it is common to write functions, which we will come across next, to extract repeated tasks and remove the need for duplicate code) but many R users will use loops from time to time. 
-
-In this section, we will learn about __for loops__.
+Loops are used in programming when you need to do the same thing to multiple inputs: repeating the same operation on different columns, or on different datasets. Loops are used from time to time in R, though less frequently than in other languages (we write functions, which we’ll see in the next section, that extract repeated tasks and remove the need for duplicate code). Though there are different loops, e.g. while and repeat loops, in this section, we will focus on **for loops**.
 
 ### Basic structure of `for` loops
 
@@ -406,7 +405,21 @@ We could print each element in a number of ways:
 
 ###
 
-#### 1. Define a sequence of integers for indexing manually
+#### 1. Iterate directly through `char_vec`
+
+```{r, echo = T}
+for(i in char_vec) {
+  print(i)
+}
+```
+
+### 
+
+This might seem like the easiest way to construct the loop, however, we often we want to store a result in another vector, and looping through a sequence of integers and indexing is useful for iterating through both the input and output.
+
+###
+
+#### 2. Manually define a sequence of integers for indexing
 
 Generate the sequence `1:4` for indexing manually, because we know that `char_vec` has four elements. The `char_vec[i]` gives the i<sup>th</sup> element of `char_vec`.
 
@@ -418,7 +431,7 @@ for(i in 1:4) { # sequence
 
 ###
 
-#### 2. Use `seq_along` to automatically generate a sequence of integers for indexing 
+#### 3. Use `seq_along` to automatically generate a sequence of integers for indexing 
 
 First, let's see what `seq_along()` does.
 
@@ -436,21 +449,7 @@ for(i in seq_along(char_vec)) {
 
 ###
 
-__Tip__: Although `1:length(char_vec)` will achieve the same thing as `seq_along(char_vec)` in most cases, `seq_along()` is regarded as safer because it handles vectors of length 0 differently. 
-
-###
-
-#### 3. Iterate through `char_vec` itself, instead of indexing
-
-```{r, echo = T}
-for(i in char_vec) {
-  print(i)
-}
-```
-
-### 
-
-This might seem like the easiest way to construct the loop, however, we often we want to store a result in another vector, and looping through indexes is useful for iterating through both the input and output. Furthermore, we can only iterate through a vector, so when we want to loop through elements of a list, we must use indexing.
+__Tip__: Although `1:length(char_vec)` will achieve the same thing as `seq_along(char_vec)` in most cases, `seq_along()` is regarded as safer because it handles objects of length 0 differently. To see this yourself, compare the two approaches for generating sequences to index an empty list or data frame or a vector of length 0. For example, try `seq_along(list())` and `1:length(list())`.
 
 ###
 
@@ -668,7 +667,7 @@ As expected, it does nothing!
 
 #### Body
 
-Now, suppose we want the function to do some computation, we place some code in the __body__, within the `{}`, after `function()`. This code is run each time we call our function object. For now, we will just make our function print a sentence to the screen.
+Now, suppose we want the function to do some computation. We place some code in the __body__ (within the `{}`), after `function()`. This code is run each time we call our function object. For now, we will just make our function print a sentence to the screen.
 
 ```{r, echo = TRUE}
 print_something <- function() {
@@ -686,7 +685,7 @@ print_something()
 
 #### Arguments
 
-__Arguments__ are the options that you can specify to the user that the user may explicity set. For this basic function, we can add an argument that determines how many times "I have written a function!" is printed to the console.
+__Arguments__ are the parameters that you can let the user set or specify that will be used in your code. For this basic function, we can add an argument that determines how many times "I have written a function!" is printed to the console.
 
 ```{r, echo = T}
 print_something_n_times <- function(n){
@@ -712,7 +711,7 @@ print_something_n_times()
 
 ### 
 
-We can, however, set default argument values when writing our function, by typing `= <value>` after the argument name. The argument in our function will take this value unless otherwise specified.
+However, it's possible to set default argument values when writing our function, by typing `= <value>` after the argument name. The argument in our function will take this value unless otherwise specified.
 
 ```{r, echo = TRUE}
 print_something_n_times <- function(n = 2){
@@ -730,13 +729,11 @@ print_something_n_times()
 ```
 
 
-### Return statments
+### Return statements
 
-Now, this function does not return any object, it just prints our sentence to the screen. Say, we wish to return the number of characters that are printed to the the screen in total (excluding the quotation marks) to be stored and used later.
+The `print_something_n_times()` function does not return any object, it just prints our sentence out onto the screen. Say we wish to return the total number of characters that are printed to the screen (excluding the quotation marks) and store this to be used later (i.e. the number of characters in "I have written a function!" times the number of times it is printed)
 
-(this is just the number of character in "I have written a function!" times the number of times it is printed)
-
-note: the number of characters in a string can be obtained using the `nchar()` function.
+**Note:** the number of characters in a string can be obtained using the `nchar()` function.
 
 ```{r, echo = T}
 print_sentence_return_n_char <- function(n = 2){
@@ -750,7 +747,7 @@ print_sentence_return_n_char <- function(n = 2){
 }
 ```
 
-R returns the **last expression** that is evaluated within the function body, which in this case is `num_of_char * n`. There `return()` function can be used to select what is returned, but its use is reserved for special cases.
+R returns the **last expression** that is evaluated within the function body, which in this case is `num_of_char * n`. The `return()` function can be used to select what is returned, but its use is reserved for special cases.
 
 ```{r, echo = T}
 print_sentence_return_n_char(n = 1)
@@ -866,7 +863,7 @@ l2_norm(vec = test_vec2)
 ```
 
 
-**Note:** We did not have to use a loop to square each element in the vector, simply writing `vec^2` squared each element because the operation is vectorised.
+**Note:** We do not have to use a loop to square each element in the vector, simply writing `vec^2` squared each element because the operation is vectorised.
 
 
 
@@ -1089,7 +1086,7 @@ package?package_name
 
 ### The `tidyverse` packages
 
-Now that we have mastered the basics of R programming, our attention will turn to using R for *data analysis*. For this, we turn to the **Tidyverse**, a collection of R packages designed to make data science faster and easier.
+Now that we have mastered the basics of R programming, our attention will turn to using R for *data analysis*. For this, we turn to the **Tidyverse** universe/library/package, a collection of R packages designed to make data science faster and easier.
 
 The tidyverse is contains packages that contain functions for dealing with common data science tasks, including data import and export, wrangling and cleaning, transformation and visualisation. All packages in the tidyverse share an underlying design philosophy, grammar, and data structures.
 
@@ -1109,7 +1106,6 @@ library(tidyverse)
 #### Exercise
 
 Read the high-level summaries of the core tidyverse packages [here](https://www.tidyverse.org/packages/#core-tidyverse).
-
 
 
 ## References
