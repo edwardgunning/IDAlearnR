@@ -130,18 +130,18 @@ a, a > code {
 .readingbox {
   padding: 1em 1em 1em 4em;
   margin-bottom: 10px;
-  border: 2px dotted orange;
+  border: 2px none #F08080;
   border-radius: 10px;
-  background: #fffbe6 5px center/3em no-repeat;
+  background: #FFEFD5 5px center/3em no-repeat;
   background-image: url(images/open-book.png)
 }
 
 .videobox {
   padding: 1em 1em 1em 4em;
   margin-bottom: 10px;
-  border: 2px dotted orange;
+  border: 2px none #F08080;
   border-radius: 10px;
-  background: #fffbe6 5px center/3em no-repeat;
+  background: #FFEFD5 5px center/3em no-repeat;
   background-image: url(images/video.png)
 }
 
@@ -167,9 +167,9 @@ a, a > code {
 .exercise-box {
   padding: 1em 1em 1em 4em;
   margin-bottom: 10px;
-  border: 2px double #F8F8F8; /*  #005337;
+  border: 2px double #E8E8E8;
   border-radius: 10px;
-  background: white 5px center/3em no-repeat;
+  background: #F8F8FF 5px center/3em no-repeat;
 }
 
 
