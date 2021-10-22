@@ -2169,4 +2169,41 @@ title(main = "Displacement vs. Weight")
 
 ::::
 
+## References
+
+- Wickham, H. and Grolemund, G., 2016. *R for data science: import, tidy, transform, visualize, and model data.* " O'Reilly Media, Inc.".
+
+- Peng, R.D., 2016. *R programming for data science.* Leanpub.
+ 
+#### Credit for icons used
+
+---
+
+<div>The following icons were made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com:</a></div>
+
+```{r, out.width='8%'}
+knitr::include_graphics("images/notes.png")
+knitr::include_graphics("images/video.png")
+knitr::include_graphics("images/open-book.png")
+```
+
+
+---
+
+
+
+<div>The following icon was made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com:</a></div>
+
+
+```{r, out.width='8%'}
+knitr::include_graphics("images/lightbulb.png")
+```
+
+---
+
+<div>The following icon was made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com:</a></div>
+
+```{r, out.width='8%'}
+knitr::include_graphics("images/whisper.png")
+```
 
