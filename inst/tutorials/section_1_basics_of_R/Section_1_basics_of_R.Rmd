@@ -31,7 +31,7 @@ runtime: shiny_prerendered
   --header-font-is-google: 1;
   --code-font-family: 'Fira Mono';
   --code-font-is-google: 1;
-  --base-font-size: 17px;
+  --base-font-size: 15px;
   --text-font-size: 1rem;
   --code-font-size: 0.9rem;
   --code-inline-font-size: 1em;
@@ -99,7 +99,7 @@ body {
   font-family: var(--text-font-family), var(--text-font-family-fallback), var(--text-font-base);
   font-weight: 500;
   color: var(--text-color);
-  font-size: var(--base-font-size)
+  font-size: 17px
 }
 
 
