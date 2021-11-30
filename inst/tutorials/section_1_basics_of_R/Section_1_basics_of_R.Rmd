@@ -19,11 +19,11 @@ runtime: shiny_prerendered
 @import url(https://fonts.googleapis.com/css?family=Montserrat:300,300i&display=swap);
 @import url(https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap);
 @import url(https://fonts.googleapis.com/css?family=Fira+Mono&display=swap);
-
+@import url(https://fonts.googleapis.com/css?family=Nunito&display=swap);
 
 :root {
   /* Fonts */
-  --text-font-family: Montserrat;
+  --text-font-family: 'Nunito';
   --text-font-is-google: 1;
   --text-font-family-fallback: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial;
   --text-font-base: sans-serif;
@@ -31,7 +31,7 @@ runtime: shiny_prerendered
   --header-font-is-google: 1;
   --code-font-family: 'Fira Mono';
   --code-font-is-google: 1;
-  --base-font-size: 15px;
+  --base-font-size: 17px;
   --text-font-size: 1rem;
   --code-font-size: 0.9rem;
   --code-inline-font-size: 1em;
@@ -97,7 +97,7 @@ a {
 
 body {
   font-family: var(--text-font-family), var(--text-font-family-fallback), var(--text-font-base);
-  font-weight: 400;
+  font-weight: 500;
   color: var(--text-color);
   font-size: var(--base-font-size)
 }
