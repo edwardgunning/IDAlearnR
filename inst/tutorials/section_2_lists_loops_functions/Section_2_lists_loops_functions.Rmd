@@ -19,11 +19,12 @@ runtime: shiny_prerendered
 @import url(https://fonts.googleapis.com/css?family=Montserrat:300,300i&display=swap);
 @import url(https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap);
 @import url(https://fonts.googleapis.com/css?family=Fira+Mono&display=swap);
-
+@import url(https://fonts.googleapis.com/css?family=Intero&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap);
 
 :root {
   /* Fonts */
-  --text-font-family: Montserrat;
+  --text-font-family: 'Inter';
   --text-font-is-google: 1;
   --text-font-family-fallback: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial;
   --text-font-base: sans-serif;
@@ -34,7 +35,7 @@ runtime: shiny_prerendered
   --base-font-size: 15px;
   --text-font-size: 1rem;
   --code-font-size: 0.9rem;
-  --code-inline-font-size: 1em;
+  --code-inline-font-size: 0.9rem;
   --header-h1-font-size: 2.75rem;
   --header-h2-font-size: 2.25rem;
   --header-h3-font-size: 1.75rem;
@@ -62,31 +63,40 @@ runtime: shiny_prerendered
 
 code {
   font-family: Consolas, Monaco, 'Courier New', monospace;
-  font-size: 90%;
+  font-size: 14px;
+}
+
+code.r {
+  font-family: Consolas, Monaco, 'Courier New', monospace;
+  font-size: 14px;
+}
+
+pre {
+  font-size: 14px;
 }
 
 h1, #TOC>ul>li {
   color: #005337;
-  font-family:  'Josefin Sans';
+  font-family:  'Roboto Condensed';
   font-weight: bold;
   text-align: center;
 }
 
 h2, #TOC>ul>ul>li {
   color: #005337;
-  font-family:  'Josefin Sans';
+  font-family:  'Roboto Condensed';
   font-weight: bold;
 }
 
 h3 {
   color: #005337;
-  font-family:  'Josefin Sans';
+  font-family:  'Roboto Condensed';
   font-weight: bold;
 }
 
 h4 {
   color: #005337;
-  font-family:  'Josefin Sans';
+  font-family:  'Roboto Condensed';
   font-weight: bold;
 }
 
@@ -97,15 +107,16 @@ a {
 
 body {
   font-family: var(--text-font-family), var(--text-font-family-fallback), var(--text-font-base);
-  font-weight: 400;
+  font-weight: 500;
   color: var(--text-color);
-  font-size: var(--base-font-size)
+  font-size: 16px
 }
 
 
 a, a > code {
   color: #272822;
   text-decoration: underline;
+  font-size: 16px;
 }
 
 
@@ -130,7 +141,7 @@ a, a > code {
 .readingbox {
   padding: 1em 1em 1em 4em;
   margin-bottom: 10px;
-  border: 2px none #F08080;
+  border: 2px dotted orange;
   border-radius: 10px;
   background: #FFEFD5 5px center/3em no-repeat;
   background-image: url(images/open-book.png)
@@ -139,7 +150,7 @@ a, a > code {
 .videobox {
   padding: 1em 1em 1em 4em;
   margin-bottom: 10px;
-  border: 2px none #F08080;
+  border: 2px dotted orange;
   border-radius: 10px;
   background: #FFEFD5 5px center/3em no-repeat;
   background-image: url(images/video.png)
@@ -176,11 +187,21 @@ a, a > code {
 .center {
   text-align: center;
 }
-
-
-
-
 ```
+
+
+<!-- Got below tip for editor font size from https://github.com/rstudio/learnr/issues/197-->
+
+```{js, echo = FALSE}
+$(function() {
+   var editor;
+   $('.ace_editor').each(function( index ) {
+     editor = ace.edit(this);
+     editor.setFontSize("14px");
+   });
+})
+```
+
 
 ```{r setup, include=FALSE}
 library(learnr)
