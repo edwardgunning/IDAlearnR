@@ -220,17 +220,19 @@ p <- ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
   geom_point()
 ```
 
-## What is the `tidyverse`
+##
 
-- A coherent suite of packages for data manipulation, exploration and visualisation.
-- Mostly developed by Hadley Wickham himself, but several contributors are now expanding the packages.
-- Tidyverse packages are intended to increase productivity by guiding users through workflows that facilitate communication and result in reproducible work products.
-- Many of the packages are Work in progress. You can find the current state of development at [tidyverse.org](https://www.tidyverse.org/).
-- Clicking on the icon for a given package on the tidyverse.org website will bring you to detailed documentation for that package.
+> “The Tidyverse has revolutionized the way in which data scientists do almost every aspect of their job.”
+>
+> Wright, Ellis, Hicks and Peng (2021)
 
-In this case you will notice that the tidy verse uses __tibbles__ which are essentially __data frames__ (as described in the R Basics section) but with some minor differences. For further information on tibbles please visit this [link](https://blog.rstudio.com/2016/03/24/tibble-1-0-0/). In later sections tibbles and data frames will be used interchangeably.
+## What is the tidyverse?
 
-### Packages in the `tidyverse`
+### 
+
+- The [`tidyverse`](https://www.tidyverse.org/) is a coherent suite of R packages designed for *data import*, *manipulation*, *exploration* and *visualisation*.
+
+- The tidyverse is a “package of packages” - when we load the tidyverse package, we load ("attach") multiple packages:
 
 ```{r, eval=FALSE, echo=TRUE}
 > library(tidyverse)
@@ -244,37 +246,194 @@ x dplyr::filter() masks stats::filter()
 x dplyr::lag()    masks stats::lag()
 ```
 
-### Other useful packages
+- All packages share an underlying design philosophy, grammar, and data structures… they are designed to work with **"tidy data"**.
 
-The following are some useful packages that are, at the time of writing, not included in the `tidyverse` but are very useful.
+### Tidy data
 
-- `dbplyr`: for use with databases.
-- `multiplyr`: for parallel processing.
-- `plyr`: old package but has some handy functions in it.
-- `tsibble`: makes dealing with and modeling timeseries data easier. 
+> “Tidy datasets are easy to manipulate, model and visualise, and have a specific structure:
+each variable is a column, each observation is a row, and each type of observational unit
+is a table.”
+>
+> Wickham (2014)
+
+In short, tidy data are rectangular data, obeying the following interrelated rules (Fig. 1):
+
+1.	Each variable must have its own column.
+
+2.	Each observation must have its own row.
+
+3.	Each value must have its own cell.
+
+---
+
+```{r, fig.cap="**Fig 1:** Graphical illustration of tidy data, taken from [R for Data Science](https://r4ds.had.co.nz/tidy-data.html?q=tidy%20data#non-tidy-data)", out.width='90%'}
+knitr::include_graphics(path = "images/tidy-data-pic.png")
+```
+
+---
+
+### tibbles
+
+Tidy data provides an _consistent_ underlying data structure on which the tidyverse tools are built. You will also notice that, by default, the tidyverse uses __tibbles__, rather than __data frames__.
+
+Tibbles are essentially data frames (as covered in the previous sections) but with some minor changes designed to improve functionality. 
+
+Tibbles have slight modifications to help avoid programming errors, and have an enhanced method for bring printed to the screen.
+
+:::: {.exercise-box }
+
+#### Exercise
+
+Create a tibble containing the variables `x = c("a", "b", "c")` and `y = c(1, 2, 3)` using the `tibble()` function. Print it to the screen.
+
+:::: {.hintsbox }
+**Hint:** Use the `tibble()` function in the exact same way you have used the `data.frame()` function in previous sections.
+::::
+
+```{r tibbledf, exercise = TRUE, exercise.lines = 7}
+
+```
+
+```{r tibbledf-solution}
+tbl <- tibble(x = c("a", "b", "c"),
+                 y = c(1, 2, 3))
+
+tbl
+```
+
+::::
+
+:::: {.readingbox }
+The best place to read more about tibbles is [Chapter 10 of R for Data Science](https://r4ds.had.co.nz/tibbles.html#tibbles).
+::::
+
+From now on, we will use tibbles and data frames interchangeably.
+
+<!-- ### Other useful packages -->
+
+<!-- The following are some useful packages that are, at the time of writing, not included in the `tidyverse` but are very useful. -->
+
+<!-- - `dbplyr`: for use with databases. -->
+<!-- - `multiplyr`: for parallel processing. -->
+<!-- - `plyr`: old package but has some handy functions in it. -->
+<!-- - `tsibble`: makes dealing with and modeling timeseries data easier.  -->
 
 ## The pipe operator
 
-Pipes are a powerful tool for clearly expressing a sequence of multiple operations.
+###
 
-```{r, eval=FALSE, echo=TRUE}
-x = seq(from = -5, to = 5, by = 1)
-log(sum(abs(x))) # ugly looking
+The pipe operator is a powerful tool for clearly expressing a sequence of multiple R function operations.
 
-x %>% # much, much better looking
-  abs() %>% 
-  sum() %>% 
-  log()
+Say we wish to first take the absolute value of the the sequence of integers from -5 to 5, then sum these absolute values up, and then take the log of this sum.
+
+```{r,  echo=TRUE}
+x <- seq(from = -5, to = 5, by = 1)
 ```
 
-Avoid using the pipe when:
+Given what we have learned so far, we would do the following.
 
-- You need to manipulate more than one object at a time. Reserve pipes for a sequence of steps applied to one primary object.
+```{r, echo=TRUE}
+log(sum(abs(x))) # ugly looking
+```
+
+###
+
+However, these nested function calls are not a natural way to think about the operations, and the syntax can become messy when there are many operations.
+
+The pipe operator allows us to chain these operations together in a logical fashion. It "pipes" what is on the left-hand side of the `%>%` operator into the first argument of the function on the right-hand side.
+
+```{r, echo=TRUE}
+x %>% # better looking
+  abs() %>% 
+  sum() %>% 
+  log() 
+```
+
+### Interpreting the pipe
+
+> “Whenever you see the pipe `%>%`, think of the word 'then'...”
+>
+> Wright, Ellis, Hicks and Peng (2021)
+
+For example, we should read the previous piece of code as:
+
+```{r,  eval=FALSE, echo=TRUE}
+x %>% # get x then
+  abs() %>% # take the absolute values then
+  sum() %>% # sum them up then
+  log() # take the log
+```
+
+
+:::: {.exercise-box }
+### Exercise
+
+In statistics and machine learning, the mean-absolute error (MAE) is a measure of the difference between values predicted by a model and observed values in the data. 
+
+Given a vector of errors (typically known as residuals or prediction errors), the MAE is calculated by:
+
+1. Taking the absolute values of the errors
+
+2. Taking the average of the absolute values
+
+Combine the `%>%` operator with the `mean()` and `sqrt()` and `round()` functions to calculate the RMSE from the following vectors of observations and predictions, rounded to the nearest whole number.
+
+The answer should be 8.
+
+```{r rmse, exercise = TRUE, exercise.lines = 10}
+observations <- c(86.93, 15.36, -6.46, -5.47, 4.71, -2.95, -14.41, 0.44, 27.18, 
+112.69)
+predictions <- c(100, 16.21, 4.14, 1.67, 1.06, 1.06, 1.67, 4.14, 16.21, 100)
+```
+
+```{r rmse-solution}
+observations <- c(86.93, 15.36, -6.46, -5.47, 4.71, -2.95, -14.41, 0.44, 27.18, 
+112.69)
+predictions <- c(100, 16.21, 4.14, 1.67, 1.06, 1.06, 1.67, 4.14, 16.21, 100)
+
+(observations - predictions) %>% # get errors, then
+  abs() %>% # take absolute values, then
+  mean() %>% # take mean, then
+  round() # round to the nearest whole number
+```
+
+::::
+
+### When **not** to use the pipe
+
+The tidyverse functions are all designed to work consistently with the pipe operator, as they typically take data frames/ tibbles as their first argument, and return data frames/ tibbles.
+
+However, we should avoid using the pipe when:
+
+- You need to manipulate more than one object at a time. Reserve pipes for a sequence of steps applied to one primary data object.
 - There are meaningful intermediate objects that could be given informative names.
 
-## Basics of `dplyr`
+## Basics of dplyr
 
-The vast majority of data manipulation can be solved using just five dplyr functions:
+### What is dplyr?
+
+:::: {style="display: flex;"}
+
+::: {}
+<br>
+
+> dplyr is a tidyverse package that implements a "grammar of data manipulation". It provides a consistent set of verbs that help you solve the most common data manipulation challenges.
+> 
+
+:::
+
+::: {}
+```{r, echo = FALSE, fig.width=3, fig.height=3, out.width = '125px'}
+knitr::include_graphics("images/dplyr.png")
+```
+:::
+
+::::
+
+
+### The dplyr verbs
+
+The vast majority of data manipulation tasks can be solved using just five dplyr functions. They are all named after a *verb* which describes the task.
 
 - Pick observations by their values (`filter()`).
 - Reorder the rows (`arrange()`). 
@@ -282,17 +441,23 @@ The vast majority of data manipulation can be solved using just five dplyr funct
 - Create new variables by transforming existing variables (`mutate()`).
 - Collapse many values down to a single summary (`summarise()`).
 
+:::: {.extrabox }
 The `group_by()` function allows the above operations to be split by a particular categorical/grouping variable. 
-
+::::
 <!-- You will notice that in this section we deal with __tibbles__ instead of __data frames__. A tibble is just a data frame with a better display format. Also, tibbles and data frames can return different objects. For example, extracting column from a data frame (via `example_data_frame[, 1]`) return a vector of differing data types, for a tibble on the other, subsetting a tibble my its column will always return a tibble. This make tibbles behaviour when coding more robust.  -->
 
-We will examine each of the function in the following sections.
+We will examine each function in the following sections.
+
+### 
 
 All dplyr functions work similarly: 
 
 1.  The first argument is the tibble.
 1.  The subsequent arguments describe what to do with the tibble, using the variable names (without quotes). 
 1.  The result is a new tibble.
+
+
+### Data set
 
 ```{r setup2, message = FALSE}
 library(nycflights13)
@@ -412,7 +577,7 @@ mutate(flights_sml,
 
 Note that we can reference variables created earlier in the same `mutate` function call. 
 
-## Grouped summaries with `summarise()`
+## Summaries with `summarise()`
 
 The function `summarise()` collapses a tibble to a single row:
 
