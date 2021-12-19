@@ -211,10 +211,14 @@ $(function() {
 ```{r setup, include=FALSE}
 library(learnr)
 library(tidyverse)
+library(nycflights13)
+
 knitr::opts_chunk$set(echo = FALSE)
 
+data("flights", package = "nycflights13")
 credit_df <- read_csv('./data/UCI_Credit_Card_2.csv', n_max = 10)
-flights <- read_csv('./data/flights.csv')
+#flights <- read_csv('./data/flights.csv')
+
 
 p <- ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
   geom_point()
@@ -364,9 +368,10 @@ x %>% # get x then
   log() # take the log
 ```
 
+###
 
 :::: {.exercise-box }
-### Exercise
+#### Exercise
 
 In statistics and machine learning, the mean-absolute error (MAE) is a measure of the difference between values predicted by a model and observed values in the data. 
 
@@ -376,7 +381,7 @@ Given a vector of errors (typically known as residuals or prediction errors), th
 
 2. Taking the average of the absolute values
 
-Combine the `%>%` operator with the `mean()` and `sqrt()` and `round()` functions to calculate the RMSE from the following vectors of observations and predictions, rounded to the nearest whole number.
+Combine the `%>%` operator with the `mean()` and `sqrt()` and `round()` functions to calculate the MAE from the following vectors of observations and predictions, rounded to the nearest whole number.
 
 The answer should be 8.
 
@@ -399,14 +404,14 @@ predictions <- c(100, 16.21, 4.14, 1.67, 1.06, 1.06, 1.67, 4.14, 16.21, 100)
 
 ::::
 
-### When **not** to use the pipe
+<!-- ### When **not** to use the pipe -->
 
-The tidyverse functions are all designed to work consistently with the pipe operator, as they typically take data frames/ tibbles as their first argument, and return data frames/ tibbles.
+<!-- The tidyverse functions are all designed to work consistently with the pipe operator, as they typically take data frames/ tibbles as their first argument, and return data frames/ tibbles. -->
 
-However, we should avoid using the pipe when:
+<!-- However, we should avoid using the pipe when: -->
 
-- You need to manipulate more than one object at a time. Reserve pipes for a sequence of steps applied to one primary data object.
-- There are meaningful intermediate objects that could be given informative names.
+<!-- - You need to manipulate more than one object at a time. Reserve pipes for a sequence of steps applied to one primary data object. -->
+<!-- - There are meaningful intermediate objects that could be given informative names. -->
 
 ## Basics of dplyr
 
@@ -435,15 +440,16 @@ knitr::include_graphics("images/dplyr.png")
 
 The vast majority of data manipulation tasks can be solved using just five dplyr functions. They are all named after a *verb* which describes the task.
 
-- Pick observations by their values (`filter()`).
+- Pick observations (rows) based on their values (`filter()`).
 - Reorder the rows (`arrange()`). 
-- Pick variables by their names (`select()`).
+- Pick variables (columns) based on their names (`select()`).
 - Create new variables by transforming existing variables (`mutate()`).
-- Collapse many values down to a single summary (`summarise()`).
+- Collapse multiple values down to a single summary (`summarise()`).
 
 :::: {.extrabox }
 The `group_by()` function allows the above operations to be split by a particular categorical/grouping variable. 
 ::::
+
 <!-- You will notice that in this section we deal with __tibbles__ instead of __data frames__. A tibble is just a data frame with a better display format. Also, tibbles and data frames can return different objects. For example, extracting column from a data frame (via `example_data_frame[, 1]`) return a vector of differing data types, for a tibble on the other, subsetting a tibble my its column will always return a tibble. This make tibbles behaviour when coding more robust.  -->
 
 We will examine each function in the following sections.
@@ -452,102 +458,254 @@ We will examine each function in the following sections.
 
 All dplyr functions work similarly: 
 
-1.  The first argument is the tibble.
+1.  The first argument is the tibble (or data frame).
 1.  The subsequent arguments describe what to do with the tibble, using the variable names (without quotes). 
-1.  The result is a new tibble.
+1.  The result is a new tibble (or data frame).
 
 
 ### Data set
 
-```{r setup2, message = FALSE}
-library(nycflights13)
-library(tidyverse)
-```
+<!-- ```{r setup2, message = FALSE} -->
+<!-- library(nycflights13) -->
+<!-- data("flights", package = "nycflights13") -->
+<!-- library(tidyverse) -->
+<!-- ``` -->
 
+To explore the basic data manipulation verbs of dplyr, we'll use `nycflights13::flights`. This tibble contains all `r format(nrow(nycflights13::flights), big.mark = ",")` flights that departed from New York City in 2013. The data comes from the US [Bureau of Transportation Statistics](http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0). We have loaded the `nycflights13` package in the background so that you can access the dataset with the `flights` command and the documentation with `?flights`. 
 
-To explore the basic data manipulation verbs of dplyr, we'll use `nycflights13::flights`. This tibble contains all `r format(nrow(nycflights13::flights), big.mark = ",")` flights that departed from New York City in 2013. The data comes from the US [Bureau of Transportation Statistics](http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0), and is documented in `?flights`.
+:::: {.exercise-box }
 
-```{r dplyr-1, exercise=TRUE}
+#### Exercise
+
+Use the `head()` or `str()` functions to explore `flights` dataset.
+
+```{r dplyr-1, exercise=TRUE, exercise.lines = 5}
 flights
 ```
 
-Note that the variables, year, month and day, are all numeric. 
-
-## Filter rows with `filter()`
-
-Using `filter` to select all flights on January 1st with:
-
-```{r filter-1, exercise=TRUE}
-filter(flights, month == 1, day == 1)
-flights %>% filter(month == 1, day == 1) # or using the pipe
+```{r, dplyr-1-solution}
+head(flights)
+str(flights)
 ```
 
-Multiple logical `AND` arguments can be separated by a comma. This is equivalent to the base R notation of `month == 1 & day == 1`. Also of note, when we are piping data into dplyr functions, we can omit the first argument of `filter()`, as dplyr assumes this to be the piped quantity. If we wanted to redo the previous example using base `R` we would have to use the following, less readable section of code. 
+::::
 
-```{r filter-1-1, exercise = TRUE}
+:::: {.notesbox }
+Note that the variables `year`, `month` and `day`, are all integers. 
+::::
+
+## Filter rows with filter()
+
+###
+
+> `filter()` is used to subset rows using column values. 
+
+The first argument is the data, and subsequent arguments are logical statements (called conditions) about the columns, using just the column names (without quotation marks or `$` operators). To be retained, the row must produce a value of `TRUE` for all conditions.
+
+
+### 
+
+The general form is:
+
+```{r, eval = FALSE, echo = TRUE}
+filter(data, condition_1, condition_2, condition_3)
+```
+
+Or, using the pipe:
+
+```{r, eval = FALSE, echo = TRUE}
+data %>% filter(condition_1, condition_2, condition_3)
+```
+
+:::: {.notesbox }
+When we are piping data into dplyr functions, we can omit the first argument as dplyr assumes this to be the piped quantity.
+::::
+
+###
+
+For example, we can use `filter()` to select all flights on January 1st with:
+
+```{r, echo = TRUE}
+filter(flights, month == 1, day == 1)
+```
+
+<!-- ```{r, echo = TRUE} -->
+<!-- flights %>% filter(month == 1, day == 1) -->
+<!-- ``` -->
+
+### 
+
+This is equivalent to the base R notation of `month == 1 & day == 1`. If we wanted to redo the previous example using base `R` we would have to use the following, less readable section of code. 
+
+```{r, echo = TRUE}
 flights[flights$month == 1 & flights$day == 1, ]
 ```
 
-If you want to pull flights which departed in November or December:
+:::: {.notesbox }
+**Note:** In contrast to base R, the dplyr syntax allows us call columns by their name (without the `$` operator), and allows us to separate `&` statements with a comma.
+::::
+
+###
+
+:::: {.exercise-box }
+#### Exercise
+
+Filter all flights which departed in November *or* December:
 
 ```{r filter-2, exercise=TRUE}
-filter(flights, month == 11 | month == 12)
+
 ```
 
-An alternative form for selecting the months November or December would be `month %in% c(11,12)`. This is very useful for selecting multiple months such as `month %in% c(11,12,1)`, which is nicer than using the OR notation `month == 11 | month == 12 | month == 1`.
+```{r filter-2-solution}
+filter(flights, month == 11 | month == 12)
+# or, with the pipe
+flights %>% filter(month == 11 | month == 12)
+```
 
-```{r filter-3, exercise=TRUE}
+::::
+
+###
+
+:::: {.tipsbox }
+
+**Tip:** An alternative form for selecting the months November or December would be `month %in% c(11, 12)`. This is very useful for selecting multiple months such as `month %in% c(11, 12, 1)`, which is nicer than using the OR notation `month == 11 | month == 12 | month == 1`.
+
+```{r echo = TRUE, eval = FALSE}
 filter(flights, month %in% c(12, 11, 1))
 ```
 
-## Arrange rows with `arrange()`
+:::: 
 
-- `arrange()` changes the order of the rows in a dataset.
-- additional columns can be used to break ties in the dataset
 
-```{r filter-4, exercise=TRUE}
-flights %>% arrange(year, month, day)
+
+## Arrange rows with arrange()
+
+###
+
+> `arrange()` orders the rows of a data frame by the values of selected columns.
+
+### 
+
+For example, to order the `flights` dataset by year, month and day:
+
+```{r, echo = TRUE}
+arrange(flights, year, month, day)
 ```
 
-By default, `arrange()` sorts in ascending order, but descending order can be achieved using `desc()`.
+### 
 
-```{r, filter-5, exercise=TRUE}
+By default, `arrange()` sorts in ascending order, but descending order can be achieved using `desc()`, for example:
+
+```{r, echo = TRUE}
 flights %>% arrange(desc(dep_delay))
 ```
 
-## Select columns with `select()`
+### 
 
-- `select()` allows you to select variables in your dataset to be retained or removed..
-- useful for very large datasets which may contain many unnecessary variables.
+:::: {.exercise-box }
+#### Exercise
+
+The `distance` column of the `flights` dataset contains the distance between airports, in miles. Arrange the rows of the dataset based on the distance of the flights, from longest to shortest.
+
+```{r, arrange-1, exercise = TRUE, exercise.lines = 6}
+
+```
+
+```{r, arrange-1-solution}
+flights %>% arrange(desc(distance))
+```
+::::
+
+## Select columns with select()
+
+###
+
+> `select()` allows you to select variables in your dataset to be retained or removed.
+
+It is very useful for very large datasets which may contain many unnecessary variables.
+
+###
 
 For example if we wanted to select only the variables year, month, and day. 
 
-```{r select-1, exercise=TRUE}
+```{r, echo = TRUE}
 # Select columns by name
 flights %>% select(year, month, day)
 ```
 
-There are several short cuts available for subsetting. You can use `:` to select all variables that are between two variables.
+###
 
-```{r select-2, exercise=TRUE}
+:::: {.exercise-box }
+
+#### Exercise
+
+Select only the `origin`, `dest` and `air_time` columns from the `flights` dataset. Store the result, and print the first few rows using `head()`.
+
+```{r select-ex, exercise = TRUE, exercise.lines = 5}
+
+```
+
+```{r select-ex-solution}
+flights_subset <- flights %>% select(origin, dest, air_time)
+head(flights_subset)
+```
+
+::::
+
+### Short cuts with select
+
+There are several short cuts available for subsetting - they provide quick ways to specify a subset of columns. For example, You can use `:` to select all columns that are between two columns.
+
+```{r select-2, echo = TRUE}
 # Select all columns between year and day (inclusive)
 flights %>% select(year:day)
 ```
 
-Prefixing any varaible name with a `-` removes them from the tibble. 
+###
 
-```{r select-3, exercise=TRUE}
+Prefixing any (set of) column name(s) with a `-` or `!` removes them. 
+
+```{r select-3, echo = TRUE}
 # Select all columns except those from year to day (inclusive)
 flights %>% select(-(year:day))
 ```
 
-- If you want to reorder some variables in the `tibble`, the function `everything()` is useful.
+###
 
-```{r select-4, exercise=TRUE}
-select(flights, time_hour, air_time, everything()) 
+If you want to reorder columns, using `select()` with the `everything()` function is useful.
+
+```{r select-4, echo = TRUE}
+# Select time_hour, air_time and then every other column:
+flights %>% select(time_hour, air_time, everything()) 
 ```
 
-There are several helper functions for subsetting varaibles:
+###
+
+:::: {.exercise-box }
+####  Exercise
+
+Use the `select()` function to select all columns except those from `dep_time` to `tailnum` (inclusive), and re-order the resulting columns to start with `origin` and `dest`.
+
+:::: {.hintsbox }
+**Hint:** Use the pipe operator to apply the select function twice.
+::::
+
+```{r selectx2, exercise = TRUE, exercise.lines = 6}
+
+```
+
+```{r, selectx2-solution}
+flights %>%
+  select(-(dep_time:tailnum)) %>%
+  select(origin, dest, everything())
+```
+
+::::
+
+###
+
+:::: {.readingbox }
+There are several other helper functions for subsetting columns with `select()`:
 
 - `starts_with()` 
 - `ends_with()`
@@ -558,78 +716,226 @@ There are several helper functions for subsetting varaibles:
 - `everything()`
 - `group_cols()`
 
-R has extensive documentation on how to use these functions.
+Read [this documentation](https://dplyr.tidyverse.org/reference/select.html) on the dplyr website to learn more.
+::::
 
-## Add new variables with `mutate()`
+## Add new variables with mutate()
 
-It is often useful to create new variables which are transformations of existing variables.
+###
 
-```{r mutate-1, exercise=TRUE}
-flights_sml <- select(flights, year:day, ends_with("delay"), 
-                      distance, air_time)
+> `mutate()` adds new variables that are functions of existing variables
 
-mutate(flights_sml,
-  gain = dep_delay - arr_delay, # add variable for how late the flight was
-  hours = air_time / 60, # what was the air time in hours? 
-  gain_per_hour = gain / hours 
-)
+It is often useful to create new variables which are transformations of one or more existing variables.
+
+###
+
+For example, the `air_time` variable is measured in minutes, and we might wish to have it in hours.
+
+```{r, echo = TRUE}
+flights %>%
+  mutate(air_time_hr = air_time / 60) %>% # divide air_time by 60 to give in hours
+  select(air_time, air_time_hr, everything())
 ```
 
-Note that we can reference variables created earlier in the same `mutate` function call. 
+###
 
-## Summaries with `summarise()`
+We can create multiple new variables in a single `mutate()` call by separating them with a comma. Newly created variables are available immediately in the same `mutate()` call.
 
-The function `summarise()` collapses a tibble to a single row:
-
-```{r summarise-1, exercise=TRUE}
-summarise(flights, delay = mean(dep_delay, na.rm = TRUE))
+```{r, echo = TRUE}
+flights %>% mutate(air_time_hr = air_time / 60, # what was the air time in hours? 
+       gain = dep_delay - arr_delay, # add variable for how late the flight was
+       gain_per_hour = gain / air_time_hr)
 ```
+
+###
+
+:::: {.exercise-box }
+#### Exercise
+
+Create a new variable, called `route`, which combines the `origin` and `dest` variables, separated by an underscore (`_`). 
+
+:::: {.hintsbox }
+**Hint:** The `paste()` function can be used to combine two strings. The `sep =` argument can be used to specify the string to separate them.
+::::
+
+```{r routemutate, exercise = TRUE, exercise.lines = 8}
+
+```
+
+```{r routemutate-solution}
+flights %>%
+  mutate(route = paste(origin, dest, sep = "_")) %>%
+  select(route, everything()) # re-order columns to see route first
+```
+
+::::
+
+
+
+###
+
+:::: {.exercise-box }
+#### Exercise
+
+Create a new variable, called `av_speed`, which gives the average speed of the flight in miles per hour.  Re-order the rows from fastest to slowest.
+
+:::: {.hintsbox }
+**Hint:** First an `air_time_hr` variable giving air time in hours, and then combine this with `distance` to get the average speed in miles per hour.
+::::
+
+```{r speed-mutate, exercise = TRUE, exercise.lines = 8}
+
+```
+
+```{r speed-mutate-solution}
+flights %>%
+  mutate(air_time_hr = air_time / 60, # first calculate air time in hours
+         av_speed = distance / air_time_hr) %>% # average speed = distance / time
+  arrange(desc(av_speed)) %>% # arrange by average speed (descending = fastest first)
+  select(av_speed, everything())
+```
+::::
+
+
+## Create summaries with summarise()
+
+###
+
+> `summarise()` reduces multiple values down to a single summary.
+
+### 
+The`summarise()` function  collapses a tibble or data frame to a single row:
+
+```{r summarise-1, echo = TRUE}
+summarise(flights, mean_dep_delay = mean(dep_delay, na.rm = TRUE))
+```
+
+
+
+After the data, each argument passed to `summarise()` is a summary statistic of one or more existing variables. The summary can be named (e.g., `mean_dep_delay =`) and multiple summaries can be separated by a comma.
+
+###
+
+:::: {.exercise-box }
+#### Exercise
+
+Calculate the minimum, maximum and median of the `dep_delay` variable.
+
+```{r summary-delay, exercise = TRUE, exercise.lines = 8}
+
+```
+
+```{r summary-delay-solution}
+flights %>% summarise(min_dep_delay = min(dep_delay, na.rm = TRUE),
+                      max_dep_delay = max(dep_delay, na.rm = TRUE),
+                      med_dep_delay = median(dep_delay, na.rm = TRUE))
+```
+
+::::
+
+###  Grouped summaries using group_by()
 
 On its own, `summarise()` may not provide much information. Often it is combined with `group_by()`.
 
-```{r summarise-2, exercise=TRUE}
-group_by(flights, year, month, day)
-```
+The `group_by()` function changes the _scope_ of the tibble (or data frame) so instead of applying `summarise()` to the whole tibble (or data frame), it calculates the summaries separately for each of the unique groups created by `group_by()`. 
 
-The `group_by()` function changes the _scope_ of the tibble so instead of applying `summarise()` to the whole tibble, it calculates the summaries using the unique groups created by `group_by()`. For example, if we wanted to generate a table of the `mean` and `median` delay time for every day in the tibble, we would do the following:
+###
 
-```{r summarise-3, exercise=TRUE}
+For example, if we wanted to generate a table of the `mean` and `median` delay time for every month, we would do the following:
+
+```{r summarise-3, echo = TRUE}
 flights %>% 
-  group_by(year, month, day) %>% 
+  group_by(year, month) %>% 
   summarise(
     median_delay = median(dep_delay, na.rm = TRUE),
     mean_delay = mean(dep_delay, na.rm = TRUE)
-    )
+  )
 ```
 
-Together `group_by()` and `summarise()` provide a very quick way to produce summary tables. The returned tibble still has its _scope_ limited to the grouping variables. This can often cause a problem later on in the analysis if you want manipulation to be performed on the whole tibble. The `ungroup()` function returns the _scope_ to the full tibble. For example, we can scale the `mean_delay` from the previous code example using by max mean_deplay before and after using the `ungroup` function to change the scope back to the full dataset.
+###
 
-```{r summarise-4, exercise = TRUE}
-flights %>% 
-  group_by(year, month, day) %>% 
-  summarise(
-    mean_delay = mean(dep_delay, na.rm = TRUE)
-    ) %>% 
-  # max mean_delay is applied to the scope of the grouping varaibles
-  mutate(scaled_mean_delay_1 = mean_delay/max(mean_delay)) %>% 
-  ungroup() %>% 
-  # max mean_delay is applied to over the full dataset
-  mutate(scaled_mean_delay_2 = mean_delay/max(mean_delay))
+:::: {.exercise-box }
+#### Exercise
+
+Calculate the mean and median `air_time` for each route (combination of `origin` and `dest`).
+
+```{r summary-route, exercise = TRUE, exercise.lines = 8}
+
 ```
 
-## Basics of `ggplot2`
+```{r summary-route-solution}
+flights %>%
+  group_by(origin, dest) %>% # group by route
+  summarise(mean_air_time = mean(air_time, na.rm = TRUE),
+            median_air_time = median(air_time, na.rm = TRUE))
+```
 
-The `ggplot2` provides a suite of plotting functions that allow for the creation of quick and clean visualizations from data. Let's use our first graph to answer a question: Do cars with big engines use more fuel than cars with small engines? You probably already have an answer, but try to make your answer precise. What does the relationship between engine size and fuel efficiency look like? Is it positive? Negative? Linear? Nonlinear?
+::::
 
-### `mpg` data set
+###
+
+:::: {.readingbox }
+**Note:** When we group by multiple variables and then use `summarise()`, the resulting tibble (or data frame) is grouped by one less variable... each summary "peels off" one level of the grouping. See the example in [R for Data Science](https://r4ds.had.co.nz/transform.html?q=ungroup#grouping-by-multiple-variables).
+:::: 
+
+:::: {.readingbox }
+**Note:** If you need to return to performing operations on ungrouped data, use `ungroup()`. See the example in [R for Data Science](https://r4ds.had.co.nz/transform.html?q=ungroup#ungrouping).
+:::: 
+
+<!-- Together `group_by()` and `summarise()` provide a very quick way to produce summary tables. The returned tibble still has its _scope_ limited to the grouping variables. This can often cause a problem later on in the analysis if you want manipulation to be performed on the whole tibble. The `ungroup()` function returns the _scope_ to the full tibble. For example, we can scale the `mean_delay` from the previous code example using by max mean_deplay before and after using the `ungroup` function to change the scope back to the full dataset. -->
+
+<!-- ```{r summarise-4, exercise = TRUE} -->
+<!-- flights %>%  -->
+<!--   group_by(year, month, day) %>%  -->
+<!--   summarise( -->
+<!--     mean_delay = mean(dep_delay, na.rm = TRUE) -->
+<!--     ) %>%  -->
+<!--   # max mean_delay is applied to the scope of the grouping varaibles -->
+<!--   mutate(scaled_mean_delay_1 = mean_delay/max(mean_delay)) %>%  -->
+<!--   ungroup() %>%  -->
+<!--   # max mean_delay is applied to over the full dataset -->
+<!--   mutate(scaled_mean_delay_2 = mean_delay/max(mean_delay)) -->
+<!-- ``` -->
+
+## Basics of ggplot2
+
+###
+
+:::: {style="display: flex;"}
+
+::: {}
+<br>
+
+> ggplot2 is a system for declaratively creating graphics, based on The Grammar of Graphics.
+> 
+
+:::
+
+::: {}
+```{r, echo = FALSE, fig.width=3, fig.height=3, out.width = '125px'}
+knitr::include_graphics("images/ggplot2.png")
+```
+:::
+
+::::
+
+###
+
+The base R plotting system that we learned in the first tutorial is quick and easy but offers limited flexibility. In contrast, the `ggplot2` package provides a suite of functions that allow for elegant and detailed statistical graphics to be built *iteratively*, using a "layered approach". Rather than just a series of R commands, `ggplot2` implements a "graphical language".
+
+### The mpg datsset
+
+Let's use our first `ggplot2` graph to answer a question: *Do cars with big engines use more fuel than cars with small engines?* You probably already have an answer, but try to make your answer precise. What does the relationship between engine size and fuel efficiency look like? Is it positive? Negative? Linear? Nonlinear?
 
 `mpg` contains observations collected by the US Environmental Protection Agency on 234 different cars
 
-```{r plotting-1, exercise=TRUE}
-mpg <- mpg %>% as_tibble() # the mpg dataset is a data frame. To make use of tibble nice printing we convert it to a tibble.
+```{r plotting-1, echo = TRUE}
+mpg <- mpg %>% as_tibble() # the mpg dataset is a data frame. We convert it to a tibble.
 
 mpg %>% head(3)
 ```
+
+###
 
 Among the variables in `mpg` are:
 
@@ -638,19 +944,22 @@ Among the variables in `mpg` are:
 1. `hwy`, a car's fuel efficiency on the highway, in miles per gallon (mpg). 
   A car with a low fuel efficiency consumes more fuel than a car with a high fuel efficiency when they travel the same distance. 
 
-To learn more about `mpg`, open its help page by running `?mpg`.
+:::: {.extrabox }
+To learn more about the `mpg` datset, open its help page by running `?mpg`.
+::::
 
-### plotting
+### Creating your first ggplot
 
-To plot `mpg`, run this code to put `displ` on the x-axis and `hwy` on the y-axis:
+The following code creates a scatter plot of `displ` on the x-axis and `hwy` on the y-axis:
 
-```{r plotting-2, exercise=TRUE}
-p <- ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+```{r plotting-2, echo=TRUE}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
   geom_point()
-
-
-p
 ```
+
+###
+
+What do these commands mean?
 
 - `ggplot()` creates a coordinate system to which you can add layers.
 - The first argument of `ggplot()` is the dataset to be used in the visualization.
@@ -729,7 +1038,28 @@ ggplot(data = mpg) +
   theme(axis.text.x = element_text(angle = 90))
 ```
 
-## Reading in data with `R` and `readr.`
+## Reading in data with and readr
+
+###
+
+:::: {style="display: flex;"}
+
+::: {}
+<br>
+
+> The goal of `readr` is to provide a fast and friendly way to read rectangular data. Most of readr’s functions are concerned with turning flat files into data frames.
+
+:::
+
+::: {}
+```{r, echo = FALSE, fig.width=3, fig.height=3, out.width = '125px'}
+knitr::include_graphics("images/readr.png")
+```
+:::
+
+::::
+
+###
 
 We have learned some of the basics of manipulating and visualizing data using in-built R datasets. This section shows you how to load in your own external datasets.
 
@@ -762,10 +1092,10 @@ credit_df
 <!-- knitr::kable(tibble(Parameters = parms[c(1,2,3,8,10)])) -->
 <!-- ``` -->
 
-- Remember R has extensive help on every function:
-  - Highlight the function and press `F1`
-  - Or run `?function_of_interest`.
+<!-- - Remember R has extensive help on every function: -->
+<!--   - Highlight the function and press `F1` -->
+<!--   - Or run `?function_of_interest`. -->
 
-```{r reading-1, exercise=TRUE}
-?read_csv
-```
+<!-- ```{r reading-1, exercise=TRUE} -->
+<!-- ?read_csv -->
+<!-- ``` -->
