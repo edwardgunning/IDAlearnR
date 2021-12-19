@@ -235,7 +235,7 @@ __Tip:__ If you are viewing this in a pop-up browser from RStudio, click ![](ima
 ::::
 
 
-## Assigning values to objects
+## Creating objects
 
 ###
 
