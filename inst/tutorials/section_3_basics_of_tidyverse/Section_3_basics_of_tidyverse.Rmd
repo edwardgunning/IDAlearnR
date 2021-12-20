@@ -215,13 +215,18 @@ library(nycflights13)
 
 knitr::opts_chunk$set(echo = FALSE)
 
-data("flights", package = "nycflights13")
-credit_df <- read_csv('./data/UCI_Credit_Card_2.csv', n_max = 10)
+# data("flights", package = "nycflights13")
+# credit_df <- read_csv('./data/UCI_Credit_Card_2.csv', n_max = 10)
 # flights <- read_csv('./data/flights.csv')
 
+# p <- ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+#   geom_point()
 
-p <- ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
-  geom_point()
+# set.seed(1)
+# small_flights <- nycflights13::flights[sample(seq_len(nrow(nycflights13::flights)), size = 5000, replace = FALSE), ]
+# saveRDS(object =  small_flights,
+#         file = here::here("inst", "tutorials", "section_3_basics_of_tidyverse", "data", "small_flights.rds"))
+flights <- readRDS("data/small_flights.rds")
 ```
 
 ##
@@ -489,7 +494,7 @@ All dplyr functions work similarly:
 <!-- library(tidyverse) -->
 <!-- ``` -->
 
-To explore the basic data manipulation verbs of dplyr, we'll use `nycflights13::flights`. This tibble contains all `r format(nrow(nycflights13::flights), big.mark = ",")` flights that departed from New York City in 2013. The data comes from the US [Bureau of Transportation Statistics](http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0). We have loaded the `nycflights13` package in the background so that you can access the dataset with the `flights` command and the documentation with `?flights`. 
+To explore the basic data manipulation verbs of dplyr, we'll use `nycflights13::flights`. This tibble contains all `r format(nrow(nycflights13::flights), big.mark = ",")` flights that departed from New York City in 2013 (we'll use a sample of 5000 of them for efficiency). The data comes from the US [Bureau of Transportation Statistics](http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0). We have loaded the `nycflights13` package in the background so that you can access the dataset with the `flights` command and the documentation with `?flights`. 
 
 :::: {.exercise-box }
 
