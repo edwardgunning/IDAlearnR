@@ -211,7 +211,7 @@ $(function() {
 ```{r setup, include=FALSE}
 library(learnr)
 library(tidyverse)
-library(nycflights13)
+# library(nycflights13)
 
 knitr::opts_chunk$set(echo = FALSE)
 
@@ -283,7 +283,7 @@ knitr::include_graphics(path = "images/tidy-data-pic.png")
 
 ### tibbles
 
-Tidy data provides an _consistent_ underlying data structure on which the tidyverse tools are built. You will also notice that, by default, the tidyverse uses __tibbles__, rather than __data frames__.
+The notion of tidy data provides a _consistent_ underlying structure on which the tidyverse tools are built. You will also notice that, by default, the tidyverse uses __tibbles__, rather than __data frames__.
 
 Tibbles are essentially data frames (as covered in the previous sections) but with some minor changes designed to improve functionality. 
 
@@ -293,7 +293,7 @@ Tibbles have slight modifications to help avoid programming errors, and have an 
 
 #### Exercise
 
-Create a tibble containing the variables `x = c("a", "b", "c")` and `y = c(1, 2, 3)` using the `tibble()` function. Print it to the screen.
+Create a tibble containing the variables `x = c("a", "b", "c")` and `y = c(1, 2, 3)` using the `tibble()` function. Call it `my_tbl`. Print it to the screen.
 
 :::: {.hintsbox }
 **Hint:** Use the `tibble()` function in the exact same way you have used the `data.frame()` function in previous sections.
@@ -304,10 +304,10 @@ Create a tibble containing the variables `x = c("a", "b", "c")` and `y = c(1, 2,
 ```
 
 ```{r tibbledf-solution}
-tbl <- tibble(x = c("a", "b", "c"),
+my_tbl <- tibble(x = c("a", "b", "c"),
                  y = c(1, 2, 3))
 
-tbl
+my_tbl
 ```
 
 ::::
@@ -482,7 +482,9 @@ We will examine each function in the following sections.
 All dplyr functions work similarly: 
 
 1.  The first argument is the tibble (or data frame).
+
 1.  The subsequent arguments describe what to do with the tibble, using the variable names (without quotes). 
+
 1.  The result is a new tibble (or data frame).
 
 
@@ -494,7 +496,7 @@ All dplyr functions work similarly:
 <!-- library(tidyverse) -->
 <!-- ``` -->
 
-To explore the basic data manipulation verbs of dplyr, we'll use `nycflights13::flights`. This tibble contains all `r format(nrow(nycflights13::flights), big.mark = ",")` flights that departed from New York City in 2013 (we'll use a sample of 5000 of them for efficiency). The data comes from the US [Bureau of Transportation Statistics](http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0). We have loaded the `nycflights13` package in the background so that you can access the dataset with the `flights` command and the documentation with `?flights`. 
+To explore the basic data manipulation verbs of dplyr, we'll use `nycflights13::flights`. This tibble contains all `r format(nrow(nycflights13::flights), big.mark = ",")` flights that departed from New York City in 2013 (we'll use a sample of 5000 of them for efficiency). The data comes from the US [Bureau of Transportation Statistics](http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0). We have loaded the sample in the background so that you can access it with the `flights` command. You can access documentation with the `?nycflights13::flights` command or [at this link](https://www.rdocumentation.org/packages/nycflights13/versions/1.0.1/topics/flights).
 
 :::: {.exercise-box }
 
@@ -541,7 +543,7 @@ data %>% filter(condition_1, condition_2, condition_3)
 ```
 
 :::: {.notesbox }
-When we are piping data into dplyr functions, we can omit the first argument as dplyr assumes this to be the piped quantity.
+**N.B.** When we are piping data into dplyr functions, we can omit the first argument as dplyr assumes this to be the piped quantity.
 ::::
 
 ###
@@ -719,8 +721,8 @@ Use the `select()` function to select all columns except those from `dep_time` t
 
 ```{r, selectx2-solution}
 flights %>%
-  select(-(dep_time:tailnum)) %>%
-  select(origin, dest, everything())
+  select(-(dep_time:tailnum)) %>% # drop dep_time to tailnum (inclusive), then
+  select(origin, dest, everything()) # re-order cols: origin, dest, and every other column
 ```
 
 ::::
@@ -757,7 +759,7 @@ For example, the `air_time` variable is measured in minutes, and we might wish t
 ```{r, echo = TRUE}
 flights %>%
   mutate(air_time_hr = air_time / 60) %>% # divide air_time by 60 to give in hours
-  select(air_time, air_time_hr, everything())
+  select(air_time, air_time_hr, everything()) # re-order columns to see air time columns first
 ```
 
 ###
@@ -815,7 +817,7 @@ flights %>%
   mutate(air_time_hr = air_time / 60, # first calculate air time in hours
          av_speed = distance / air_time_hr) %>% # average speed = distance / time
   arrange(desc(av_speed)) %>% # arrange by average speed (descending = fastest first)
-  select(av_speed, everything())
+  select(av_speed, everything()) # re-order columns to see av_speed first
 ```
 ::::
 
@@ -998,7 +1000,7 @@ The `mapping = aes(x = displ, y = hwy)` argument specifies default mappings from
 **Note:** We always refer to columns in our data within `aes()` by just their names - we don't need the `$` operator or quotation marks.
 ::::
 
-### Geometric Objects
+### Geometric objects
 
 The `+` operator allows us to *add* a layer to the existing plot. Each layer typically consists of a _**"geom"**_, which is short for _**geometric object**_.
 
@@ -1297,7 +1299,7 @@ The `file =` argument can point to a folder on your computer where data are stor
 
 A `.csv` version of the [Palmer Penguins dataset](https://allisonhorst.github.io/palmerpenguins/) is available at [https://raw.githubusercontent.com/mwaskom/seaborn-data/master/penguins.csv](https://raw.githubusercontent.com/mwaskom/seaborn-data/master/penguins.csv). 
 
-Use `read_csv()` to read the dataset into R. Call the resulting tibble `penguins_tbl`. Print the first few rows of the dataset.
+Use `read_csv()` to read the dataset into R from the url. Call the resulting tibble `penguins_tbl`. Print the first few rows of the dataset.
 
 ```{r readflights, exercise = TRUE, exercise.lines = 6}
 
@@ -1358,34 +1360,36 @@ knitr::include_graphics("images/readxl.png")
 
 - Wickham, H., Navarro, D. and Pedersen, T.L.,  *ggplot2: Elegant Graphics for Data Analysis.* [Online book](https://ggplot2-book.org/)
 
+---
+
 #### Credit for hex stickers used
 
 All hex sticker icons are from https://github.com/rstudio/hex-stickers.
 
+---
+
 #### Credit for icons used
 
----
 
 <div>The following icons were made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com:</a></div>
 
 ```{r, out.width='8%'}
 knitr::include_graphics("images/notes.png")
-knitr::include_graphics("images/video.png")
 knitr::include_graphics("images/open-book.png")
 knitr::include_graphics("images/extra.png")
 ```
 
 
----
+<!-- --- -->
 
 
 
-<div>The following icon was made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com:</a></div>
+<!-- <div>The following icon was made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com:</a></div> -->
 
 
-```{r, out.width='8%'}
-knitr::include_graphics("images/lightbulb.png")
-```
+<!-- ```{r, out.width='8%'} -->
+<!-- knitr::include_graphics("images/lightbulb.png") -->
+<!-- ``` -->
 
 ---
 
