@@ -217,7 +217,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 data("flights", package = "nycflights13")
 credit_df <- read_csv('./data/UCI_Credit_Card_2.csv', n_max = 10)
-#flights <- read_csv('./data/flights.csv')
+# flights <- read_csv('./data/flights.csv')
 
 
 p <- ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
@@ -324,9 +324,27 @@ From now on, we will use tibbles and data frames interchangeably.
 
 ## The pipe operator
 
-###
+### 
+:::: {style="display: flex;"}
 
-The pipe operator is a powerful tool for clearly expressing a sequence of multiple R function operations.
+::: {}
+<br>
+
+> The pipe operator (`%>%`) is a powerful tool for clearly expressing a sequence of multiple R function operations.
+
+
+:::
+
+::: {}
+```{r, echo = FALSE, fig.width=3, fig.height=3, out.width = '125px'}
+knitr::include_graphics("images/pipe.png")
+```
+:::
+
+::::
+
+
+###
 
 Say we wish to first take the absolute value of the the sequence of integers from -5 to 5, then sum these absolute values up, and then take the log of this sum.
 
@@ -586,7 +604,7 @@ filter(flights, month %in% c(12, 11, 1))
 
 ### 
 
-For example, to order the `flights` dataset by year, month and day:
+For example, to order the `flights` dataset by `year`, `month` and `day`:
 
 ```{r, echo = TRUE}
 arrange(flights, year, month, day)
@@ -626,7 +644,7 @@ It is very useful for very large datasets which may contain many unnecessary var
 
 ###
 
-For example if we wanted to select only the variables year, month, and day. 
+For example if we wanted to select only the variables `year`, `month`, and `day`. 
 
 ```{r, echo = TRUE}
 # Select columns by name
@@ -780,7 +798,7 @@ flights %>%
 Create a new variable, called `av_speed`, which gives the average speed of the flight in miles per hour.  Re-order the rows from fastest to slowest.
 
 :::: {.hintsbox }
-**Hint:** First an `air_time_hr` variable giving air time in hours, and then combine this with `distance` to get the average speed in miles per hour.
+**Hint:** First create an `air_time_hr` variable giving air time in hours, and then combine this with `distance` to get the average speed in miles per hour.
 ::::
 
 ```{r speed-mutate, exercise = TRUE, exercise.lines = 8}
@@ -809,7 +827,6 @@ The`summarise()` function  collapses a tibble or data frame to a single row:
 ```{r summarise-1, echo = TRUE}
 summarise(flights, mean_dep_delay = mean(dep_delay, na.rm = TRUE))
 ```
-
 
 
 After the data, each argument passed to `summarise()` is a summary statistic of one or more existing variables. The summary can be named (e.g., `mean_dep_delay =`) and multiple summaries can be separated by a comma.
@@ -923,7 +940,7 @@ knitr::include_graphics("images/ggplot2.png")
 
 The base R plotting system that we learned in the first tutorial is quick and easy but offers limited flexibility. In contrast, the `ggplot2` package provides a suite of functions that allow for elegant and detailed statistical graphics to be built *iteratively*, using a "layered approach". Rather than just a series of R commands, `ggplot2` implements a "graphical language".
 
-### The mpg datsset
+### The mpg dataset
 
 Let's use our first `ggplot2` graph to answer a question: *Do cars with big engines use more fuel than cars with small engines?* You probably already have an answer, but try to make your answer precise. What does the relationship between engine size and fuel efficiency look like? Is it positive? Negative? Linear? Nonlinear?
 
@@ -957,27 +974,56 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
   geom_point()
 ```
 
-###
+We will go through this piece of code in detail.
 
-What do these commands mean?
+### The `ggplot()` command
 
 - `ggplot()` creates a coordinate system to which you can add layers.
-- The first argument of `ggplot()` is the dataset to be used in the visualization.
-- So `ggplot(data = mpg)` creates an empty figure, which is not useful on its own, so I'm not going to show it here.
-- `geom_point()` adds a layer of points to your plot. 
-- ggplot2 comes with many `geom_` functions that each add a different type of layer to a plot.
 
-You can save a graph object and add layers to it. For example, the code below adds a smoother to the scatter plot.
+- The first argument of `ggplot()` is the dataset to be used in the visualization, i.e., `data = mpg`. Other datasets can be specified in subsequent layers, but this is the dataset that will be used "by default" .
 
-```{r plotting-3, exercise=TRUE}
-p + geom_smooth()
+- So `ggplot(data = mpg)` creates an empty figure - think of it as a "blank canvas", to which we will add layers.
+
+
+### Aesthetics
+
+The `mapping = aes(x = displ, y = hwy)` argument specifies default mappings from _**columns**_ in our data (`displ`, `hwy`), to _**aesthetics**_, which are visual properties of our plot. Here the aesthetics are what goes on the x and y-axes, but they could also be a mapping from a column in our data to e.g., colour, or shape. The aesthetics mappings specified within the  `ggplot()` command will be used by default in each of the layers we add.
+
+:::: {.notesbox }
+**Note:** We always refer to columns in our data within `aes()` by just their names - we don't need the `$` operator or quotation marks.
+::::
+
+### Geometric Objects
+
+The `+` operator allows us to *add* a layer to the existing plot. Each layer typically consists of a _**"geom"**_, which is short for _**geometric object**_.
+
+- `geom_point()` adds a layer of points to your plot, for a scatter plot.
+
+- `ggplot2` comes with many `geom_` functions that each add a different type of object to a plot. 
+
+- If we were to draw lines instead of points, we would get a line plot (`geom_line()`). If we used bars, we would get a bar plot (`geom_bar()`.
+
+- The geoms inherit the default aesthetics mappings we have specified earlier. So, the $x$ position of points is given by the `displ` value, and the $y$ position by the `hwy` value.
+
+###
+
+For our example, it makes sense to add a smooth trendline to the plot, with `geom_smooth()`.
+
+```{r plotting-3, echo = TRUE}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point() + 
+  geom_smooth()
 ```
 
-- The plot shows a negative relationship between engine size (`displ`) and fuel efficiency (`hwy`).
+> The plot shows a negative relationship between engine size (`displ`) and fuel efficiency (`hwy`).
 
-- Each geom function in ggplot2 takes a `mapping` argument.
-- This defines how variables in your dataset are mapped to visual properties.
-- The `mapping` argument is always paired with `aes()`, and the `x` and `y` arguments of `aes()` specify which variables to map to the x and y axes.
+###
+
+<!-- - Each geom function in ggplot2 takes a `mapping` argument. -->
+<!-- - This defines how variables in your dataset are mapped to visual properties. -->
+<!-- - The `mapping` argument is always paired with `aes()`, and the `x` and `y` arguments of `aes()` specify which variables to map to the x and y axes. -->
+
+
 <!-- - ggplot2 looks for the mapped variables in the `data` argument, in this case, `mpg`. -->
 
 <!-- Add a layer of points over the previous: -->
@@ -988,55 +1034,189 @@ p + geom_smooth()
 <!--   geom_point(data = dplyr::filter(mpg, displ > 5, hwy > 20), colour = "red", size = 2.2) -->
 <!-- ``` -->
 
-What if we wanted to see different classes of cars? We can use the `aes()` function to map the type of cars to different colors. Additionally, we can add a layer to highlight values outside the general trend.
 
-```{r plotting-4, exercise=TRUE}
-p <- ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = factor(cyl))) +
+:::: {.exercise-box}
+
+#### Exercise
+
+Modify the following code so that the colour of the points depends on the type of car (`class` column), and the shape of the points depends on the the fuel type (`fl` column).
+
+:::: {.hintsbox}
+**Hint:** Add a mapping from the `class` and `fl` columns of the data to the `colour` and `shape` aesthetics.
+::::
+
+```{r plotting-4, exercise=TRUE, exercise.eval = TRUE}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
   geom_point()
-
 ```
+
 
 ```{r plotting-4-solution}
-p <- ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = factor(cyl))) +
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, colour = class, shape = fl)) +
   geom_point()
+```
 
-p + 
-  geom_point(data = dplyr::filter(mpg, displ > 5, hwy > 20), 
-             colour = "black", size = 4, shape = 1)
+::::
+
+
+### Decorating your ggplot
+
+`ggplot2` provides many functions for customising plots. Again, they are added to an existing plot using the `+` operator. We often want to add custom labels (using `labs()`, or separately using `xlab()`, `ylab()` and `ggtitle()`), and change the theme from the grey default.
+
+:::: {.readingbox}
+A list of themes can be found [here](https://ggplot2.tidyverse.org/reference/ggtheme.html)
+::::
+
+```{r decorate, echo = TRUE}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point() + 
+  geom_smooth() +
+  labs(x = "Engine displacement (litres)", # add labels
+       y = "Highway miles per gallon",
+       title = "Fuel economy data",
+       subtitle = "Negative relationship between engine size and fuel efficiency") +
+  theme_bw() # change theme
+```
+
+<!-- What if we wanted to see different classes of cars? We can use the `aes()` function to map the type of cars to different colours. Additionally, we can add a layer to highlight values outside the general trend. -->
+
+<!-- ```{r plotting-4, exercise=TRUE} -->
+<!-- p <- ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = factor(cyl))) + -->
+<!--   geom_point() -->
+
+<!-- ``` -->
+
+<!-- ```{r plotting-4-solution} -->
+<!-- p <- ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = factor(cyl))) + -->
+<!--   geom_point() -->
+
+<!-- p +  -->
+<!--   geom_point(data = dplyr::filter(mpg, displ > 5, hwy > 20),  -->
+<!--              colour = "black", size = 4, shape = 1) -->
+
+<!-- ``` -->
+
+<!-- What if we want to see the different classes of cars?  -->
+
+<!-- ```{r plotting-5, exercise=TRUE} -->
+<!-- ggplot(data = mpg) +  -->
+<!--   geom_point(mapping = aes(x = displ, y = hwy, color = class)) -->
+<!-- ``` -->
+
+<!-- ### -->
+
+<!-- What about the distributions? Its easy to plot distributions using the correct `geom_` argument: -->
+
+<!-- - `geom_histogram`  -->
+<!-- - `geom_boxplot`  -->
+
+<!-- ```{r plotting-6, exercise=TRUE} -->
+<!-- ggplot(data = mpg) +  -->
+<!--   geom_histogram(mapping = aes(x = hwy)) -->
+<!-- ``` -->
+
+<!-- ```{r plotting-7, exercise=TRUE} -->
+<!-- ggplot(data = mpg) +  -->
+<!--   geom_boxplot(mapping = aes(x = class, y = hwy, fill = class)) +  -->
+<!--   theme(axis.text.x = element_text(angle = 90)) -->
+<!-- ``` -->
+
+<!-- If you want to get fancy you can even layer different distributional visualizations.  -->
+
+<!-- ```{r plotting-8, exercise=TRUE} -->
+<!-- ggplot(data = mpg) +  -->
+<!--   geom_violin(aes(x = class, y = hwy), fill = 'steelblue') +  -->
+<!--   geom_boxplot(aes(x = class, y = hwy, fill = class), width = 0.1) +  -->
+<!--   theme(axis.text.x = element_text(angle = 90)) -->
+<!-- ``` -->
+
+
+###
+
+:::: {.exercise-box}
+
+#### Exercise
+
+Recreate the following plot:
+
+```{r plotrecreate, echo = FALSE}
+ggplot(data = mpg, mapping = aes(x = class, y = hwy, fill = class)) +
+  geom_boxplot() +
+  labs(x = "Car Type (`class`)",
+       y = "Fuel Efficiency (`hwy`)",
+       title = "Distribution of Fuel Efficieny by Class") +
+  theme_light()
+```
+
+:::: {.hintsbox}
+**Hint 1:** Use the `geom_boxplot()` geom.
+::::
+
+:::: {.hintsbox}
+**Hint 2:** Use the `fill =` aesthetic, rather than `colour =`, to fill the boxplot with colour.
+::::
+
+```{r create-boxplot, exercise = TRUE, exercise.lines = 10}
 
 ```
 
-What if we want to see the different classes of cars? 
-
-```{r plotting-5, exercise=TRUE}
-ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class))
+```{r create-boxplot-solution}
+ggplot(data = mpg, mapping = aes(x = class, y = hwy, fill = class)) +
+  geom_boxplot() +
+  labs(x = "Car Type (`class`)",
+       y = "Fuel Efficiency (`hwy`)",
+       title = "Distribution of Fuel Efficiency by Car Type") +
+  theme_light()
 ```
 
-What about the distributions? Its easy to plot distributions using the correct `geom_` argument:
+::::
 
-- `geom_histogram` 
-- `geom_boxplot` 
+###
 
-```{r plotting-6, exercise=TRUE}
-ggplot(data = mpg) + 
-  geom_histogram(mapping = aes(x = hwy))
+:::: {.exercise-box }
+
+#### Exercise
+
+The following plot was created from the `economics` dataset.
+
+```{r, echo = FALSE}
+ggplot(data = economics, mapping = aes(x = date, y = unemploy, colour = pop)) +
+  geom_line()
 ```
 
-```{r plotting-7, exercise=TRUE}
-ggplot(data = mpg) + 
-  geom_boxplot(mapping = aes(x = class, y = hwy, fill = class)) + 
-  theme(axis.text.x = element_text(angle = 90))
+Answer the following quiz questions about the plot. You can use the exercise box below to look at the `economics` dataset, or even try to recreate the plot yourself!
+
+```{r test-quiz, exercise = TRUE, exercise.lines = 5}
+head(economics)
 ```
 
-If you want to get fancy you can even layer different distributional visualizations. 
-
-```{r plotting-8, exercise=TRUE}
-ggplot(data = mpg) + 
-  geom_violin(aes(x = class, y = hwy), fill = 'steelblue') + 
-  geom_boxplot(aes(x = class, y = hwy, fill = class), width = 0.1) + 
-  theme(axis.text.x = element_text(angle = 90))
+```{r test-quiz-solution}
+ggplot(data = economics, mapping = aes(x = date, y = unemploy, colour = pop)) +
+  geom_line()
 ```
+
+```{r ggplot-quiz}
+quiz(caption = "",
+  question("Which of the following `geom`s was used for creating the plot?",
+    answer("`geom_point()`"),
+    answer("`geom_line()`", correct = TRUE),
+    answer("`geom_bar()`"),
+    allow_retry = TRUE,
+    correct = "Correct! We use the `geom_line()` function to connect observations and add lines to a plot.",
+    incorrect = "Incorrect, look at the Geoms section of the [ggplot2 documentation](https://ggplot2.tidyverse.org/reference/) and try again."
+  ),
+  question("Q2: What columns in the data were mapped to the `x`, `y` and `colour` aesthetics?",
+    answer("`x = date, y = unemploy, colour = pop`", correct = TRUE),
+    answer("`x = date, y = pop, colour = unemploy`"),
+    answer("`x = date, y = psavert, colour = unemploy`"),
+    allow_retry = TRUE,
+    correct = "Correct! The `date` variable is mapped to the x-axis, the `unemploy` variable to the y-axis and the line is coloured according to `pop`.",
+    incorrect = "Incorrect! Look at the x and y-axis labels, and the colour legend for guidance."
+  ))
+```
+
+
+::::
 
 ## Reading in data with and readr
 
@@ -1061,29 +1241,92 @@ knitr::include_graphics("images/readr.png")
 
 ###
 
-We have learned some of the basics of manipulating and visualizing data using in-built R datasets. This section shows you how to load in your own external datasets.
+- We have learned some of the basics of manipulating and visualizing data using in-built R datasets.
 
-### Getting started:
+- Often, you will need to read in data that you have acquired or gathered, from a text file where values are separated by some character. The most common format is comma-separated value (.csv). files. 
+
+- The `readr` package is designed to make this task quick and efficient, and it interacts consistently with the other tidyverse packages.
+
+- This section gives a short overview of how to load in your own external datasets. 
+
+### readr functions
+
+The main `readr` functions are:
+
 * `read_csv()` reads comma delimited files.
 * `read_tsv()` reads tab delimited files.
 * `read_delim()` reads in files with any delimiter.
 * `read_table()` reads a common variation of fixed width files where columns are separated by white space.
 
-Why use `readr`'s `read_csv()` over in-build `read.csv()`?
+### Comparison to base R functions
+
+Why use `readr`'s `read_csv()` over the built-in `read.csv()`?
 
 - Typically faster.
-- Provides information on the variables which have been read in.
+- Provides more information on the variables which have been read in.
 - Returns a `tibble` instead of a `data.frame`.
 
-```{r, echo=TRUE, eval = FALSE}
-credit_df <- read_csv(file = "./data/credit_data.csv")
+### Example
+
+If the file `"UCI_Credit_Card_2.csv"` is stored in a `"data"` folder in our working directory, then we can read it into our R environment, and store the resulting tibble in `credit_tbl` with the following code:
+
+```{r, echo=TRUE}
+credit_tbl <- read_csv(file = "data/UCI_Credit_Card_2.csv")
 ```
 
-- Tibbles provide extra information: 
+The `file =` argument is used to specify the *path* to the file (`"data/UCI_Credit_Card_2.csv)"`).
+ 
+###
 
 ```{r,echo=TRUE, eval = TRUE}
-credit_df
+head(credit_tbl, 3) # Look at first three rows
 ```
+
+###
+
+:::: {.exercise-box}
+
+#### Exercise
+
+The `file =` argument can point to a folder on your computer where data are stored, or to a url if the data are stored on the internet. 
+
+A `.csv` version of the [Palmer Penguins dataset](https://allisonhorst.github.io/palmerpenguins/) is available at [https://raw.githubusercontent.com/mwaskom/seaborn-data/master/penguins.csv](https://raw.githubusercontent.com/mwaskom/seaborn-data/master/penguins.csv). 
+
+Use `read_csv()` to read the dataset into R. Call the resulting tibble `penguins_tbl`. Print the first few rows of the dataset.
+
+```{r readflights, exercise = TRUE, exercise.lines = 6}
+
+```
+
+
+```{r readflights-solution}
+penguins_tbl <- read_csv(file = "https://raw.githubusercontent.com/mwaskom/seaborn-data/master/penguins.csv")
+head(penguins_tbl)
+```
+
+::::
+
+###
+
+:::: {.readingbox}
+
+:::: {style="display: flex;"}
+
+::: {}
+<br>
+The readxl package can be used to get data out of Excel and into R. You can read about it [here](https://readxl.tidyverse.org/index.html)
+
+:::
+
+::: {}
+```{r, echo = FALSE, fig.width=3, fig.height=3, out.width = '125px'}
+knitr::include_graphics("images/readxl.png")
+```
+:::
+
+::::
+
+::::
 
 <!-- `read_csv` parameters: -->
 
@@ -1099,3 +1342,56 @@ credit_df
 <!-- ```{r reading-1, exercise=TRUE} -->
 <!-- ?read_csv -->
 <!-- ``` -->
+
+## References
+
+- Wickham, H. and Grolemund, G., 2016. *R for data science: import, tidy, transform, visualize, and model data.* " O'Reilly Media, Inc.".
+
+- Peng, R.D., 2016. *R programming for data science.* Leanpub.
+
+- Wright, C., Ellis, S.E., Hicks, S.C., and Peng, R.D., 2021. *Tidyverse Skills for Data Science in R.* Leanpub
+
+- Wickham, H., Navarro, D. and Pedersen, T.L.,  *ggplot2: Elegant Graphics for Data Analysis.* [Online book](https://ggplot2-book.org/)
+
+#### Credit for hex stickers used
+
+All hex sticker icons are from https://github.com/rstudio/hex-stickers.
+
+#### Credit for icons used
+
+---
+
+<div>The following icons were made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com:</a></div>
+
+```{r, out.width='8%'}
+knitr::include_graphics("images/notes.png")
+knitr::include_graphics("images/video.png")
+knitr::include_graphics("images/open-book.png")
+knitr::include_graphics("images/extra.png")
+```
+
+
+---
+
+
+
+<div>The following icon was made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com:</a></div>
+
+
+```{r, out.width='8%'}
+knitr::include_graphics("images/lightbulb.png")
+```
+
+---
+
+<div>The following icon was made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com:</a></div>
+
+```{r, out.width='8%'}
+knitr::include_graphics("images/whisper.png")
+```
+
+
+
+
+
+
