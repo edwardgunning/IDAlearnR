@@ -224,6 +224,11 @@ your_first_df <- data.frame(
   )
 ```
 
+```{r, warning=FALSE}
+# if mtcars is in environment, remove it
+rm(mtcars)
+```
+
 ##
 Welcome! In this learnR tutorial, you will be introduced to programming basics in R.  
 
