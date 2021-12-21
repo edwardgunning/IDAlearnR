@@ -12,3 +12,4 @@ LazyData: true
 RoxygenNote: 7.1.0
 Imports: 
     learnr
+Remotes: github::rstudio/learnr
