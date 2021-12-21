@@ -231,7 +231,7 @@ The topics covered in this section are shown on the left hand side of this page.
 
 :::: {.tipsbox } 
 
-__Tip:__ If you are viewing this in a pop-up browser from RStudio, click ![](images/open-browser.png) in the top left-hand corner for the best experience!
+__Tip:__ If you are viewing this in the RStudio Tutorial pane, click ![](images/open-in-browser.png){ width=3.5% } in the top left-hand corner for the best experience!
 ::::
 
 
@@ -537,7 +537,9 @@ Often, we are only interested in specific values in a vector.
 
 - You can index multiple elements by supplying a vector of values that you wish to index a vector by. To index the first and last (fourth) value of `v6` we can use the following `v6[c(1, 4)]`, which will return a (sub-)vector: `"1" "This is a string"`. 
 
-Note that `R` indexes values starting from `1` rather than `0` (unlike Python or C).
+:::: {.notesbox}
+**Note:** `R` indexes values starting from `1` rather than `0` (unlike Python or C).
+::::
 
 ###
 
@@ -882,6 +884,29 @@ class(truth_vec)
 :::: {.notesbox}
 
 __Note:__ `T` and `F` are identical `TRUE` and `FALSE` in R. In this module, we prefer to use `TRUE` and `FALSE` for clarity.
+
+::::
+
+### 
+
+:::: {.exercise-box}
+**Exercise**
+
+Use the `class()` function to find the class of the following vectors
+
+```{r class-ex, exercise = TRUE, exercise.lines = 6}
+vec_class_1 <- c(1, 2, 3, 4, 5)
+vec_class_2 <- c(TRUE, FALSE, TRUE)
+```
+
+```{r class-ex-solution}
+vec_class_1 <- c(1, 2, 3, 4, 5)
+vec_class_2 <- c(TRUE, FALSE, TRUE)
+
+class(vec_class_1)
+
+class(vec_class_2)
+```
 
 ::::
 
@@ -1274,16 +1299,32 @@ The `!` operation can be used in front of any boolean value to return the opposi
 - `!(x == 5)` return all values of x that are __not__ equal to 5 as `TRUE`.
 - `!is.na(x)` returns all values of x that are not missing. 
 
+:::: {.exercise-box}
+**Exercise:**
+
+First run the following code and make sure you are happy with the results. Then, modify it to check whether the values are equal to, and not equal to, 10 rather than 5.
+
 ```{r logical-op-1, exercise=TRUE, exercise.lines = 10}
 x <- c(10, 5, 5, 122)
 
 x == 5 # checks which values of x are equal to 5
 
 x != 5 # checks which values of x are not equal to 5
-
-# or
+# which is the same as
 !(x == 5)
 ```
+
+```{r logical-op-1-solution}
+x <- c(10, 5, 5, 122)
+
+x == 10 # checks which values of x are equal to 10
+
+x != 10 # checks which values of x are not equal to 10
+# which is the same as
+!(x == 10)
+```
+
+::::
 
 ### 
 The `|` and `&` operators work on boolean values:
@@ -1298,13 +1339,31 @@ When dealing with a boolean vector, say `x` the following functions are useful:
 
 Additionally, the `%in%` operator identifies the values from one vector which are present in another.
 
+###
+
+:::: {.exercise-box}
+**Exercise:**
+
+First run the following code and make sure you are happy with the results. Then, modify it to check whether the values of `y` are present in `x`.
+
 ```{r logical-op-2, exercise=TRUE, exercise.lines = 10}
-x <- c(1,2,3,11) # if we wanted to see which values of x
+x <- c(1, 2, 3, 11) # if we wanted to see which values of x
 
 y <- c(-10:10) # are in y
 
 x %in% y # we get TRUE for any values of x that are in y and FALSE for if they are not present.
 ```
+
+```{r logical-op-2-solution}
+x <- c(1, 2, 3, 11) 
+
+y <- c(-10:10) 
+
+# Now we want to know which values of y are in x
+y %in% x # CHANGED AROUND
+```
+
+::::
 
 ###
 
@@ -1357,7 +1416,15 @@ We have already looked at accessing values in a vector by specifying their posit
 
 Furthermore, it is possible to use __negative indexing__. When a negative number is used to index a vector, all values __except__ for the value in that position are returned. For example,  `v[-1]` will select everything _except_ the first value from the vector `v`.
 
-In this section, we will take another look at __numerical indexing__, and also introduce __logical indexing__, a powerful technique which uses logical statements that we learned about in the previous section to index vectors. The below code demonstrates different types of indexing. Feel free to change it and try to access different elements of `v` yourself!
+In this section, we will take another look at __numerical indexing__, and also introduce __logical indexing__, a powerful technique which uses logical statements that we learned about in the previous section to index vectors. 
+
+###
+
+:::: {.exercise-box}
+
+**Exercise**
+
+The below code demonstrates different types of indexing. Run it and make sure you are happy with the outputs. Feel free to change it and try to access different elements of `v` yourself!
 
 ```{r index-0, exercise=TRUE, exercise.lines = 17}
 # Create a vector
@@ -1378,6 +1445,8 @@ logical_index # look at the vector
 v[logical_index] # use the logical index to find the values of interest
 ```
 
+::::
+
 ###
 
 :::: {.exercise-box}
@@ -1392,7 +1461,7 @@ Use __indexing__ (`[]`) to select:
 
 Then, test your knowledge with the quiz questions.
 
-```{r index-1, exercise=TRUE, exercise.lines = 5}
+```{r index-1, exercise=TRUE, exercise.lines = 10}
 v <- c(1, 5, -11, 33)
 
 ```
@@ -1780,7 +1849,7 @@ boxplot(cars$speed, ylab = "Speed (mph)")
 ### 
 If we have a factor variable in our data set, then we can create a separate boxplot for each level by passing a **formula** as the first argument. A formula has form of `y-axis ~ x-axis`. Anytime you see a `~` in R, it’s a formula. 
 
-Look at this example on different data set about cars in R (the `mtcars` data set). We make a boxplot of `disp` (Displacement) _by transmission_, which allows us to compare between manual and automatic cars.
+Look at this example on a different cars dataset in R (the `mtcars` data set). We make a boxplot of `disp` (Displacement) _by transmission_, which allows us to compare between manual and automatic cars.
 
 ```{r, echo = FALSE}
 data("mtcars")
@@ -1812,7 +1881,13 @@ __Note__:
 
 ### Scatterplot
 
-Scatterplots can be made using the `plot()` function. Run the following code to create a scatterplot of the cars data set.
+Scatterplots can be made using the `plot()` function. 
+
+:::: {.exercise-box}
+
+**Exercise:**
+
+Run the following code to create a scatterplot of the cars data set.
 
 ```{r scatter1, exercise = T, exercise.lines = 6}
 # run this code:
@@ -1822,7 +1897,11 @@ plot(x = cars$speed, y = cars$dist)
 # plot(dist ~ speed, data = cars)
 # ^ gives the same plot
 ```
+::::
+
+
 ###
+
 Each point corresponds to a row in the `cars` data set. Its position along the x (horizontal) axis is determined by its speed, and its position along the y (vertical) axis is determined by its stopping distance. It can be seen that cars with a high speed also tend to have a high stopping distance.
 
 ###
@@ -1900,7 +1979,7 @@ Given the scatterplot of the cars data set we created earlier, do the following:
 
 - Annotate the text label "Stopping distance \n increases with speed!" on plot. Choose the x and y position of the text so that it does not interfere with the points.
 
-```{r evo, exercise = TRUE, fig.asp=1, exercise.lines = 8}
+```{r evo, exercise = TRUE, fig.asp=1, exercise.lines = 8, exercise.eval = TRUE}
 plot(dist ~ speed, data = cars, xlab = "Speed", ylab = "Stopping Distance")
 title(main = "Scatterplot of the cars data set")
 ```
@@ -1982,7 +2061,9 @@ Typically, we will use `mfrow()` because we read and write by going from left to
 
 :::: {.exercise-box}
 
-__Exercise__: Try to recreate the following plot of data from the the `mtcars` data set.
+__Exercise__
+
+Try to recreate the following plot of data from the the `mtcars` data set. There are several hints to guide you sequentially.
 
 ```{r, fig.width = 8.5, fig.asp = 0.5}
 data("mtcars")
@@ -2028,7 +2109,6 @@ par(mfrow = c(1, 2)) # create 2 x 1 layout for side-by side plotting
 ```
 
 ```{r}
-rm(mtcars)
 data("mtcars")
 ```
 
@@ -2041,7 +2121,6 @@ boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"),
 ```
 
 ```{r}
-rm(mtcars)
 data("mtcars")
 ```
 
@@ -2060,7 +2139,6 @@ plot(disp ~ wt, data = mtcars, type = "n",
 ```
 
 ```{r}
-rm(mtcars)
 data("mtcars")
 ```
 
@@ -2087,7 +2165,6 @@ points(disp ~ wt, data = mtcars, subset = am == "manual", # only manual = automa
 ```
 
 ```{r}
-rm(mtcars)
 data("mtcars")
 ```
 
@@ -2120,7 +2197,6 @@ title(main = "Displacement vs. Weight")
 ```
 
 ```{r}
-rm(mtcars)
 data("mtcars")
 ```
 
@@ -2155,7 +2231,6 @@ text(x = 2.5, y = 400, label = correlation_string)
 ```
 
 ```{r}
-rm(mtcars)
 data("mtcars")
 ```
 
