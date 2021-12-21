@@ -224,10 +224,6 @@ your_first_df <- data.frame(
   )
 ```
 
-```{r, warning=FALSE}
-# if mtcars is in environment, remove it
-rm(mtcars)
-```
 
 ##
 Welcome! In this learnR tutorial, you will be introduced to programming basics in R.  
@@ -2098,7 +2094,8 @@ text(x = 2.5, y = 400, label = correlation_string)
 title(main = "Displacement vs. Weight")
 ```
 
-```{r}
+```{r, warning=FALSE}
+rm(mtcars)
 data("mtcars")
 ```
 
@@ -2113,7 +2110,8 @@ mtcars$am <- factor(mtcars$am, levels = c(0, 1), labels = c("automatic", "manual
 par(mfrow = c(1, 2)) # create 2 x 1 layout for side-by side plotting 
 ```
 
-```{r}
+```{r, warning=FALSE}
+rm(mtcars)
 data("mtcars")
 ```
 
@@ -2125,7 +2123,8 @@ boxplot(formula = disp ~ am, data = mtcars, col = c("red", "blue"),
         ylab = "Displacement (cu.in.)", xlab = "Transmission")
 ```
 
-```{r}
+```{r, warning=FALSE}
+rm(mtcars)
 data("mtcars")
 ```
 
@@ -2143,7 +2142,8 @@ plot(disp ~ wt, data = mtcars, type = "n",
      ylab = "Displacement (cu.in.)", xlab = "Weight (1000 lbs)")
 ```
 
-```{r}
+```{r, warning=FALSE}
+rm(mtcars)
 data("mtcars")
 ```
 
@@ -2169,7 +2169,8 @@ points(disp ~ wt, data = mtcars, subset = am == "manual", # only manual = automa
 
 ```
 
-```{r}
+```{r, warning=FALSE}
+rm(mtcars)
 data("mtcars")
 ```
 
@@ -2201,7 +2202,8 @@ text(x = 2.5, y = 400, label = correlation_string)
 title(main = "Displacement vs. Weight")
 ```
 
-```{r}
+```{r, warning=FALSE}
+rm(mtcars)
 data("mtcars")
 ```
 
@@ -2235,7 +2237,7 @@ correlation_string <- paste("Correlation =", correlation)
 text(x = 2.5, y = 400, label = correlation_string)
 ```
 
-```{r}
+```{r, warning=FALSE}
 data("mtcars")
 ```
 
