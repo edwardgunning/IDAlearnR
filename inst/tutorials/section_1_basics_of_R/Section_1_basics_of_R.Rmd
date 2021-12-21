@@ -1980,7 +1980,7 @@ Given the scatterplot of the cars data set we created earlier, do the following:
 
 - Annotate the text label "Stopping distance \n increases with speed!" on plot. Choose the x and y position of the text so that it does not interfere with the points.
 
-```{r evo, exercise = TRUE, fig.asp=1, exercise.lines = 8, exercise.eval = TRUE}
+```{r evo, exercise = TRUE, fig.asp=1, exercise.lines = 8}
 plot(dist ~ speed, data = cars, xlab = "Speed", ylab = "Stopping Distance")
 title(main = "Scatterplot of the cars data set")
 ```
