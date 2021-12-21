@@ -2238,6 +2238,7 @@ text(x = 2.5, y = 400, label = correlation_string)
 ```
 
 ```{r, warning=FALSE}
+rm(mtcars)
 data("mtcars")
 ```
 
