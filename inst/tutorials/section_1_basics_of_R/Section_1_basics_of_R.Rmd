@@ -15,6 +15,7 @@ runtime: shiny_prerendered
 
 <!-- include CSS within markdown document -->
 <!-- not sure why linking to the CSS doesn't work-->
+
 ```{css, echo = F}
 @import url(https://fonts.googleapis.com/css?family=Montserrat:300,300i&display=swap);
 @import url(https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap);
@@ -232,7 +233,7 @@ The topics covered in this section are shown on the left hand side of this page.
 
 :::: {.tipsbox } 
 
-__Tip:__ If you are viewing this in the RStudio Tutorial pane, click ![](images/open-in-browser.png){ width=3.5% } in the top left-hand corner for the best experience!
+__Tip:__ If you are viewing this within RStudio, click ![](images/open-in-browser.png){ width=3.5% } or ![](images/open-browser.png) in the top left-hand corner for the best experience!
 ::::
 
 
@@ -563,11 +564,12 @@ v1[c(2, 3)]
 
 You can also have __named__ vectors where each entry has a name. This can be useful for indexing (extracting) specific values from a vector without having to reference the position of the desired elements in the vector.
 
-```{r assignment-5, exercise = T}
-v2 <- c(first_word = "hello", second_word = "world")
-v2 # print
-
-v2["first_word"] # you can access values by names using square brackets and single or double quotation marks.
+```{r echo = TRUE}
+# create a named character vector:
+named_vec <- c(first_word = "hello", second_word = "world")
+# access values by names using square brackets
+# and single or double quotation marks:
+named_vec["first_word"] 
 ```
 
 
@@ -884,7 +886,7 @@ class(truth_vec)
 
 :::: {.notesbox}
 
-__Note:__ `T` and `F` are identical `TRUE` and `FALSE` in R. In this module, we prefer to use `TRUE` and `FALSE` for clarity.
+__Note:__ `T` and `F` are identical to `TRUE` and `FALSE` in R. In this module, we prefer to use `TRUE` and `FALSE` for clarity.
 
 ::::
 
