@@ -206,6 +206,12 @@ $(function() {
 ```{r setup, include=FALSE}
 library(learnr)
 knitr::opts_chunk$set(echo = FALSE)
+set.seed(1) # ensures the random numbers are the same each time this is drawn.
+num_list <- list() # create empty list and we will then fill elements
+num_list[[1]] <- rnorm(n = 10) # generate 10 numbers randomly from a normal distribution
+num_list[[2]] <- rnorm(n = 20) # generate 20 numbers randomly from a normal distribution
+num_list[[3]] <- c(1, 1, 2, 3, 4, 6) # create a shorter vector
+num_list[[4]] <- seq(from = 1, to = 25, by = 1) # a sequence from 1 to 25
 ```
 
 ```{r prepare objects}
@@ -580,15 +586,6 @@ __Tip__: Although `1:length(char_vec)` will achieve the same thing as `seq_along
 #### Exercise
 
 We have created a list in the background called `num_list`, containing numeric vectors of different lengths. Write a `for` loop to print the mean of each element.
-
-```{r}
-set.seed(1) # ensures the random numbers are the same each time this is drawn.
-num_list <- list() # create empty list and we will then fill elements
-num_list[[1]] <- rnorm(n = 10) # generate 10 numbers randomly from a normal distribution
-num_list[[2]] <- rnorm(n = 20) # generate 20 numbers randomly from a normal distribution
-num_list[[3]] <- c(1, 1, 2, 3, 4, 6) # create a shorter vector
-num_list[[4]] <- seq(from = 1, to = 25, by = 1) # a sequence from 1 to 25
-```
 
 ```{r looplist, exercise = TRUE, exercise.lines = 8}
 str(num_list) # look at structure of list
