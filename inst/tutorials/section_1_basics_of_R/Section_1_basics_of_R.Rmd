@@ -1783,7 +1783,7 @@ Run and add to the following code box to become familiar with the data set
 *Hint*: the help function `?` works for built in data sets too.
 ::::
 
-```{r plotty, exercise = T, exercise.lines = 10}
+```{r plotty, exercise = TRUE, exercise.lines = 10}
 ?cars # use the help function to get information
 
 str(cars) # look at structure
@@ -1892,7 +1892,7 @@ Scatterplots can be made using the `plot()` function.
 
 Run the following code to create a scatterplot of the cars data set.
 
-```{r scatter1, exercise = T, exercise.lines = 6}
+```{r scatter1, exercise = TRUE, exercise.lines = 6}
 # run this code:
 plot(x = cars$speed, y = cars$dist)
 
